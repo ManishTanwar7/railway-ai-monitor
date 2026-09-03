@@ -78,7 +78,7 @@
               <label class="block text-[11px] font-bold text-slate-600 mb-1">From</label>
               <div class="relative">
                 <i class="fa-solid fa-location-arrow absolute left-3 top-3 text-slate-400 text-xs"></i>
-                <input type="text" value="New Delhi (NDLS)" readonly
+                <input type="text" id="search-from-station" value="New Delhi (NDLS)" readonly
                   class="w-full pl-8 pr-2 py-2 text-xs font-bold text-slate-800 bg-slate-50 rounded-lg border border-slate-300">
               </div>
             </div>
@@ -87,7 +87,7 @@
               <label class="block text-[11px] font-bold text-slate-600 mb-1">To</label>
               <div class="relative">
                 <i class="fa-solid fa-location-dot absolute left-3 top-3 text-slate-400 text-xs"></i>
-                <input type="text" value="Kanpur Central (CNB)" readonly
+                <input type="text" id="search-to-station" value="Varanasi Jn (BSB)" readonly
                   class="w-full pl-8 pr-2 py-2 text-xs font-bold text-slate-800 bg-slate-50 rounded-lg border border-slate-300">
               </div>
             </div>
@@ -97,8 +97,9 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label class="block text-[11px] font-bold text-slate-600 mb-1">Select Train</label>
-              <select id="home-train-select" class="w-full p-2 text-xs font-bold text-slate-800 bg-slate-50 rounded-lg border border-slate-300">
-                <option value="22436">22436 - Vande Bharat Exp</option>
+              <select id="home-train-select" onchange="updateSearchDest(this.value)"
+                class="w-full p-2 text-xs font-bold text-slate-800 bg-slate-50 rounded-lg border border-slate-300 cursor-pointer">
+                <option value="22436" selected>22436 - Vande Bharat Exp</option>
                 <option value="12002">12002 - Bhopal Shatabdi</option>
                 <option value="12952">12952 - Mumbai Rajdhani</option>
                 <option value="12424">12424 - Dibrugarh Rajdhani</option>
@@ -112,19 +113,19 @@
             </div>
           </div>
 
-          <!-- Big Orange Action Button -->
+          <!-- Big Orange Action Button (Navigates to Selected Train) -->
           <div class="pt-2">
-            <a href="/dashboard/passenger"
-              class="w-full py-3 px-4 rounded-lg bg-orange-600 hover:bg-orange-500 text-white font-extrabold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center space-x-2">
+            <button type="button" onclick="goToLiveRadar()"
+              class="w-full py-3 px-4 rounded-lg bg-orange-600 hover:bg-orange-500 text-white font-extrabold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center space-x-2 cursor-pointer">
               <i class="fa-solid fa-magnifying-glass text-xs"></i>
               <span>TRACK TRAIN &bull; LIVE RADAR</span>
-            </a>
+            </button>
           </div>
 
           <!-- 1-Click Role Login Pop-up Trigger -->
           <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
             <span class="text-slate-500 font-medium">Railway Operator?</span>
-            <button onclick="openLoginModal()" class="font-bold text-ir-blue hover:text-orange-600 flex items-center space-x-1">
+            <button onclick="openLoginModal()" class="font-bold text-ir-blue hover:text-orange-600 flex items-center space-x-1 cursor-pointer">
               <span>Open Staff Portal</span>
               <i class="fa-solid fa-arrow-right text-[10px]"></i>
             </button>
@@ -170,4 +171,28 @@
   </div>
 
 </div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  const TRAIN_DESTS = {
+    '22436': { from: 'New Delhi (NDLS)', to: 'Varanasi Jn (BSB)' },
+    '12002': { from: 'New Delhi (NDLS)', to: 'Rani Kamlapati (RKMP)' },
+    '12952': { from: 'New Delhi (NDLS)', to: 'Mumbai Central (MMCT)' },
+    '12424': { from: 'New Delhi (NDLS)', to: 'Dibrugarh (DBRG)' }
+  };
+
+  function updateSearchDest(trainId) {
+    const route = TRAIN_DESTS[trainId];
+    if (route) {
+      document.getElementById('search-from-station').value = route.from;
+      document.getElementById('search-to-station').value = route.to;
+    }
+  }
+
+  function goToLiveRadar() {
+    const trainId = document.getElementById('home-train-select').value;
+    window.location.href = `/dashboard/passenger?train=${trainId}`;
+  }
+</script>
 {% endblock %}

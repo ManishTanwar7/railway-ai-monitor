@@ -268,5 +268,14 @@
 
     showToast(`Switched radar to ${data.name} (${data.id}).`, 'info');
   }
+
+  // Auto-select train from URL parameter (e.g. ?train=12002)
+  document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const trainParam = urlParams.get('train');
+    if (trainParam && PASSENGER_TRAINS[trainParam]) {
+      selectPassengerTrain(trainParam);
+    }
+  });
 </script>
 {% endblock %}

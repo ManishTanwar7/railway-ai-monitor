@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Optional, Dict, Any
 
 from fastapi import FastAPI, Request, Form, Depends, HTTPException, status
-from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
+from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
@@ -167,12 +167,14 @@ async def admin_dashboard(request: Request):
         return RedirectResponse(url="/login?error=Admin clearance required.", status_code=status.HTTP_302_FOUND)
 
     ai_data = load_dataset("ai_hierarchy")
+    gps_data = load_dataset("gps_tracker")
     return templates.TemplateResponse(
         request=request,
         name="admin_dashboard.html",
         context={
             "user": user,
-            "ai_data": ai_data
+            "ai_data": ai_data,
+            "gps_data": gps_data
         }
     )
 
@@ -298,6 +300,40 @@ async def cris_telemetry():
         "telemetry_sample_rate": "100 Hz",
         "fleet": gps
     })
+
+
+@app.get("/api/sql/stations")
+async def get_sql_stations():
+    """Returns 10+ interlinked stations datasheet from SQLite database."""
+    from db import get_all_stations
+    return JSONResponse(content={"stations": get_all_stations()})
+
+
+@app.get("/api/sql/tracks")
+async def get_sql_tracks():
+    """Returns interlinked track segments connecting all 11 stations."""
+    from db import get_interlinked_tracks
+    return JSONResponse(content={"tracks": get_interlinked_tracks()})
+
+
+@app.get("/api/sql/decisions")
+async def get_sql_decisions():
+    """Returns AI model decision logs on the 10+ stations corridor."""
+    from db import get_ai_decisions_from_db
+    return JSONResponse(content={"decisions": get_ai_decisions_from_db()})
+
+
+@app.get("/download/report")
+async def download_project_report():
+    """Download the official CRIS Railway AI Project Report (.docx)."""
+    report_file = BASE_DIR / "CRIS_Railway_AI_Project_Report.docx"
+    if not report_file.exists():
+        raise HTTPException(status_code=404, detail="Project report .docx file not found.")
+    return FileResponse(
+        path=str(report_file),
+        filename="CRIS_Railway_AI_Project_Report.docx",
+        media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    )
 
 
 class SignalOverridePayload(BaseModel):
