@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+
+{% block title %}Technician Dashboard | Chronos Railway AI{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+  <!-- Employee Header -->
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-emerald-950/40 via-rail-panel to-rail-dark p-5 rounded-xl border border-emerald-500/30">
+    <div class="flex items-center space-x-4">
+      <div class="w-12 h-12 rounded-xl bg-emerald-950/80 border border-emerald-400 flex items-center justify-center text-emerald-300 shadow-[0_0_20px_rgba(16,185,129,0.3)]">
+        <i class="fa-solid fa-screwdriver-wrench text-2xl"></i>
+      </div>
+      <div>
+        <div class="flex items-center space-x-3">
+          <h1 class="text-xl sm:text-2xl font-black font-orbitron text-white tracking-wide">
+            FIELD TECHNICIAN <span class="text-emerald-400">MODULE CONSOLE</span>
+          </h1>
+          <span class="px-2.5 py-0.5 rounded text-[11px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/50">
+            RESTRICTED ACCESS
+          </span>
+        </div>
+        <p class="text-xs text-gray-400 font-rajdhani text-sm">
+          Assigned field units: You have authorization to monitor and test your designated AI sub-modules only.
+        </p>
+      </div>
+    </div>
+
+    <div class="flex items-center space-x-2 text-xs font-mono bg-black/40 px-3 py-2 rounded-lg border border-gray-800 text-gray-300">
+      <i class="fa-solid fa-user-shield text-emerald-400"></i>
+      <span>SPECIALIST ID: <span class="text-white font-bold">EMP-8842</span></span>
+    </div>
+  </div>
+
+  <!-- Role Scope Notification -->
+  <div class="p-4 rounded-lg bg-emerald-950/30 border border-emerald-500/30 flex items-center justify-between text-xs text-emerald-200">
+    <div class="flex items-center space-x-3">
+      <i class="fa-solid fa-shield-halved text-emerald-400 text-lg"></i>
+      <div>
+        <span class="font-bold">Active Security Scope:</span> You are currently assigned to 
+        <span class="text-white font-mono font-semibold">{{ assigned_modules|join(" & ") }}</span>. 
+        Higher tier Leader and Boss AI arbitration parameters remain locked to Admin clearance.
+      </div>
+    </div>
+    <span class="text-[10px] font-mono bg-emerald-900/60 px-2 py-1 rounded text-emerald-300 border border-emerald-500/40">
+      POLICY: ENFORCED
+    </span>
+  </div>
+
+  <!-- SECTION 1: ASSIGNED AI MODULES CARDS -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    {% for module in assigned_modules_details %}
+    <div class="cyber-card p-6 border-emerald-500/30 hover:border-emerald-400 transition relative">
+      <div class="flex items-center justify-between mb-3 pb-2 border-b border-gray-800">
+        <div class="flex items-center space-x-2">
+          <span class="w-3 h-3 rounded-full bg-emerald-400 led-pulse-green"></span>
+          <h2 class="font-orbitron font-bold text-white text-base">{{ module.name }}</h2>
+        </div>
+        <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-950 text-emerald-300 border border-emerald-500/50">
+          {{ module.id }} &bull; {{ module.latency_ms }} ms
+        </span>
+      </div>
+
+      <p class="text-xs text-gray-300 leading-relaxed mb-4">
+        {{ module.explanation }}
+      </p>
+
+      <!-- Formula Box -->
+      <div class="mb-4 p-3 rounded bg-black/60 border border-gray-800 font-mono text-[11px] text-emerald-300 overflow-x-auto">
+        {{ module.formula }}
+      </div>
+
+      <!-- Inputs & Outputs -->
+      <div class="grid grid-cols-2 gap-3 mb-4 text-[11px]">
+        <div class="bg-gray-950/60 p-2.5 rounded border border-gray-800">
+          <span class="text-gray-400 font-mono font-bold block mb-1">CONNECTED SENSORS:</span>
+          <ul class="text-gray-300 space-y-0.5">
+            {% for inp in module.inputs %}
+            <li>&bull; {{ inp }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="bg-gray-950/60 p-2.5 rounded border border-gray-800">
+          <span class="text-gray-400 font-mono font-bold block mb-1">COMPUTED TELEMETRY:</span>
+          <ul class="text-cyan-300 font-mono space-y-0.5">
+            {% for out in module.outputs %}
+            <li>&bull; {{ out }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      <!-- Module Diagnostic & Calibration Action Buttons -->
+      <div class="pt-3 border-t border-gray-800 flex items-center justify-between">
+        <div class="text-[11px] text-gray-400 font-mono">
+          Status: <span class="text-emerald-400 font-bold">100% OPERATIONAL</span>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button onclick="triggerDiagnostic('{{ module.name }}')"
+            class="px-3 py-1.5 rounded bg-emerald-600 hover:bg-emerald-500 text-black font-orbitron font-bold text-[11px] transition shadow-[0_0_12px_rgba(16,185,129,0.3)] flex items-center space-x-1.5">
+            <i class="fa-solid fa-vial-virus"></i>
+            <span>RUN DIAGNOSTIC</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- SECTION 2: DIAGNOSTIC AUDIT LOGS & FIELD TICKET SUBMISSION -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    
+    <!-- Diagnostic Test Records (7 cols) -->
+    <div class="lg:col-span-7 cyber-card p-6">
+      <div class="flex items-center justify-between mb-4 pb-2 border-b border-gray-800">
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-clipboard-check text-emerald-400"></i>
+          <h3 class="font-orbitron font-bold text-white text-sm">MODULE DIAGNOSTIC AUDIT LOGS</h3>
+        </div>
+        <span class="text-[10px] font-mono text-gray-400">Live Calibration Records</span>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead>
+            <tr class="border-b border-gray-800 text-gray-400 font-mono text-[11px]">
+              <th class="py-2.5 px-3">TIMESTAMP</th>
+              <th class="py-2.5 px-3">MODULE</th>
+              <th class="py-2.5 px-3">RESULT</th>
+              <th class="py-2.5 px-3">DIAGNOSTIC DETAIL</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-800/60" id="employee-diagnostic-logs">
+            <tr class="hover:bg-cyan-950/20 transition">
+              <td class="py-2 px-3 font-mono text-gray-400">10:24:12</td>
+              <td class="py-2 px-3 font-semibold text-emerald-300">Signal Pulse Agent</td>
+              <td class="py-2 px-3"><span class="px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-300 border border-emerald-500 text-[10px] font-bold">PASSED</span></td>
+              <td class="py-2 px-3 text-gray-300">Optical sensor laser alignment verified (0.01mm deflection).</td>
+            </tr>
+            <tr class="hover:bg-cyan-950/20 transition">
+              <td class="py-2 px-3 font-mono text-gray-400">09:58:30</td>
+              <td class="py-2 px-3 font-semibold text-emerald-300">Weather Telemetry Analyzer</td>
+              <td class="py-2 px-3"><span class="px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-300 border border-emerald-500 text-[10px] font-bold">PASSED</span></td>
+              <td class="py-2 px-3 text-gray-300">Laser disdrometer precipitation calibration within &plusmn;0.2% tolerance.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Quick Maintenance Ticket Dispatch (5 cols) -->
+    <div class="lg:col-span-5 cyber-card p-6 border-emerald-500/30">
+      <div class="flex items-center space-x-2 mb-4 pb-2 border-b border-gray-800">
+        <i class="fa-solid fa-wrench text-amber-400"></i>
+        <h3 class="font-orbitron font-bold text-white text-sm">SUBMIT FIELD MAINTENANCE REPORT</h3>
+      </div>
+      <p class="text-xs text-gray-400 mb-4">
+        Log physical track inspections or request sensor replacement to Central Dispatch.
+      </p>
+
+      <form onsubmit="event.preventDefault(); showToast('Field Ticket dispatched to Station Master & Boss AI.', 'success'); this.reset();" class="space-y-3">
+        <div>
+          <label class="block text-[11px] font-mono text-gray-300 mb-1">AFFECTED MODULE / TRACK BLOCK</label>
+          <select class="w-full py-2 px-3 rounded bg-gray-950 border border-gray-700 text-white text-xs focus:outline-none focus:border-emerald-400">
+            <option>Signal Pulse Agent - Block BLK-N-201</option>
+            <option>Signal Pulse Agent - Block BLK-W-104</option>
+            <option>Weather Telemetry - Sector Beta Anemometer</option>
+            <option>Track Ultrasonic Diagnostic Siding 4</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-mono text-gray-300 mb-1">INSPECTION FINDING / NOTE</label>
+          <textarea rows="3" required placeholder="Enter visual inspection notes or sensor replacement log..."
+            class="w-full p-2.5 rounded bg-gray-950 border border-gray-700 text-white text-xs placeholder-gray-500 focus:outline-none focus:border-emerald-400"></textarea>
+        </div>
+
+        <button type="submit"
+          class="w-full py-2.5 px-4 rounded bg-emerald-600 hover:bg-emerald-500 text-black font-orbitron font-bold text-xs uppercase tracking-wider transition">
+          SUBMIT TO CENTRAL LOG
+        </button>
+      </form>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

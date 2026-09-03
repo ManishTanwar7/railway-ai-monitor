@@ -1,0 +1,62 @@
+[
+  {
+    "sector_id": "SEC-ALPHA",
+    "sector_name": "Sector Alpha (Central Corridor)",
+    "temp_celsius": 24.2,
+    "precipitation_mm": 0.0,
+    "condition": "Clear Sky",
+    "wind_speed_kmh": 14.5,
+    "visibility_km": 12.0,
+    "track_temperature_celsius": 29.8,
+    "thermal_expansion_risk": "Low (0.04 mm/m)",
+    "friction_coefficient": 0.38,
+    "ai_speed_reduction_pct": 0.0,
+    "ai_hazard_index": 0.08,
+    "status": "Nominal"
+  },
+  {
+    "sector_id": "SEC-BETA",
+    "sector_name": "Sector Beta (Mountain Pass Valley)",
+    "temp_celsius": 11.6,
+    "precipitation_mm": 18.4,
+    "condition": "Heavy Rain & Mountain Mist",
+    "wind_speed_kmh": 46.2,
+    "visibility_km": 2.4,
+    "track_temperature_celsius": 12.1,
+    "thermal_expansion_risk": "Negligible",
+    "friction_coefficient": 0.22,
+    "ai_speed_reduction_pct": 18.5,
+    "ai_hazard_index": 0.58,
+    "status": "Speed Advisory Throttled"
+  },
+  {
+    "sector_id": "SEC-GAMMA",
+    "sector_name": "Sector Gamma (Coastal Intermodal Bridge)",
+    "temp_celsius": 33.4,
+    "precipitation_mm": 2.1,
+    "condition": "High Humidity & Gusting Crosswinds",
+    "wind_speed_kmh": 58.0,
+    "visibility_km": 6.8,
+    "track_temperature_celsius": 44.5,
+    "thermal_expansion_risk": "Moderate (0.21 mm/m)",
+    "friction_coefficient": 0.31,
+    "ai_speed_reduction_pct": 12.0,
+    "ai_hazard_index": 0.42,
+    "status": "Crosswind Sensor Alert"
+  },
+  {
+    "sector_id": "SEC-DELTA",
+    "sector_name": "Sector Delta (Northern High Plains)",
+    "temp_celsius": 18.0,
+    "precipitation_mm": 0.0,
+    "condition": "Overcast",
+    "wind_speed_kmh": 22.0,
+    "visibility_km": 9.5,
+    "track_temperature_celsius": 21.3,
+    "thermal_expansion_risk": "Low",
+    "friction_coefficient": 0.36,
+    "ai_speed_reduction_pct": 0.0,
+    "ai_hazard_index": 0.12,
+    "status": "Nominal"
+  }
+]

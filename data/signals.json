@@ -1,0 +1,67 @@
+[
+  {
+    "signal_id": "SIG-N101",
+    "sector": "Sector Alpha",
+    "track_block": "BLK-N-201",
+    "aspect": "GREEN",
+    "interlocking_state": "MANUAL_OVERRIDE_GREEN",
+    "fail_safe_engaged": false,
+    "ai_auto_clearance": true,
+    "dwell_time_sec": 45,
+    "last_switched": "Just now",
+    "manual_override": true,
+    "target_train": "TR-1024"
+  },
+  {
+    "signal_id": "SIG-W104",
+    "sector": "Sector West",
+    "track_block": "BLK-W-104",
+    "aspect": "YELLOW",
+    "interlocking_state": "APPROACH_RESTRICTED",
+    "fail_safe_engaged": false,
+    "ai_auto_clearance": true,
+    "dwell_time_sec": 85,
+    "last_switched": "45 secs ago",
+    "manual_override": false,
+    "target_train": "TR-2048"
+  },
+  {
+    "signal_id": "SIG-E058",
+    "sector": "Sector East Harbor",
+    "track_block": "BLK-E-058",
+    "aspect": "DOUBLE_YELLOW",
+    "interlocking_state": "PRE_RESTRICTED_HEADWAY",
+    "fail_safe_engaged": false,
+    "ai_auto_clearance": true,
+    "dwell_time_sec": 120,
+    "last_switched": "4 mins ago",
+    "manual_override": false,
+    "target_train": "TR-4096"
+  },
+  {
+    "signal_id": "SIG-C012",
+    "sector": "Sector Central",
+    "track_block": "BLK-C-012",
+    "aspect": "GREEN",
+    "interlocking_state": "LOCKED_AUTHORIZED",
+    "fail_safe_engaged": false,
+    "ai_auto_clearance": true,
+    "dwell_time_sec": 30,
+    "last_switched": "1 min ago",
+    "manual_override": false,
+    "target_train": "TR-8192"
+  },
+  {
+    "signal_id": "SIG-S301",
+    "sector": "Sector South Mountain",
+    "track_block": "BLK-S-301",
+    "aspect": "RED",
+    "interlocking_state": "STOP_HOLD_DUE_WEATHER",
+    "fail_safe_engaged": true,
+    "ai_auto_clearance": false,
+    "dwell_time_sec": 240,
+    "last_switched": "10 mins ago",
+    "manual_override": false,
+    "target_train": "NONE (Siding Hold)"
+  }
+]

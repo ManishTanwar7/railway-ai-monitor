@@ -1,0 +1,50 @@
+[
+  {
+    "route_id": "RT-01",
+    "route_name": "Metro Express Trunk Line (North-South)",
+    "average_delay_min": 2.4,
+    "current_predicted_delay_min": 1.2,
+    "delay_severity": "LOW",
+    "primary_cause": "Platform Dwell Variation",
+    "secondary_factors": "High Passenger Boarding Density",
+    "bottleneck_junction": "JUNCTION-ALPHA-3",
+    "ai_confidence_pct": 96.8,
+    "recommended_mitigation": "Extend platform chime by +15s, advance exit dispatch green wave."
+  },
+  {
+    "route_id": "RT-02",
+    "route_name": "Mountain Alpine Freight Pass",
+    "average_delay_min": 14.8,
+    "current_predicted_delay_min": 19.5,
+    "delay_severity": "HIGH",
+    "primary_cause": "Adverse Weather Speed Cap",
+    "secondary_factors": "Track friction degradation due to rain (μ=0.22)",
+    "bottleneck_junction": "PASS-SUMMIT-SWITCH-9",
+    "ai_confidence_pct": 93.4,
+    "recommended_mitigation": "Hold TR-4096 in lower loop for 8 mins to prioritize TR-1024 high-speed clearance."
+  },
+  {
+    "route_id": "RT-03",
+    "route_name": "Coastal Freight & Intermodal Connector",
+    "average_delay_min": 6.1,
+    "current_predicted_delay_min": 7.4,
+    "delay_severity": "MEDIUM",
+    "primary_cause": "Crosswind Speed Throttling",
+    "secondary_factors": "Drawbridge maintenance headway offset",
+    "bottleneck_junction": "HARBOR-INTERLOCK-4",
+    "ai_confidence_pct": 89.7,
+    "recommended_mitigation": "Engage dual locomotive traction mode and dynamic headway buffering."
+  },
+  {
+    "route_id": "RT-04",
+    "route_name": "Western Suburb Commuter Radial",
+    "average_delay_min": 3.2,
+    "current_predicted_delay_min": 4.0,
+    "delay_severity": "MEDIUM",
+    "primary_cause": "Interlocking Signal Yellow Wave",
+    "secondary_factors": "Train TR-2048 queue congestion",
+    "bottleneck_junction": "JUNCTION-WEST-2",
+    "ai_confidence_pct": 91.2,
+    "recommended_mitigation": "Switch track 3 to express overtake routing."
+  }
+]

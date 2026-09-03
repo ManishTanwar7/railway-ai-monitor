@@ -1,0 +1,38 @@
+[
+  {
+    "station_code": "STN-GCT",
+    "station_name": "Grand Central Terminus Hub",
+    "total_platforms": 6,
+    "platforms": [
+      { "platform_num": 1, "status": "OCCUPIED", "train_id": "TR-1024", "destination": "Northern Terminal", "departure_eta_min": 6.2, "boarding_pct": 78 },
+      { "platform_num": 2, "status": "CLEAR", "train_id": "STANDBY", "destination": "Open Track", "departure_eta_min": 0, "boarding_pct": 0 },
+      { "platform_num": 3, "status": "APPROACHING", "train_id": "TR-8192", "destination": "North Ring Metro", "departure_eta_min": 3.8, "boarding_pct": 92 },
+      { "platform_num": 4, "status": "MAINTENANCE", "train_id": "WORK-CAR-01", "destination": "Rail Ultrasonic Scan", "departure_eta_min": 0, "boarding_pct": 0 },
+      { "platform_num": 5, "status": "CLEAR", "train_id": "OPEN", "destination": "Open Track", "departure_eta_min": 0, "boarding_pct": 0 },
+      { "platform_num": 6, "status": "RESERVED", "train_id": "TR-2048", "destination": "West Junction", "departure_eta_min": 12.5, "boarding_pct": 45 }
+    ],
+    "power_grid_load_pct": 74.2,
+    "catenary_voltage_kv": 25.1,
+    "crowd_density_level": "MODERATE",
+    "passenger_flow_per_min": 320,
+    "cctv_ai_hazard_alerts": 0,
+    "dispatch_automation_mode": "AI_AUTONOMOUS"
+  },
+  {
+    "station_code": "STN-WJN",
+    "station_name": "West Junction Intermodal Station",
+    "total_platforms": 4,
+    "platforms": [
+      { "platform_num": 1, "status": "OCCUPIED", "train_id": "TR-2048", "destination": "South Harbor", "departure_eta_min": 15.0, "boarding_pct": 62 },
+      { "platform_num": 2, "status": "CLEAR", "train_id": "OPEN", "destination": "Open Track", "departure_eta_min": 0, "boarding_pct": 0 },
+      { "platform_num": 3, "status": "CLEAR", "train_id": "OPEN", "destination": "Open Track", "departure_eta_min": 0, "boarding_pct": 0 },
+      { "platform_num": 4, "status": "CARGO_LOADING", "train_id": "TR-4096", "destination": "Harbor Dock 4", "departure_eta_min": 45.0, "boarding_pct": 100 }
+    ],
+    "power_grid_load_pct": 61.5,
+    "catenary_voltage_kv": 24.9,
+    "crowd_density_level": "LOW",
+    "passenger_flow_per_min": 110,
+    "cctv_ai_hazard_alerts": 0,
+    "dispatch_automation_mode": "STATION_MASTER_SUPERVISED"
+  }
+]

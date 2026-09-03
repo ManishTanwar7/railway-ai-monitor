@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+
+{% block title %}Terminal Login | Chronos Railway AI Monitoring{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto py-8">
+
+  <!-- Header Banner -->
+  <div class="text-center mb-8">
+    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-500/40 text-cyan-400 text-xs font-mono mb-3">
+      <i class="fa-solid fa-shield-halved"></i>
+      <span>RAILWAY CYBERNETIC ACCESS CONTROL &bull; MULTI-ROLE DISPATCH</span>
+    </div>
+    <h1 class="text-3xl sm:text-4xl font-extrabold font-orbitron text-white tracking-wide">
+      RAILWAY <span class="text-cyan-400 text-glow-cyan">AI MONITORING</span> SUITE
+    </h1>
+    <p class="mt-2 text-sm text-gray-400 max-w-xl mx-auto font-rajdhani text-base">
+      High-speed autonomous signaling, dynamic headway calculation, and multi-tier neural network dispatching.
+    </p>
+  </div>
+
+  {% if error %}
+  <div class="mb-6 p-4 rounded-lg bg-rose-950/80 border border-rose-500 text-rose-200 text-sm flex items-center justify-between shadow-lg">
+    <div class="flex items-center space-x-3">
+      <i class="fa-solid fa-circle-exclamation text-rose-400 text-lg"></i>
+      <span>{{ error }}</span>
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- Left Column: Manual Form -->
+    <div class="lg:col-span-5 cyber-card p-6 sm:p-8">
+      <div class="flex items-center justify-between pb-4 mb-6 border-b border-gray-800">
+        <h2 class="text-lg font-bold font-orbitron text-white flex items-center">
+          <i class="fa-solid fa-key mr-2 text-cyan-400"></i> AUTHENTICATE
+        </h2>
+        <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-gray-800 text-gray-400">JWT SESSION</span>
+      </div>
+
+      <form action="/login" method="POST" class="space-y-4" id="login-form">
+        <div>
+          <label class="block text-xs font-medium text-gray-300 font-rajdhani uppercase tracking-wider mb-1.5">
+            Operator Username
+          </label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500">
+              <i class="fa-solid fa-user-astronaut"></i>
+            </div>
+            <input type="text" name="username" id="username" required
+              class="w-full pl-10 pr-3 py-2.5 rounded-lg bg-gray-950/90 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 text-sm transition"
+              placeholder="e.g. admin, stationmaster, employee">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-gray-300 font-rajdhani uppercase tracking-wider mb-1.5">
+            Security Passcode
+          </label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500">
+              <i class="fa-solid fa-lock"></i>
+            </div>
+            <input type="password" name="password" id="password" required
+              class="w-full pl-10 pr-3 py-2.5 rounded-lg bg-gray-950/90 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 text-sm transition"
+              placeholder="Enter passcode">
+          </div>
+        </div>
+
+        <button type="submit"
+          class="w-full mt-2 py-3 px-4 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-orbitron font-bold text-xs tracking-wider uppercase transition duration-200 shadow-[0_0_20px_rgba(0,243,255,0.3)] flex items-center justify-center space-x-2">
+          <span>ENTER CONTROL CONSOLE</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </form>
+    </div>
+
+    <!-- Right Column: Quick 1-Click Role Login Presets -->
+    <div class="lg:col-span-7 space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-sm font-bold font-orbitron text-gray-300 tracking-wider">
+          <i class="fa-solid fa-bolt mr-1.5 text-amber-400"></i> INSTANT 1-CLICK ROLE ACCESS
+        </h3>
+        <span class="text-xs text-gray-500 font-mono">Select any role to test</span>
+      </div>
+
+      <!-- 4 Role Quick Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        
+        <!-- Admin (Boss) -->
+        <button onclick="quickLogin('admin', 'admin123')"
+          class="cyber-card p-4 text-left group hover:border-amber-400/80 transition relative overflow-hidden">
+          <div class="flex items-center space-x-3 mb-2">
+            <div class="w-9 h-9 rounded-lg bg-amber-950/70 border border-amber-500/50 flex items-center justify-center text-amber-300 group-hover:scale-110 transition">
+              <i class="fa-solid fa-user-astronaut text-base"></i>
+            </div>
+            <div>
+              <div class="font-orbitron text-xs font-bold text-white group-hover:text-amber-300 transition">ADMIN (BOSS)</div>
+              <div class="text-[10px] font-mono text-amber-400">User: admin / admin123</div>
+            </div>
+          </div>
+          <p class="text-xs text-gray-400">
+            Full AI hierarchy view (Workers, Leaders, Boss AI). ETA & delay algorithms, overrides, system logs.
+          </p>
+          <div class="mt-3 flex items-center justify-between text-[11px] text-amber-300 font-medium">
+            <span>Launch Boss Dashboard</span>
+            <i class="fa-solid fa-chevron-right text-xs group-hover:translate-x-1 transition"></i>
+          </div>
+        </button>
+
+        <!-- Station Master -->
+        <button onclick="quickLogin('stationmaster', 'station123')"
+          class="cyber-card p-4 text-left group hover:border-cyan-400/80 transition relative overflow-hidden">
+          <div class="flex items-center space-x-3 mb-2">
+            <div class="w-9 h-9 rounded-lg bg-cyan-950/70 border border-cyan-500/50 flex items-center justify-center text-cyan-300 group-hover:scale-110 transition">
+              <i class="fa-solid fa-tower-observation text-base"></i>
+            </div>
+            <div>
+              <div class="font-orbitron text-xs font-bold text-white group-hover:text-cyan-300 transition">STATION MASTER</div>
+              <div class="text-[10px] font-mono text-cyan-400">User: stationmaster / station123</div>
+            </div>
+          </div>
+          <p class="text-xs text-gray-400">
+            Control-room console: live train GPS radar, signal switching, track congestion, emergency halt.
+          </p>
+          <div class="mt-3 flex items-center justify-between text-[11px] text-cyan-300 font-medium">
+            <span>Launch Station Control</span>
+            <i class="fa-solid fa-chevron-right text-xs group-hover:translate-x-1 transition"></i>
+          </div>
+        </button>
+
+        <!-- Employee -->
+        <button onclick="quickLogin('employee', 'emp123')"
+          class="cyber-card p-4 text-left group hover:border-emerald-400/80 transition relative overflow-hidden">
+          <div class="flex items-center space-x-3 mb-2">
+            <div class="w-9 h-9 rounded-lg bg-emerald-950/70 border border-emerald-500/50 flex items-center justify-center text-emerald-300 group-hover:scale-110 transition">
+              <i class="fa-solid fa-screwdriver-wrench text-base"></i>
+            </div>
+            <div>
+              <div class="font-orbitron text-xs font-bold text-white group-hover:text-emerald-300 transition">EMPLOYEE (TECH)</div>
+              <div class="text-[10px] font-mono text-emerald-400">User: employee / emp123</div>
+            </div>
+          </div>
+          <p class="text-xs text-gray-400">
+            Restricted to assigned AI modules (Signal Safety & Weather Telemetry). Run diagnostics & reports.
+          </p>
+          <div class="mt-3 flex items-center justify-between text-[11px] text-emerald-300 font-medium">
+            <span>Launch Technician View</span>
+            <i class="fa-solid fa-chevron-right text-xs group-hover:translate-x-1 transition"></i>
+          </div>
+        </button>
+
+        <!-- Passenger -->
+        <button onclick="quickLogin('passenger', 'pass123')"
+          class="cyber-card p-4 text-left group hover:border-blue-400/80 transition relative overflow-hidden">
+          <div class="flex items-center space-x-3 mb-2">
+            <div class="w-9 h-9 rounded-lg bg-blue-950/70 border border-blue-500/50 flex items-center justify-center text-blue-300 group-hover:scale-110 transition">
+              <i class="fa-solid fa-ticket text-base"></i>
+            </div>
+            <div>
+              <div class="font-orbitron text-xs font-bold text-white group-hover:text-blue-300 transition">PASSENGER</div>
+              <div class="text-[10px] font-mono text-blue-400">User: passenger / pass123</div>
+            </div>
+          </div>
+          <p class="text-xs text-gray-400">
+            Commuter portal: Live train ETA, arrival delays, station platforms, weather impact, search filter.
+          </p>
+          <div class="mt-3 flex items-center justify-between text-[11px] text-blue-300 font-medium">
+            <span>Launch Passenger Board</span>
+            <i class="fa-solid fa-chevron-right text-xs group-hover:translate-x-1 transition"></i>
+          </div>
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  function quickLogin(user, pass) {
+    document.getElementById('username').value = user;
+    document.getElementById('password').value = pass;
+    document.getElementById('login-form').submit();
+  }
+</script>
+{% endblock %}

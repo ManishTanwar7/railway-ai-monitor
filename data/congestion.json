@@ -1,0 +1,54 @@
+[
+  {
+    "junction_id": "JNC-CENTRAL-01",
+    "junction_name": "Grand Central Terminus Interlocking",
+    "track_occupancy_pct": 86.4,
+    "trains_queued": 3,
+    "max_capacity_trains": 12,
+    "congestion_level": "HEAVY",
+    "flow_rate_trains_per_hour": 34.2,
+    "bottleneck_risk_score": 0.82,
+    "bypass_available": true,
+    "ai_recommended_reroute": "Divert Freight TR-4096 via Outer Loop Track 4B",
+    "active_conflicts": 1
+  },
+  {
+    "junction_id": "JNC-NORTH-04",
+    "junction_name": "Northern Valley Multi-Track Switch",
+    "track_occupancy_pct": 42.0,
+    "trains_queued": 0,
+    "max_capacity_trains": 8,
+    "congestion_level": "OPTIMAL",
+    "flow_rate_trains_per_hour": 18.0,
+    "bottleneck_risk_score": 0.15,
+    "bypass_available": true,
+    "ai_recommended_reroute": "Maintain standard schedule sequencing",
+    "active_conflicts": 0
+  },
+  {
+    "junction_id": "JNC-HARBOR-07",
+    "junction_name": "Harbor Intermodal Siding & Wye",
+    "track_occupancy_pct": 74.8,
+    "trains_queued": 2,
+    "max_capacity_trains": 6,
+    "congestion_level": "MODERATE",
+    "flow_rate_trains_per_hour": 14.5,
+    "bottleneck_risk_score": 0.65,
+    "bypass_available": false,
+    "ai_recommended_reroute": "Hold TR-4096 at Block E-058 signal until container crane cycle clears",
+    "active_conflicts": 0
+  },
+  {
+    "junction_id": "JNC-WEST-02",
+    "junction_name": "Western Triangle Junction",
+    "track_occupancy_pct": 68.2,
+    "trains_queued": 1,
+    "max_capacity_trains": 10,
+    "congestion_level": "MODERATE",
+    "flow_rate_trains_per_hour": 22.1,
+    "bottleneck_risk_score": 0.52,
+    "bypass_available": true,
+    "ai_recommended_reroute": "Shift TR-2048 to Siding B for express pass-through",
+    "active_conflicts": 0
+  }
+]

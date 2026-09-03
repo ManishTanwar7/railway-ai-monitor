@@ -1,0 +1,232 @@
+/* Railway AI Monitoring - Cyberpunk Control Room Theme */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg-deep: #050811;
+  --bg-panel: #0a1122;
+  --bg-panel-hover: #101c38;
+  --rail-neon-cyan: #00f3ff;
+  --rail-neon-amber: #ffb703;
+  --rail-neon-green: #10b981;
+  --rail-neon-red: #ff1e56;
+  --rail-neon-purple: #9d4edd;
+  --rail-border: rgba(0, 243, 255, 0.18);
+  --glow-cyan: 0 0 15px rgba(0, 243, 255, 0.45);
+  --glow-amber: 0 0 15px rgba(255, 183, 3, 0.45);
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-deep);
+  color: #e2e8f0;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* Header & Font utility classes */
+.font-orbitron {
+  font-family: 'Orbitron', monospace, sans-serif;
+}
+.font-rajdhani {
+  font-family: 'Rajdhani', sans-serif;
+}
+
+/* Railway Grid and Track Background */
+.railway-bg {
+  background-color: #060913;
+  background-image: 
+    radial-gradient(ellipse at 50% 0%, rgba(0, 243, 255, 0.08) 0%, transparent 65%),
+    linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 40px 40px, 40px 40px;
+  background-position: 0 0, 0 0, 0 0;
+  position: relative;
+}
+
+/* Railway Tracks Silhouette Visual in footer or background */
+.rail-tracks-pattern {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 20px,
+    rgba(0, 243, 255, 0.05) 20px,
+    rgba(0, 243, 255, 0.05) 24px
+  );
+  border-top: 1px dashed rgba(0, 243, 255, 0.15);
+  pointer-events: none;
+}
+
+/* Glowing Control Room Panels */
+.cyber-card {
+  background: rgba(10, 17, 34, 0.85);
+  border: 1px solid var(--rail-border);
+  backdrop-filter: blur(12px);
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cyber-card:hover {
+  border-color: rgba(0, 243, 255, 0.45);
+  box-shadow: 0 10px 35px -5px rgba(0, 243, 255, 0.18);
+}
+
+.cyber-card-amber {
+  border-color: rgba(255, 183, 3, 0.25);
+}
+.cyber-card-amber:hover {
+  border-color: rgba(255, 183, 3, 0.55);
+  box-shadow: 0 10px 35px -5px rgba(255, 183, 3, 0.2);
+}
+
+/* Pulsing Signal LED Indicators */
+.led-pulse-green {
+  box-shadow: 0 0 12px #10b981;
+  animation: pulse-glow-green 2s infinite;
+}
+.led-pulse-amber {
+  box-shadow: 0 0 12px #ffb703;
+  animation: pulse-glow-amber 1.6s infinite;
+}
+.led-pulse-red {
+  box-shadow: 0 0 14px #ff1e56;
+  animation: pulse-glow-red 1.2s infinite;
+}
+
+@keyframes pulse-glow-green {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.95); }
+}
+@keyframes pulse-glow-amber {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.92); }
+}
+@keyframes pulse-glow-red {
+  0%, 100% { opacity: 1; box-shadow: 0 0 18px #ff1e56; }
+  50% { opacity: 0.4; box-shadow: 0 0 6px #ff1e56; }
+}
+
+/* Radar Sweep Line Animation for Track Control Room */
+.radar-grid {
+  position: relative;
+  overflow: hidden;
+}
+.radar-grid::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.08), transparent);
+  animation: radar-sweep 4s linear infinite;
+  pointer-events: none;
+}
+@keyframes radar-sweep {
+  0% { left: -50%; }
+  100% { left: 150%; }
+}
+
+/* Glowing Train Headlight Cursor */
+#train-light-cursor {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.06s ease-out, opacity 0.2s ease;
+  will-change: transform;
+}
+
+.train-cursor-core {
+  width: 14px;
+  height: 14px;
+  background: radial-gradient(circle, #ffffff 10%, #ffdf00 50%, #ff8c00 100%);
+  border-radius: 50%;
+  box-shadow: 0 0 12px 3px rgba(255, 200, 0, 0.9), 0 0 25px 8px rgba(0, 243, 255, 0.6);
+  position: relative;
+}
+
+.train-cursor-beam {
+  position: absolute;
+  top: -24px;
+  left: 7px;
+  width: 70px;
+  height: 60px;
+  background: radial-gradient(ellipse at 0% 50%, rgba(255, 230, 100, 0.35) 0%, rgba(0, 243, 255, 0.15) 45%, transparent 75%);
+  transform-origin: left center;
+  transform: rotate(-15deg);
+  pointer-events: none;
+  filter: blur(2px);
+}
+
+.train-cursor-trail {
+  position: fixed;
+  pointer-events: none;
+  width: 6px;
+  height: 6px;
+  background: #00f3ff;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #00f3ff;
+  opacity: 0.7;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  z-index: 99998;
+}
+
+/* Custom Scrollbar for High-Tech Dashboards */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #070b14;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 243, 255, 0.25);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 243, 255, 0.55);
+}
+
+/* Glow Text Utilities */
+.text-glow-cyan {
+  text-shadow: 0 0 10px rgba(0, 243, 255, 0.6);
+}
+.text-glow-amber {
+  text-shadow: 0 0 10px rgba(255, 183, 3, 0.6);
+}
+.text-glow-emerald {
+  text-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+}
+
+/* Neon buttons */
+.btn-neon-cyan {
+  background: rgba(0, 243, 255, 0.1);
+  border: 1px solid rgba(0, 243, 255, 0.5);
+  color: #00f3ff;
+  transition: all 0.2s ease;
+}
+.btn-neon-cyan:hover {
+  background: rgba(0, 243, 255, 0.25);
+  border-color: #00f3ff;
+  box-shadow: 0 0 15px rgba(0, 243, 255, 0.4);
+}
+
+.btn-neon-amber {
+  background: rgba(255, 183, 3, 0.1);
+  border: 1px solid rgba(255, 183, 3, 0.5);
+  color: #ffb703;
+  transition: all 0.2s ease;
+}
+.btn-neon-amber:hover {
+  background: rgba(255, 183, 3, 0.25);
+  border-color: #ffb703;
+  box-shadow: 0 0 15px rgba(255, 183, 3, 0.4);
+}

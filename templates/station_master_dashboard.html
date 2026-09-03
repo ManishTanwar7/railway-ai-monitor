@@ -1,0 +1,324 @@
+{% extends "base.html" %}
+
+{% block title %}Station Master Control Room | Chronos Railway AI{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+  <!-- Control Room Command Header -->
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-cyan-950/40 via-rail-panel to-rail-dark p-5 rounded-xl border border-cyan-500/30">
+    <div class="flex items-center space-x-4">
+      <div class="w-12 h-12 rounded-xl bg-cyan-950/80 border border-cyan-400 flex items-center justify-center text-cyan-300 shadow-[0_0_20px_rgba(0,243,255,0.3)]">
+        <i class="fa-solid fa-tower-observation text-2xl animate-pulse"></i>
+      </div>
+      <div>
+        <div class="flex items-center space-x-3">
+          <h1 class="text-xl sm:text-2xl font-black font-orbitron text-white tracking-wide">
+            STATION DISPATCH <span class="text-cyan-400">CONTROL ROOM</span>
+          </h1>
+          <span class="px-2.5 py-0.5 rounded text-[11px] font-mono font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/50">
+            OPERATIONAL SECTORS ACTIVE
+          </span>
+        </div>
+        <p class="text-xs text-gray-400 font-rajdhani text-sm">
+          Supervising Grand Central Terminus corridor: Live GPS train tracking, interlocking aspect controls, and congestion bypass.
+        </p>
+      </div>
+    </div>
+
+    <!-- Live Toggle & Emergency All-Stop -->
+    <div class="flex items-center space-x-3">
+      <button id="live-toggle-btn" onclick="toggleLiveSimulation()"
+        class="px-3 py-1.5 rounded-lg text-xs font-bold border border-emerald-500 bg-emerald-950/40 text-emerald-300 hover:bg-emerald-900/50 transition">
+        <i class="fa-solid fa-satellite-dish mr-1.5 text-emerald-400 animate-pulse"></i> LIVE STREAM: ACTIVE
+      </button>
+
+      <button onclick="triggerEmergencyAllStop()"
+        class="px-3 py-1.5 rounded-lg text-xs font-bold border border-rose-500 bg-rose-950/60 text-rose-300 hover:bg-rose-900/80 transition flex items-center space-x-1.5 shadow-[0_0_15px_rgba(255,30,86,0.3)]">
+        <i class="fa-solid fa-hand text-rose-400"></i>
+        <span>EMERGENCY ALL STOP</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Operational Overview Gauges -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="cyber-card p-4 border-l-4 border-l-cyan-500">
+      <div class="text-[11px] font-mono text-gray-400 uppercase tracking-wider">Active In-Transit Trains</div>
+      <div class="text-2xl font-black font-orbitron text-cyan-400 mt-1">{{ gps_data|length }} Trains</div>
+      <div class="text-[11px] text-emerald-400 mt-1 flex items-center">
+        <i class="fa-solid fa-signal mr-1"></i> Continuous Moving Block Headway
+      </div>
+    </div>
+
+    <div class="cyber-card p-4 border-l-4 border-l-amber-500">
+      <div class="text-[11px] font-mono text-gray-400 uppercase tracking-wider">Junction Peak Occupancy</div>
+      <div class="text-2xl font-black font-orbitron text-amber-400 mt-1">86.4%</div>
+      <div class="text-[11px] text-amber-300 mt-1 flex items-center">
+        <i class="fa-solid fa-triangle-exclamation mr-1"></i> Grand Central Terminus (Heavy)
+      </div>
+    </div>
+
+    <div class="cyber-card p-4 border-l-4 border-l-emerald-500">
+      <div class="text-[11px] font-mono text-gray-400 uppercase tracking-wider">Autonomous Interlocking</div>
+      <div class="text-2xl font-black font-orbitron text-emerald-400 mt-1">4 / 5 GREEN</div>
+      <div class="text-[11px] text-gray-400 mt-1">
+        1 Signal on Weather Hold
+      </div>
+    </div>
+
+    <div class="cyber-card p-4 border-l-4 border-l-purple-500">
+      <div class="text-[11px] font-mono text-gray-400 uppercase tracking-wider">Station Catenary Power</div>
+      <div class="text-2xl font-black font-orbitron text-purple-400 mt-1">25.1 kV</div>
+      <div class="text-[11px] text-emerald-400 mt-1">Grid Load: 74.2% (Nominal)</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: LIVE GPS TRAIN MOVEMENT TABLE (DYNAMIC UPDATE) -->
+  <div class="cyber-card p-6">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4 pb-3 border-b border-gray-800">
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-lg bg-cyan-950/60 border border-cyan-500 flex items-center justify-center text-cyan-400">
+          <i class="fa-solid fa-train"></i>
+        </div>
+        <div>
+          <h2 class="text-lg font-bold font-orbitron text-white tracking-wide">
+            LIVE GPS TRAIN TRACKING & CORRIDOR VELOCITY
+          </h2>
+          <p class="text-xs text-gray-400">Calculated by AI ETA Velocity Forecaster & Bogie Sensors</p>
+        </div>
+      </div>
+      <span id="telemetry-sync-clock" class="text-xs font-mono text-cyan-400 bg-cyan-950/60 border border-cyan-500/40 px-3 py-1 rounded-full">
+        SYNC: LIVE
+      </span>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs">
+        <thead>
+          <tr class="border-b border-gray-800 text-gray-400 font-mono text-[11px]">
+            <th class="py-3 px-3">TRAIN ID & NAME</th>
+            <th class="py-3 px-3">ROUTE</th>
+            <th class="py-3 px-3">LIVE SPEED</th>
+            <th class="py-3 px-3">NEXT STATION</th>
+            <th class="py-3 px-3">ETA</th>
+            <th class="py-3 px-3">DISTANCE</th>
+            <th class="py-3 px-3">BLOCK & SIGNAL</th>
+            <th class="py-3 px-3">BRAKE HEALTH</th>
+            <th class="py-3 px-3">AI STATUS</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-800/60">
+          {% for train in gps_data %}
+          <tr class="hover:bg-cyan-950/20 transition">
+            <td class="py-3 px-3 font-medium">
+              <div class="font-bold text-white font-orbitron text-xs flex items-center space-x-1.5">
+                <i class="fa-solid fa-train-subway text-cyan-400"></i>
+                <span>{{ train.train_id }}</span>
+              </div>
+              <div class="text-[11px] text-gray-400">{{ train.train_name }}</div>
+            </td>
+            <td class="py-3 px-3 text-gray-300 font-sans text-xs max-w-xs truncate">{{ train.route }}</td>
+            <td class="py-3 px-3 font-mono text-cyan-300 font-bold" id="train-speed-{{ train.train_id }}">
+              {{ train.speed_kmh }} km/h
+            </td>
+            <td class="py-3 px-3 text-gray-300 font-sans text-xs">{{ train.next_station }}</td>
+            <td class="py-3 px-3 font-mono font-bold text-amber-300" id="train-eta-{{ train.train_id }}">
+              {{ train.eta_next_station_min }}m
+            </td>
+            <td class="py-3 px-3 font-mono text-gray-300" id="train-dist-{{ train.train_id }}">
+              {{ train.distance_to_next_km }} km
+            </td>
+            <td class="py-3 px-3 font-mono">
+              <div class="text-gray-300">{{ train.track_segment }}</div>
+              <span class="inline-block px-1.5 py-0.5 rounded text-[9px] font-bold mt-0.5
+                {% if train.signal_aspect == 'GREEN' %}bg-emerald-900/70 text-emerald-300 border border-emerald-500/50
+                {% elif train.signal_aspect == 'YELLOW' %}bg-amber-900/70 text-amber-300 border border-amber-500/50
+                {% elif train.signal_aspect == 'DOUBLE_YELLOW' %}bg-yellow-900/70 text-yellow-200 border border-yellow-500/50
+                {% else %}bg-rose-900/70 text-rose-300 border border-rose-500/50{% endif %}">
+                {{ train.signal_aspect }}
+              </span>
+            </td>
+            <td class="py-3 px-3 font-mono">
+              <div class="text-emerald-400 font-bold">{{ train.brake_health_pct }}%</div>
+              <div class="w-16 bg-gray-800 rounded-full h-1 mt-1">
+                <div class="bg-emerald-400 h-1 rounded-full" style="width: {{ train.brake_health_pct }}%"></div>
+              </div>
+            </td>
+            <td class="py-3 px-3">
+              <span class="px-2 py-1 rounded text-[10px] font-mono font-bold bg-cyan-950/80 border border-cyan-500/40 text-cyan-300">
+                {{ train.ai_status }}
+              </span>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 2: SIGNAL INTERLOCKING SWITCHBOARD & CONGESTION -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    
+    <!-- Signal Aspect Board (Interactive Overrides) (7 cols) -->
+    <div class="lg:col-span-7 cyber-card p-6">
+      <div class="flex items-center justify-between mb-4 pb-2 border-b border-gray-800">
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-traffic-light text-amber-400"></i>
+          <h3 class="font-orbitron font-bold text-white text-sm">INTERLOCKING SIGNAL SWITCHBOARD</h3>
+        </div>
+        <span class="text-[10px] font-mono text-cyan-400">Station Master Manual Authority</span>
+      </div>
+
+      <p class="text-xs text-gray-400 mb-4">
+        Toggle signal aspects manually to hold trains for emergency siding maintenance or clear tracks ahead.
+      </p>
+
+      <div class="space-y-3">
+        {% for sig in signals_data %}
+        <div class="p-3.5 rounded-lg bg-gray-950/70 border border-gray-800 hover:border-cyan-500/40 transition flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <div class="flex items-center space-x-2">
+              <span class="font-orbitron font-bold text-sm text-white">{{ sig.signal_id }}</span>
+              <span class="text-xs text-gray-400 font-mono">({{ sig.track_block }})</span>
+              <span id="signal-badge-{{ sig.signal_id }}" class="px-2.5 py-0.5 rounded text-[10px] font-bold font-orbitron
+                {% if sig.aspect == 'GREEN' %}bg-emerald-900/60 text-emerald-300 border border-emerald-500 led-pulse-green
+                {% elif sig.aspect == 'YELLOW' %}bg-amber-900/60 text-amber-300 border border-amber-500 led-pulse-amber
+                {% elif sig.aspect == 'DOUBLE_YELLOW' %}bg-yellow-900/60 text-yellow-200 border border-yellow-500 led-pulse-amber
+                {% else %}bg-rose-900/60 text-rose-300 border border-rose-500 led-pulse-red{% endif %}">
+                {{ sig.aspect }}
+              </span>
+            </div>
+            <div class="text-[11px] text-gray-400 mt-1">
+              Sector: <span class="text-gray-300">{{ sig.sector }}</span> &bull; State: <span id="signal-state-{{ sig.signal_id }}" class="font-mono text-cyan-400">{{ sig.interlocking_state }}</span>
+            </div>
+          </div>
+
+          <!-- Quick Aspect Override Buttons -->
+          <div class="flex items-center space-x-1.5 self-end sm:self-center">
+            <button onclick="overrideSignalAspect('{{ sig.signal_id }}', 'GREEN')"
+              class="px-2.5 py-1 rounded bg-emerald-950/80 border border-emerald-500/60 text-emerald-300 hover:bg-emerald-800 text-[11px] font-bold font-orbitron transition" title="Clear Track Green">
+              GREEN
+            </button>
+            <button onclick="overrideSignalAspect('{{ sig.signal_id }}', 'YELLOW')"
+              class="px-2.5 py-1 rounded bg-amber-950/80 border border-amber-500/60 text-amber-300 hover:bg-amber-800 text-[11px] font-bold font-orbitron transition" title="Restricted Approach">
+              YELLOW
+            </button>
+            <button onclick="overrideSignalAspect('{{ sig.signal_id }}', 'RED')"
+              class="px-2.5 py-1 rounded bg-rose-950/80 border border-rose-500/60 text-rose-300 hover:bg-rose-800 text-[11px] font-bold font-orbitron transition" title="Lockdown Stop">
+              RED
+            </button>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Junction Congestion & Bottleneck Radar (5 cols) -->
+    <div class="lg:col-span-5 cyber-card p-6">
+      <div class="flex items-center justify-between mb-4 pb-2 border-b border-gray-800">
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-chart-pie text-cyan-400"></i>
+          <h3 class="font-orbitron font-bold text-white text-sm">JUNCTION CONGESTION METERS</h3>
+        </div>
+        <span class="text-[10px] font-mono text-amber-400">Bottleneck Prediction</span>
+      </div>
+
+      <div class="space-y-4">
+        {% for c in congestion_data %}
+        <div class="p-3.5 rounded-lg bg-gray-950/70 border border-gray-800">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-xs text-white">{{ c.junction_name }}</span>
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold
+              {% if c.congestion_level == 'HEAVY' %}bg-rose-950 text-rose-300 border border-rose-500/50
+              {% elif c.congestion_level == 'MODERATE' %}bg-amber-950 text-amber-300 border border-amber-500/50
+              {% else %}bg-emerald-950 text-emerald-300 border border-emerald-500/50{% endif %}">
+              {{ c.congestion_level }}
+            </span>
+          </div>
+
+          <div class="mt-2">
+            <div class="flex items-center justify-between text-[11px] font-mono text-gray-400 mb-1">
+              <span>Occupancy: {{ c.track_occupancy_pct }}%</span>
+              <span>Queued: {{ c.trains_queued }} / {{ c.max_capacity_trains }} max</span>
+            </div>
+            <div class="w-full bg-gray-800 rounded-full h-2">
+              <div class="h-2 rounded-full transition-all duration-500 {% if c.track_occupancy_pct > 80 %}bg-rose-500{% elif c.track_occupancy_pct > 60 %}bg-amber-400{% else %}bg-emerald-400{% endif %}"
+                style="width: {{ c.track_occupancy_pct }}%"></div>
+            </div>
+          </div>
+
+          <div class="mt-2 text-[11px] text-gray-300 bg-black/40 p-2 rounded border border-gray-800/80">
+            <i class="fa-solid fa-route text-cyan-400 mr-1"></i>
+            <span class="text-cyan-300 font-mono">AI Recommendation:</span> {{ c.ai_recommended_reroute }}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SECTION 3: DELAY PATTERNS & WEATHER INTERFACING -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    
+    <!-- Delay Patterns Analysis -->
+    <div class="cyber-card p-6">
+      <div class="flex items-center space-x-2 mb-4 pb-2 border-b border-gray-800">
+        <i class="fa-solid fa-clock-rotate-left text-amber-400"></i>
+        <h3 class="font-orbitron font-bold text-white text-sm">PREDICTED CORRIDOR DELAY PATTERNS</h3>
+      </div>
+
+      <div class="space-y-3">
+        {% for dp in delay_patterns %}
+        <div class="p-3 rounded-lg bg-gray-950/70 border border-gray-800 text-xs">
+          <div class="flex items-center justify-between font-medium mb-1">
+            <span class="text-white font-bold">{{ dp.route_name }}</span>
+            <span class="font-mono text-amber-400 font-bold">+{{ dp.current_predicted_delay_min }} min predicted</span>
+          </div>
+          <div class="text-gray-400 text-[11px]">
+            Primary Root Cause: <span class="text-amber-300 font-semibold">{{ dp.primary_cause }}</span> &bull; {{ dp.secondary_factors }}
+          </div>
+          <div class="mt-2 text-[11px] text-cyan-300 bg-cyan-950/30 p-2 rounded border border-cyan-500/20">
+            <span class="font-bold">Mitigation:</span> {{ dp.recommended_mitigation }}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Weather Telemetry Impact -->
+    <div class="cyber-card p-6">
+      <div class="flex items-center space-x-2 mb-4 pb-2 border-b border-gray-800">
+        <i class="fa-solid fa-cloud-bolt text-cyan-400"></i>
+        <h3 class="font-orbitron font-bold text-white text-sm">ENVIRONMENTAL & TRACK FRICTION METRICS</h3>
+      </div>
+
+      <div class="space-y-3">
+        {% for w in weather_data %}
+        <div class="p-3 rounded-lg bg-gray-950/70 border border-gray-800 text-xs flex items-center justify-between">
+          <div>
+            <div class="text-white font-bold">{{ w.sector_name }}</div>
+            <div class="text-[11px] text-gray-400 mt-0.5">
+              {{ w.condition }} &bull; Temp: {{ w.temp_celsius }}&deg;C &bull; Wind: {{ w.wind_speed_kmh }} km/h
+            </div>
+            <div class="text-[11px] text-cyan-300 font-mono mt-1">
+              Track Friction &mu;: <span class="font-bold">{{ w.friction_coefficient }}</span> | Rail Temp: {{ w.track_temperature_celsius }}&deg;C
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold
+              {% if w.ai_speed_reduction_pct > 0 %}bg-amber-950 text-amber-300 border border-amber-500/50
+              {% else %}bg-emerald-950 text-emerald-300 border border-emerald-500/50{% endif %}">
+              {% if w.ai_speed_reduction_pct > 0 %}-{{ w.ai_speed_reduction_pct }}% SPEED{% else %}FULL SPEED{% endif %}
+            </span>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}
