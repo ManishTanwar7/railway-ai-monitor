@@ -3,144 +3,263 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}IRCTC RailAI | Indian Railways Autonomous Monitoring Portal{% endblock %}</title>
+  <title>{% block title %}IRCTC NextGen &bull; Indian Railways RailAI{% endblock %}</title>
   
-  <!-- TailwindCSS CDN -->
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Tailwind Configuration -->
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
             'ir-blue': '#0f2e5a',
-            'ir-blue-dark': '#0a1f3d',
+            'ir-blue-dark': '#07172b',
             'ir-blue-light': '#1e4b85',
             'ir-orange': '#ea580c',
-            'ir-orange-light': '#fb923c',
-            'ir-green': '#15803d',
+            'ir-orange-light': '#fb923c'
           }
         }
       }
     }
   </script>
 
-  <!-- FontAwesome 6 Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
   <!-- Clean IRCTC Theme Styles -->
   <link rel="stylesheet" href="/static/css/custom.css">
   {% block extra_head %}{% endblock %}
 </head>
-<body class="bg-slate-100 min-h-screen flex flex-col text-slate-800 antialiased selection:bg-orange-500 selection:text-white">
+<body class="min-h-screen flex flex-col text-slate-800 antialiased selection:bg-orange-500 selection:text-white">
 
-  <!-- Top Indian Railways Header -->
-  <header class="irctc-header text-white sticky top-0 z-40 shadow-md">
-    <!-- Top Micro Bar with Official Government / Rail Info -->
-    <div class="bg-[#07172b] px-4 sm:px-6 lg:px-8 py-1 text-[11px] flex items-center justify-between text-slate-300 border-b border-slate-800">
-      <div class="flex items-center space-x-2">
-        <span class="font-medium text-orange-400">भारतीय रेल</span>
-        <span>|</span>
-        <span>GOVERNMENT OF INDIA &bull; MINISTRY OF RAILWAYS</span>
+  <!-- ============================================================== -->
+  <!-- TOP OFFICIAL IRCTC HEADER (MATCHING OFFICIAL IRCTC PORTAL)     -->
+  <!-- ============================================================== -->
+  <header class="bg-white shadow-md sticky top-0 z-40 border-b border-slate-200">
+    
+    <!-- Top Micro Bar (Official Emblem & Time Clock) -->
+    <div class="bg-[#f8fafc] border-b border-slate-200 px-4 sm:px-8 py-1.5 text-xs text-slate-600 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <!-- Indian Railways Emblem Icon -->
+        <div class="w-7 h-7 rounded-full bg-ir-blue text-white flex items-center justify-center font-bold text-xs shadow-sm">
+          <i class="fa-solid fa-train"></i>
+        </div>
+        <span class="font-bold text-ir-blue tracking-tight hidden sm:inline">भारतीय रेल &bull; GOVERNMENT OF INDIA</span>
       </div>
+
       <div class="flex items-center space-x-3 font-mono text-[11px]">
-        <span id="header-clock" class="text-amber-300 font-semibold">--:--:-- IST</span>
-        <span class="text-slate-500">|</span>
-        <span class="text-emerald-400 font-sans font-medium flex items-center">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 animate-pulse"></span>
-          CRIS RailAI Live
-        </span>
+        <span id="header-clock" class="text-slate-800 font-bold">03-Sep-2026 [14:50:10]</span>
+        <span class="text-slate-300">|</span>
+        <span class="text-slate-600 font-sans cursor-pointer hover:text-ir-blue">A- | A | A+</span>
+        <span class="text-slate-300">|</span>
+        <span class="text-ir-blue font-sans font-bold cursor-pointer">हिंदी</span>
+      </div>
+
+      <!-- IRCTC Logo Badge on Right -->
+      <div class="flex items-center space-x-2">
+        <span class="text-[11px] font-bold text-ir-blue tracking-wider">IRCTC RailAI</span>
       </div>
     </div>
 
     <!-- Main Navigation Bar -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 h-14 flex items-center justify-between">
       
-      <!-- Brand & Indian Railways Emblem -->
-      <a href="/" class="flex items-center space-x-3 group">
-        <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-ir-blue shadow-sm border border-slate-200">
-          <i class="fa-solid fa-train text-lg text-ir-blue"></i>
-        </div>
-        <div>
+      <!-- Left: Navigation Links -->
+      <div class="flex items-center space-x-2 sm:space-x-4 text-xs font-bold text-slate-700">
+        <a href="/" class="p-2 text-slate-600 hover:text-ir-blue text-sm" title="Home">
+          <i class="fa-solid fa-house"></i>
+        </a>
+
+        <!-- LOGIN BUTTON (OPENS POP-UP MODAL WITHOUT PASSWORD) -->
+        {% if user and user.role != 'passenger' %}
           <div class="flex items-center space-x-2">
-            <span class="font-bold text-lg tracking-tight text-white font-sans">IRCTC <span class="text-orange-400">RailAI</span></span>
-            <span class="hidden sm:inline-block px-2 py-0.5 text-[10px] font-semibold rounded bg-blue-950/80 text-blue-200 border border-blue-400/30">
-              CENTRAL MONITORING
+            <span class="px-3 py-1.5 rounded bg-ir-blue text-white font-bold text-xs flex items-center space-x-1.5">
+              <i class="fa-solid {{ user.avatar }} text-xs"></i>
+              <span>{{ user.role_display }}</span>
             </span>
-          </div>
-          <div class="text-[11px] text-slate-300 -mt-0.5">
-            National Train Autonomous Supervision Portal
-          </div>
-        </div>
-      </a>
-
-      <!-- Right Action & User Profile -->
-      <div class="flex items-center space-x-3 sm:space-x-4">
-        {% if user %}
-          <!-- Role Badge -->
-          <div class="flex items-center space-x-2 px-3 py-1 rounded-full text-xs font-semibold
-            {% if user.role == 'admin' %}bg-amber-500/20 text-amber-300 border border-amber-400/40
-            {% elif user.role == 'station_master' %}bg-blue-500/20 text-blue-200 border border-blue-400/40
-            {% elif user.role == 'employee' %}bg-emerald-500/20 text-emerald-300 border border-emerald-400/40
-            {% else %}bg-orange-500/20 text-orange-200 border border-orange-400/40{% endif %}">
-            <i class="fa-solid {{ user.avatar }} text-xs"></i>
-            <span class="capitalize">{{ user.role_display }}</span>
-          </div>
-
-          <!-- User Name & Logout -->
-          <div class="flex items-center space-x-3 text-xs">
-            <span class="text-slate-200 font-medium hidden md:inline">{{ user.full_name }}</span>
-            <a href="/logout" class="px-3 py-1.5 rounded bg-rose-600/20 hover:bg-rose-600/40 text-rose-200 border border-rose-500/30 transition flex items-center space-x-1.5 font-medium" title="Sign Out">
-              <i class="fa-solid fa-arrow-right-from-bracket"></i>
-              <span class="hidden sm:inline">Logout</span>
+            <a href="/logout" class="px-2.5 py-1.5 rounded bg-rose-50 text-rose-600 border border-rose-200 text-xs hover:bg-rose-100 transition">
+              Logout
             </a>
           </div>
         {% else %}
-          <a href="/login" class="px-4 py-2 rounded-md text-xs font-bold bg-orange-600 hover:bg-orange-500 text-white shadow-sm transition flex items-center space-x-1.5">
-            <i class="fa-solid fa-lock text-xs"></i>
-            <span>OFFICIAL LOGIN</span>
-          </a>
+          <button onclick="openLoginModal()"
+            class="px-3.5 py-1.5 rounded bg-[#213d77] hover:bg-[#182e5b] text-white text-xs font-bold tracking-wide transition shadow-sm flex items-center space-x-1.5 cursor-pointer">
+            <i class="fa-solid fa-user-lock text-xs"></i>
+            <span>LOGIN / REGISTER</span>
+          </button>
         {% endif %}
+
+        <a href="/dashboard/passenger" class="hover:text-ir-blue hidden md:inline-block">LIVE TRAINS</a>
+        <a href="/dashboard/station-master" class="hover:text-ir-blue hidden lg:inline-block">STATION RADAR</a>
+        <a href="/dashboard/admin" class="hover:text-ir-blue hidden lg:inline-block">ADMIN AI</a>
+      </div>
+
+      <!-- Right: Punctuality Badge -->
+      <div class="flex items-center space-x-3 text-xs">
+        <span class="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 font-bold border border-emerald-200">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>
+          Kavach 4.0: 99.4% On-Time
+        </span>
       </div>
 
     </div>
   </header>
 
+  <!-- ============================================================== -->
+  <!-- GLOBAL 1-CLICK LOGIN POP-UP MODAL (NO PASSWORD NEEDED)          -->
+  <!-- ============================================================== -->
+  <div id="login-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden border border-slate-200 transform transition-all duration-200 scale-95 opacity-0" id="login-modal-box">
+      
+      <!-- Modal Header -->
+      <div class="bg-ir-blue text-white px-6 py-4 flex items-center justify-between border-b-2 border-orange-500">
+        <div>
+          <h3 class="text-base font-bold flex items-center">
+            <i class="fa-solid fa-user-shield mr-2 text-orange-400"></i> Select Your Role To Enter
+          </h3>
+          <p class="text-[11px] text-slate-300">Instant 1-Click Access &bull; No Password Required</p>
+        </div>
+        <button onclick="closeLoginModal()" class="text-slate-300 hover:text-white text-lg font-bold p-1">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- 4 One-Click Buttons -->
+      <div class="p-6 space-y-3">
+        
+        <!-- Admin -->
+        <a href="/login/admin"
+          class="w-full p-3 rounded-xl border-2 border-amber-300 bg-amber-50 hover:bg-amber-100/80 transition flex items-center justify-between group cursor-pointer">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-lg bg-amber-500 text-white flex items-center justify-center text-lg shadow-sm">
+              <i class="fa-solid fa-crown"></i>
+            </div>
+            <div class="text-left">
+              <div class="text-xs font-bold text-slate-900">Admin (Chief Controller)</div>
+              <div class="text-[11px] text-amber-800">Master AI Simulator & All Controls</div>
+            </div>
+          </div>
+          <i class="fa-solid fa-arrow-right text-amber-600 text-xs group-hover:translate-x-1 transition"></i>
+        </a>
+
+        <!-- Station Master -->
+        <a href="/login/stationmaster"
+          class="w-full p-3 rounded-xl border-2 border-blue-200 bg-blue-50 hover:bg-blue-100/80 transition flex items-center justify-between group cursor-pointer">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-lg bg-ir-blue text-white flex items-center justify-center text-lg shadow-sm">
+              <i class="fa-solid fa-tower-observation"></i>
+            </div>
+            <div class="text-left">
+              <div class="text-xs font-bold text-slate-900">Station Master</div>
+              <div class="text-[11px] text-blue-800">Live Track Movement & Signals</div>
+            </div>
+          </div>
+          <i class="fa-solid fa-arrow-right text-ir-blue text-xs group-hover:translate-x-1 transition"></i>
+        </a>
+
+        <!-- Employee -->
+        <a href="/login/employee"
+          class="w-full p-3 rounded-xl border-2 border-emerald-200 bg-emerald-50 hover:bg-emerald-100/80 transition flex items-center justify-between group cursor-pointer">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-lg shadow-sm">
+              <i class="fa-solid fa-screwdriver-wrench"></i>
+            </div>
+            <div class="text-left">
+              <div class="text-xs font-bold text-slate-900">Field Engineer</div>
+              <div class="text-[11px] text-emerald-800">Track Sensors & Health Tests</div>
+            </div>
+          </div>
+          <i class="fa-solid fa-arrow-right text-emerald-600 text-xs group-hover:translate-x-1 transition"></i>
+        </a>
+
+        <!-- Passenger -->
+        <a href="/dashboard/passenger"
+          class="w-full p-3 rounded-xl border-2 border-orange-300 bg-orange-50 hover:bg-orange-100/80 transition flex items-center justify-between group cursor-pointer">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-lg bg-orange-600 text-white flex items-center justify-center text-lg shadow-sm">
+              <i class="fa-solid fa-train"></i>
+            </div>
+            <div class="text-left">
+              <div class="text-xs font-bold text-slate-900">Passenger Portal (100% Free)</div>
+              <div class="text-[11px] text-orange-800">Live Train Radar & Platform Locator</div>
+            </div>
+          </div>
+          <i class="fa-solid fa-arrow-right text-orange-600 text-xs group-hover:translate-x-1 transition"></i>
+        </a>
+
+      </div>
+
+      <div class="bg-slate-50 px-6 py-3 border-t border-slate-100 text-center text-[11px] text-slate-400">
+        <i class="fa-solid fa-shield-check text-emerald-600 mr-1"></i> No password required &bull; Direct access
+      </div>
+    </div>
+  </div>
+
   <!-- Main Content Container -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+  <main class="flex-1 w-full mx-auto p-4 sm:p-6 lg:p-8">
     {% block content %}{% endblock %}
   </main>
 
-  <!-- Clean Official Footer -->
+  <!-- Clean IRCTC Official Footer -->
   <footer class="bg-white border-t border-slate-200 py-6 text-xs text-slate-500 mt-auto">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
       <div class="flex items-center space-x-2">
-        <span class="font-bold text-ir-blue">Centre for Railway Information Systems (CRIS)</span>
+        <span class="font-bold text-ir-blue">IRCTC RailAI</span>
         <span>&bull;</span>
-        <span>IRCTC AI Safety & Traffic Optimization Network</span>
+        <span>Ministry of Railways, Government of India &bull; Centre for Railway Information Systems (CRIS)</span>
       </div>
-      <div class="flex items-center space-x-4 font-mono text-[11px] text-slate-500">
-        <span>Kavach 4.0 Auto-Protection</span>
+      <div class="flex items-center space-x-3 text-[11px]">
+        <span class="text-emerald-700 font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i> Kavach 4.0 Active</span>
         <span>&bull;</span>
-        <span class="text-emerald-600 font-medium">Network Uptime: 99.98%</span>
+        <button onclick="openLoginModal()" class="text-ir-blue font-bold hover:underline">Change Role</button>
       </div>
     </div>
   </footer>
 
-  <!-- Scripts -->
-  <script src="/static/js/dashboard.js"></script>
+  <!-- Notification Toast Container -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col space-y-2 pointer-events-none"></div>
+
+  <!-- Clock & Modal Scripts -->
   <script>
     function updateClock() {
-      const clock = document.getElementById('header-clock');
-      if (clock) {
-        const now = new Date();
-        const dateStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
-        const timeStr = now.toLocaleTimeString('en-IN', { hour12: false });
-        clock.textContent = `${dateStr} | ${timeStr} IST`;
-      }
+      const now = new Date();
+      const pad = (n) => String(n).padStart(2, '0');
+      const d = pad(now.getDate());
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const m = months[now.getMonth()];
+      const y = now.getFullYear();
+      const clockStr = `${d}-${m}-${y} [${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}]`;
+      const clockElem = document.getElementById('header-clock');
+      if (clockElem) clockElem.textContent = clockStr;
     }
     setInterval(updateClock, 1000);
     updateClock();
+
+    function openLoginModal() {
+      const modal = document.getElementById('login-modal');
+      const box = document.getElementById('login-modal-box');
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        box.classList.remove('scale-95', 'opacity-0');
+        box.classList.add('scale-100', 'opacity-100');
+      }, 10);
+    }
+
+    function closeLoginModal() {
+      const modal = document.getElementById('login-modal');
+      const box = document.getElementById('login-modal-box');
+      box.classList.remove('scale-100', 'opacity-100');
+      box.classList.add('scale-95', 'opacity-0');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 150);
+    }
   </script>
+
+  <!-- Core Dashboard JS -->
+  <script src="/static/js/dashboard.js"></script>
   {% block extra_scripts %}{% endblock %}
 </body>
 </html>
