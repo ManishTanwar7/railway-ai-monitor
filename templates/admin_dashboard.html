@@ -1,193 +1,164 @@
 {% extends "base.html" %}
 
-{% block title %}Admin (Boss AI Hierarchy) | Chronos Railway AI{% endblock %}
+{% block title %}Admin (Boss AI Hierarchy) | CRIS Railway Board RailAI{% endblock %}
 
 {% block content %}
 <div class="space-y-6">
 
-  <!-- Top Executive Control Bar -->
-  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-amber-950/40 via-rail-panel to-rail-dark p-5 rounded-xl border border-amber-500/30">
-    <div class="flex items-center space-x-4">
-      <div class="w-12 h-12 rounded-xl bg-amber-950/80 border border-amber-400 flex items-center justify-center text-amber-300 shadow-[0_0_20px_rgba(255,183,3,0.3)]">
-        <i class="fa-solid fa-brain text-2xl animate-pulse"></i>
-      </div>
-      <div>
-        <div class="flex items-center space-x-3">
-          <h1 class="text-xl sm:text-2xl font-black font-orbitron text-white tracking-wide">
-            CHRONOS-OMNI <span class="text-amber-400">BOSS AI CORE</span>
-          </h1>
-          <span class="px-2.5 py-0.5 rounded text-[11px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/50">
-            LEVEL 3 MASTER OVERRIDE
-          </span>
-        </div>
-        <p class="text-xs text-gray-400 font-rajdhani text-sm">
-          Global multi-objective optimization, multi-agent reinforcement arbitration, and fail-safe supervision.
-        </p>
-      </div>
-    </div>
-
-    <!-- Live Status Telemetry & Live Toggle -->
-    <div class="flex items-center space-x-3">
-      <button id="live-toggle-btn" onclick="toggleLiveSimulation()"
-        class="px-3 py-1.5 rounded-lg text-xs font-bold border border-emerald-500 bg-emerald-950/40 text-emerald-300 hover:bg-emerald-900/50 transition">
-        <i class="fa-solid fa-satellite-dish mr-1.5 text-emerald-400 animate-pulse"></i> LIVE STREAM: ACTIVE
-      </button>
-
-      <button onclick="showToast('Initiating neural weights re-calibration cycle across all 8 sub-agents...', 'info')"
-        class="px-3 py-1.5 rounded-lg text-xs font-bold border border-cyan-500 bg-cyan-950/40 text-cyan-300 hover:bg-cyan-900/50 transition flex items-center space-x-1.5">
-        <i class="fa-solid fa-rotate"></i>
-        <span>RECALIBRATE CORE</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- Key Metrics Row -->
-  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-    <div class="cyber-card p-4 border-l-4 border-l-amber-500">
-      <div class="text-[11px] font-mono text-gray-400 uppercase tracking-wider">System Accuracy</div>
-      <div class="text-2xl font-black font-orbitron text-white mt-1">{{ ai_data.system_confidence }}%</div>
-      <div class="text-[11px] text-emerald-400 mt-1 flex items-center">
-        <i class="fa-solid fa-arrow-trend-up mr-1"></i> 0 violations in last 24h
-      </div>
-    </div>
-    <div class="cyber-card p-4 border-l-4 border-l-cyan-500">
-      <div class="text-[11px] font-mono text-gray-400 uppercase tracking-wider">Boss Decision Latency</div>
-      <div class="text-2xl font-black font-orbitron text-cyan-400 mt-1">{{ ai_data.boss_ai.latency_ms }} ms</div>
-      <div class="text-[11px] text-gray-400 mt-1 flex items-center">
-        <i class="fa-solid fa-gauge mr-1 text-cyan-400"></i> Cycle: {{ ai_data.boss_ai.decision_frequency }}
-      </div>
-    </div>
-    <div class="cyber-card p-4 border-l-4 border-l-emerald-500">
-      <div class="text-[11px] font-mono text-gray-400 uppercase tracking-wider">Active Topology Nodes</div>
-      <div class="text-2xl font-black font-orbitron text-emerald-400 mt-1">{{ ai_data.active_topology_nodes }}</div>
-      <div class="text-[11px] text-emerald-400 mt-1 flex items-center">
-        <i class="fa-solid fa-circle mr-1 text-[9px]"></i> All 5 Sectors Synchronized
-      </div>
-    </div>
-    <div class="cyber-card p-4 border-l-4 border-l-purple-500">
-      <div class="text-[11px] font-mono text-gray-400 uppercase tracking-wider">Compute Load</div>
-      <div class="text-2xl font-black font-orbitron text-purple-400 mt-1">CPU {{ ai_data.boss_ai.cpu_load_pct }}%</div>
-      <div class="text-[11px] text-gray-400 mt-1">GPU Mem: {{ ai_data.boss_ai.gpu_memory_pct }}% Allocated</div>
-    </div>
-  </div>
-
-  <!-- SECTION 1: AI HIERARCHY TREE (Boss -> Leaders -> Workers) -->
-  <div class="cyber-card p-6">
-    <div class="flex items-center justify-between mb-6 pb-3 border-b border-gray-800">
-      <div class="flex items-center space-x-3">
-        <div class="w-8 h-8 rounded-lg bg-amber-950/60 border border-amber-500 flex items-center justify-center text-amber-400">
-          <i class="fa-solid fa-sitemap"></i>
+  <!-- Executive Control Header -->
+  <div class="ir-card overflow-hidden">
+    <div class="bg-ir-blue p-5 text-white flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div class="flex items-center space-x-4">
+        <div class="w-11 h-11 rounded-lg bg-blue-900 border border-blue-700 flex items-center justify-center text-orange-400 shadow-sm">
+          <i class="fa-solid fa-brain text-xl"></i>
         </div>
         <div>
-          <h2 class="text-lg font-bold font-orbitron text-white tracking-wide">
-            NEURAL NETWORK HIERARCHY ARCHITECTURE
-          </h2>
-          <p class="text-xs text-gray-400">Multi-tier oversight: Autonomous Worker Telemetry -> Leader Domain Heuristics -> Boss Equilibrium</p>
+          <div class="flex items-center space-x-2">
+            <h1 class="text-xl font-bold text-white tracking-tight">
+              Railway Board &bull; Boss AI Orchestrator
+            </h1>
+            <span class="px-2.5 py-0.5 rounded text-[10px] font-semibold bg-amber-500/20 text-amber-300 border border-amber-400/40">
+              LEVEL 3 MASTER CLEARANCE
+            </span>
+          </div>
+          <p class="text-xs text-slate-300 mt-0.5">
+            Centre for Railway Information Systems (CRIS): Autonomous network equilibrium, multi-agent reinforcement arbitration, and safety policies.
+          </p>
         </div>
       </div>
-      <span class="text-xs font-mono text-cyan-400 bg-cyan-950/60 border border-cyan-500/40 px-3 py-1 rounded-full">
-        8 Active Neural Agents
-      </span>
+
+      <!-- Live Stream & Recalibrate Buttons -->
+      <div class="flex items-center space-x-3">
+        <button id="live-toggle-btn" onclick="toggleLiveSimulation()"
+          class="px-3 py-2 rounded-md text-xs font-semibold bg-emerald-700 hover:bg-emerald-600 text-white transition flex items-center space-x-1.5 shadow-sm">
+          <i class="fa-solid fa-satellite-dish text-xs animate-pulse"></i>
+          <span>LIVE TELEMETRY: ACTIVE</span>
+        </button>
+
+        <button onclick="showToast('Re-calibrating neural weights across all sub-agents...', 'info')"
+          class="px-3 py-2 rounded-md text-xs font-semibold bg-blue-800 hover:bg-blue-700 text-white border border-blue-600 transition flex items-center space-x-1.5 shadow-sm">
+          <i class="fa-solid fa-rotate text-xs"></i>
+          <span>RECALIBRATE CORE</span>
+        </button>
+      </div>
     </div>
 
-    <!-- Hierarchy Visual Graph -->
-    <div class="space-y-6">
+    <!-- Executive KPI Strip -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 divide-x divide-slate-100 bg-white border-t border-slate-200 text-slate-700">
+      <div class="p-4">
+        <div class="text-[11px] font-semibold text-slate-500 uppercase">National Network Punctuality</div>
+        <div class="text-2xl font-bold text-emerald-700 mt-1">{{ ai_data.system_confidence }}%</div>
+        <div class="text-xs text-slate-500 mt-0.5">0 Moving Block Violations</div>
+      </div>
+      <div class="p-4">
+        <div class="text-[11px] font-semibold text-slate-500 uppercase">Boss Decision Latency</div>
+        <div class="text-2xl font-bold text-ir-blue mt-1">{{ ai_data.boss_ai.latency_ms }} ms</div>
+        <div class="text-xs text-slate-500 mt-0.5">Frequency: {{ ai_data.boss_ai.decision_frequency }}</div>
+      </div>
+      <div class="p-4">
+        <div class="text-[11px] font-semibold text-slate-500 uppercase">Monitored Corridor Nodes</div>
+        <div class="text-2xl font-bold text-ir-blue mt-1">{{ ai_data.active_topology_nodes }} Sectors</div>
+        <div class="text-xs text-slate-500 mt-0.5">All 5 Railway Zones Synced</div>
+      </div>
+      <div class="p-4">
+        <div class="text-[11px] font-semibold text-slate-500 uppercase">Neural Compute Load</div>
+        <div class="text-2xl font-bold text-slate-800 mt-1">CPU {{ ai_data.boss_ai.cpu_load_pct }}%</div>
+        <div class="text-xs text-slate-500 mt-0.5">GPU Memory: {{ ai_data.boss_ai.gpu_memory_pct }}%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 1: AI HIERARCHY TREE -->
+  <div class="ir-card p-6">
+    <div class="flex items-center justify-between mb-5 pb-3 border-b border-slate-100">
+      <div class="flex items-center space-x-2">
+        <i class="fa-solid fa-sitemap text-ir-blue"></i>
+        <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wide">
+          Multi-Tier Neural Network Hierarchy
+        </h2>
+      </div>
+      <span class="text-xs font-semibold text-slate-500">8 Autonomous Neural Agents</span>
+    </div>
+
+    <div class="space-y-4">
       
       <!-- Tier 3: Boss AI Box -->
-      <div class="p-5 rounded-xl bg-gradient-to-r from-amber-950/30 via-rail-panel to-amber-950/30 border-2 border-amber-500/60 shadow-[0_0_25px_rgba(255,183,3,0.15)]">
+      <div class="p-5 rounded-lg bg-blue-50/70 border-2 border-ir-blue/30 shadow-sm">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
           <div>
             <div class="flex items-center space-x-2">
-              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-amber-500 text-black font-bold">LEVEL 3 - BOSS</span>
-              <span class="font-orbitron font-bold text-lg text-white">{{ ai_data.boss_ai.name }}</span>
-              <span class="text-xs font-mono text-gray-400">({{ ai_data.boss_ai.version }})</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-ir-blue text-white">LEVEL 3 - BOSS</span>
+              <span class="font-bold text-base text-slate-900">{{ ai_data.boss_ai.name }}</span>
+              <span class="text-xs text-slate-500">({{ ai_data.boss_ai.version }})</span>
             </div>
-            <p class="text-xs text-amber-200/80 mt-1 font-rajdhani text-sm">
-              Role: {{ ai_data.boss_ai.role }} &bull; Model: <span class="text-white">{{ ai_data.boss_ai.model_type }}</span>
+            <p class="text-xs text-slate-600 mt-1">
+              Role: <strong>{{ ai_data.boss_ai.role }}</strong> &bull; Model: {{ ai_data.boss_ai.model_type }}
             </p>
           </div>
-          <div class="flex items-center space-x-4 text-xs font-mono">
-            <div class="bg-gray-900/80 px-3 py-1.5 rounded border border-gray-700">
-              <span class="text-gray-400">STATUS:</span> <span class="text-emerald-400 font-bold">{{ ai_data.boss_ai.status }}</span>
-            </div>
-            <div class="bg-gray-900/80 px-3 py-1.5 rounded border border-gray-700">
-              <span class="text-gray-400">LATENCY:</span> <span class="text-cyan-400 font-bold">{{ ai_data.boss_ai.latency_ms }} ms</span>
-            </div>
+          <div class="flex items-center space-x-3 text-xs">
+            <span class="bg-white px-3 py-1.5 rounded border border-slate-200 text-slate-700">
+              STATUS: <strong class="text-emerald-600">{{ ai_data.boss_ai.status }}</strong>
+            </span>
+            <span class="bg-white px-3 py-1.5 rounded border border-slate-200 text-slate-700">
+              LATENCY: <strong class="text-ir-blue font-mono">{{ ai_data.boss_ai.latency_ms }} ms</strong>
+            </span>
           </div>
         </div>
 
-        <div class="mt-4 pt-3 border-t border-amber-500/20 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-          <div class="bg-black/40 p-3 rounded border border-gray-800">
-            <span class="font-mono text-amber-400 font-bold block mb-1">GLOBAL OBJECTIVE FORMULA:</span>
-            <code class="text-gray-300 font-mono text-[11px]">{{ ai_data.boss_ai.formula_summary }}</code>
+        <div class="mt-4 pt-3 border-t border-blue-100 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+          <div class="bg-white p-3 rounded border border-slate-200">
+            <span class="font-bold text-ir-blue block mb-1">GLOBAL OBJECTIVE FORMULA:</span>
+            <code class="text-slate-700 font-mono text-xs">{{ ai_data.boss_ai.formula_summary }}</code>
           </div>
-          <div class="bg-black/40 p-3 rounded border border-gray-800">
-            <span class="font-mono text-cyan-400 font-bold block mb-1">ARBITRATION DYNAMICS:</span>
-            <p class="text-gray-300 text-[11px] leading-relaxed">{{ ai_data.boss_ai.math_explanation }}</p>
+          <div class="bg-white p-3 rounded border border-slate-200">
+            <span class="font-bold text-ir-blue block mb-1">ARBITRATION DYNAMICS:</span>
+            <p class="text-slate-600 leading-relaxed">{{ ai_data.boss_ai.math_explanation }}</p>
           </div>
         </div>
-      </div>
-
-      <!-- Connector Lines Down -->
-      <div class="flex justify-around text-amber-500/40 text-xl -my-3">
-        <i class="fa-solid fa-arrow-down"></i>
-        <i class="fa-solid fa-arrow-down"></i>
-        <i class="fa-solid fa-arrow-down"></i>
       </div>
 
       <!-- Tier 2: 3 Leader AIs -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {% for leader in ai_data.leader_ais %}
-        <div class="cyber-card p-4 border-cyan-500/30 hover:border-cyan-400 transition relative">
+        <div class="p-4 rounded-lg bg-slate-50 border border-slate-200">
           <div class="flex items-center justify-between mb-2">
-            <span class="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-cyan-950 text-cyan-300 border border-cyan-500/50">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-200 text-slate-800">
               {{ leader.tier }}
             </span>
-            <span class="text-xs font-mono text-emerald-400 font-bold">{{ leader.accuracy_pct }}% ACC</span>
+            <span class="text-xs font-bold text-emerald-700">{{ leader.accuracy_pct }}% ACC</span>
           </div>
-          <h3 class="font-orbitron font-bold text-white text-sm">{{ leader.name }}</h3>
-          <p class="text-xs text-gray-400 mt-1 font-rajdhani text-sm leading-snug">{{ leader.specialization }}</p>
+          <h3 class="font-bold text-slate-900 text-sm">{{ leader.name }}</h3>
+          <p class="text-xs text-slate-600 mt-1 leading-snug">{{ leader.specialization }}</p>
           
-          <div class="mt-3 pt-3 border-t border-gray-800/80 text-[11px] space-y-1.5">
-            <div class="text-gray-400"><span class="text-gray-500">Algorithm:</span> <span class="text-cyan-300 font-mono">{{ leader.algorithm }}</span></div>
-            <div class="text-gray-400"><span class="text-gray-500">Subordinates:</span> 
-              <span class="text-amber-300 font-medium">{% for w in leader.managed_workers %}{{ w }}{% if not loop.last %}, {% endif %}{% endfor %}</span>
-            </div>
-            <div class="text-gray-400"><span class="text-gray-500">Latency:</span> <span class="font-mono text-white">{{ leader.latency_ms }} ms</span></div>
+          <div class="mt-3 pt-3 border-t border-slate-200 text-xs space-y-1">
+            <div class="text-slate-500">Subordinates: <strong class="text-slate-800">{{ leader.managed_workers|join(', ') }}</strong></div>
+            <div class="text-slate-500">Latency: <span class="font-mono font-semibold text-slate-700">{{ leader.latency_ms }} ms</span></div>
           </div>
         </div>
         {% endfor %}
       </div>
 
-      <!-- Connector Lines Down -->
-      <div class="flex justify-around text-cyan-500/30 text-lg -my-3">
-        <i class="fa-solid fa-arrow-down"></i>
-        <i class="fa-solid fa-arrow-down"></i>
-        <i class="fa-solid fa-arrow-down"></i>
-        <i class="fa-solid fa-arrow-down"></i>
-      </div>
-
       <!-- Tier 1: 5 Worker AIs -->
-      <div>
-        <div class="text-xs font-mono text-gray-400 uppercase tracking-wider mb-2 flex items-center">
-          <i class="fa-solid fa-microchip mr-2 text-emerald-400"></i> LEVEL 1 - TELEMETRY & EXECUTION WORKER AGENTS
-        </div>
+      <div class="mt-4">
+        <h3 class="text-xs font-bold text-slate-600 uppercase tracking-wide mb-3">
+          Level 1 &bull; Autonomous Telemetry & Execution Agents
+        </h3>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
           {% for worker in ai_data.worker_ais %}
-          <div class="bg-rail-dark/90 p-3.5 rounded-lg border border-gray-800 hover:border-emerald-500/50 transition">
+          <div class="p-3.5 rounded-md bg-white border border-slate-200">
             <div class="flex items-center justify-between mb-1">
-              <span class="font-bold text-xs text-white">{{ worker.name }}</span>
-              <span class="px-1.5 py-0.2 rounded text-[9px] font-mono bg-emerald-950 text-emerald-300 border border-emerald-500/40">
+              <span class="font-bold text-xs text-slate-900">{{ worker.name }}</span>
+              <span class="px-1.5 py-0.5 rounded text-[10px] font-mono font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
                 {{ worker.latency_ms }}ms
               </span>
             </div>
-            <div class="text-[11px] text-gray-400 mb-2">Supervisor: <span class="text-cyan-300">{{ worker.assigned_to }}</span></div>
-            <div class="p-2 rounded bg-black/50 border border-gray-800/80 font-mono text-[10px] text-emerald-400 truncate" title="{{ worker.formula }}">
+            <div class="text-[11px] text-slate-500 mb-2">Supervisor: <strong class="text-slate-700">{{ worker.assigned_to }}</strong></div>
+            <div class="p-2 rounded bg-slate-50 border border-slate-200 font-mono text-[11px] text-slate-800 truncate" title="{{ worker.formula }}">
               {{ worker.formula }}
             </div>
-            <div class="mt-2 text-[10px] text-gray-500 flex items-center justify-between">
+            <div class="mt-2 text-[10px] text-slate-500 flex items-center justify-between">
               <span>{{ worker.calculation_type }}</span>
-              <span class="text-emerald-400 flex items-center"><i class="fa-solid fa-circle text-[6px] mr-1"></i> STREAMING</span>
+              <span class="text-emerald-600 font-semibold flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1 animate-pulse"></span> STREAMING</span>
             </div>
           </div>
           {% endfor %}
@@ -197,196 +168,164 @@
     </div>
   </div>
 
-  <!-- SECTION 2: MATHEMATICAL FORMULATIONS & AI CALCULATION CARDS -->
-  <div class="cyber-card p-6">
-    <div class="flex items-center space-x-3 mb-6 pb-3 border-b border-gray-800">
-      <div class="w-8 h-8 rounded-lg bg-cyan-950/60 border border-cyan-500 flex items-center justify-center text-cyan-400">
-        <i class="fa-solid fa-square-root-variable"></i>
-      </div>
-      <div>
-        <h2 class="text-lg font-bold font-orbitron text-white tracking-wide">
-          MATHEMATICAL & NEURAL ENGINE FORMULATIONS
-        </h2>
-        <p class="text-xs text-gray-400">Detailed breakdown of how each neural agent calculates Train ETA, Delay Propagation, Congestion, and Weather Friction</p>
-      </div>
+  <!-- SECTION 2: MATHEMATICAL FORMULATIONS (CLEAN CARDS) -->
+  <div class="ir-card p-6">
+    <div class="flex items-center space-x-2 mb-5 pb-3 border-b border-slate-100">
+      <i class="fa-solid fa-square-root-variable text-orange-600"></i>
+      <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wide">
+        Mathematical & Neural Calculation Formulations
+      </h2>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
       
-      <!-- Formula 1: ETA Velocity Forecaster -->
-      <div class="p-5 rounded-xl bg-gray-950/80 border border-cyan-500/30">
-        <div class="flex items-center justify-between mb-3">
-          <div class="flex items-center space-x-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
-            <h3 class="font-orbitron font-bold text-white text-sm">1. Train ETA Dynamic Integration</h3>
-          </div>
-          <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-500/40">ETA Agent</span>
+      <!-- Formula 1: Train ETA -->
+      <div class="p-4 rounded-lg bg-slate-50 border border-slate-200">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="font-bold text-slate-900 text-sm">1. Train ETA Dynamic Integration</h3>
+          <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-100 text-ir-blue">ETA Forecaster</span>
         </div>
-        <div class="p-3 rounded-lg bg-black/60 border border-gray-800 font-mono text-xs text-cyan-300 overflow-x-auto my-2">
+        <div class="p-2.5 rounded bg-white border border-slate-200 font-mono text-xs text-ir-blue my-2 overflow-x-auto">
           ETA = &sum; [ &Delta;d_segment / ( v_target &middot; (1 - C_congestion) &middot; (1 - W_weather) ) ] + Dwell_Time
         </div>
-        <p class="text-xs text-gray-300 leading-relaxed mt-2">
-          Rather than relying on flat distance-over-speed assumptions, the ETA Forecaster integrates along the 3D track profile. Each segment accounts for mechanical acceleration limits, track curvature friction, ahead signal yellow-waves, and weather traction dampening.
+        <p class="text-xs text-slate-600 leading-relaxed mt-1">
+          Integrates along track profiles. Each segment accounts for mechanical acceleration, curvature friction, ahead yellow signal aspects, and weather traction coefficients.
         </p>
-        <div class="mt-3 pt-3 border-t border-gray-800 text-[11px] grid grid-cols-2 gap-2 text-gray-400 font-mono">
-          <div>&bull; Inputs: GPS lat/lon, bogie tachometer</div>
-          <div>&bull; Precision: &plusmn;4.2 seconds</div>
-        </div>
       </div>
 
-      <!-- Formula 2: Delay Propagation & Root Cause -->
-      <div class="p-5 rounded-xl bg-gray-950/80 border border-amber-500/30">
-        <div class="flex items-center justify-between mb-3">
-          <div class="flex items-center space-x-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
-            <h3 class="font-orbitron font-bold text-white text-sm">2. Delay Propagation Regression</h3>
-          </div>
-          <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-500/40">Delay Predictor</span>
+      <!-- Formula 2: Delay Propagation -->
+      <div class="p-4 rounded-lg bg-slate-50 border border-slate-200">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="font-bold text-slate-900 text-sm">2. Delay Propagation Regression</h3>
+          <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-100 text-amber-800">Delay Predictor</span>
         </div>
-        <div class="p-3 rounded-lg bg-black/60 border border-gray-800 font-mono text-xs text-amber-300 overflow-x-auto my-2">
+        <div class="p-2.5 rounded bg-white border border-slate-200 font-mono text-xs text-amber-800 my-2 overflow-x-auto">
           Predicted_Delay = &alpha; &middot; Dwell_Anomaly + &beta; &middot; P(Junction_Bottleneck) + &gamma; &middot; Weather_Penalty
         </div>
-        <p class="text-xs text-gray-300 leading-relaxed mt-2">
-          Evaluates knock-on cascade effects across intersecting corridors. A 2-minute delay on high-density Trunk lines triggers multi-agent reroute recommendations before queuing trains cause cascading delays down the network.
+        <p class="text-xs text-slate-600 leading-relaxed mt-1">
+          Evaluates cascade delays across intersecting routes. Anticipates junction queuing and triggers automated loop siding bypasses.
         </p>
-        <div class="mt-3 pt-3 border-t border-gray-800 text-[11px] grid grid-cols-2 gap-2 text-gray-400 font-mono">
-          <div>&bull; Inputs: Historic schedule deviation</div>
-          <div>&bull; Confidence: 96.8% Bayesian fit</div>
-        </div>
       </div>
 
-      <!-- Formula 3: Track Congestion & Flow -->
-      <div class="p-5 rounded-xl bg-gray-950/80 border border-emerald-500/30">
-        <div class="flex items-center justify-between mb-3">
-          <div class="flex items-center space-x-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-            <h3 class="font-orbitron font-bold text-white text-sm">3. Queuing Congestion & Bottleneck Index</h3>
-          </div>
-          <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-500/40">Congestion AI</span>
+      <!-- Formula 3: Track Congestion -->
+      <div class="p-4 rounded-lg bg-slate-50 border border-slate-200">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="font-bold text-slate-900 text-sm">3. Queuing Congestion & Bottleneck Index</h3>
+          <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-800">Congestion AI</span>
         </div>
-        <div class="p-3 rounded-lg bg-black/60 border border-gray-800 font-mono text-xs text-emerald-300 overflow-x-auto my-2">
+        <div class="p-2.5 rounded bg-white border border-slate-200 font-mono text-xs text-emerald-800 my-2 overflow-x-auto">
           &rho;_corridor = &lambda;_inbound / (&mu;_service &middot; c_tracks) + Spillback_Factor(&Delta;t)
         </div>
-        <p class="text-xs text-gray-300 leading-relaxed mt-2">
-          Applies non-linear queuing theory to model track capacity. When the occupancy ratio &rho; exceeds 0.80, the system automatically marks junctions as critical bottlenecks and computes outer loop diversions.
+        <p class="text-xs text-slate-600 leading-relaxed mt-1">
+          Uses M/M/c queuing theory. When track occupancy exceeds 0.80, junctions are marked critical and outer loop diversions are recommended.
         </p>
-        <div class="mt-3 pt-3 border-t border-gray-800 text-[11px] grid grid-cols-2 gap-2 text-gray-400 font-mono">
-          <div>&bull; Inputs: Axle counters, train lengths</div>
-          <div>&bull; Horizon: 45 min predictive window</div>
-        </div>
       </div>
 
-      <!-- Formula 4: Weather Telemetry Impact -->
-      <div class="p-5 rounded-xl bg-gray-950/80 border border-purple-500/30">
-        <div class="flex items-center justify-between mb-3">
-          <div class="flex items-center space-x-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-purple-400"></span>
-            <h3 class="font-orbitron font-bold text-white text-sm">4. Atmospheric Friction & Buckling Risk</h3>
-          </div>
-          <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-500/40">Weather Analyzer</span>
+      <!-- Formula 4: Weather Impact -->
+      <div class="p-4 rounded-lg bg-slate-50 border border-slate-200">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="font-bold text-slate-900 text-sm">4. Atmospheric Friction & Rail Buckling Risk</h3>
+          <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-purple-100 text-purple-800">Weather Analyzer</span>
         </div>
-        <div class="p-3 rounded-lg bg-black/60 border border-gray-800 font-mono text-xs text-purple-300 overflow-x-auto my-2">
+        <div class="p-2.5 rounded bg-white border border-slate-200 font-mono text-xs text-purple-800 my-2 overflow-x-auto">
           W_impact = &alpha; &middot; Rain^0.55 + &beta; &middot; max(0, Wind - 45) + &gamma; &middot; (&Delta;T_rail)^1.8
         </div>
-        <p class="text-xs text-gray-300 leading-relaxed mt-2">
-          Calculates continuous rail-wheel adhesion degradation (&mu; drops from 0.38 dry down to 0.18 in wet rain) and thermal rail stress. Automatically restricts high-speed trains to safe deceleration envelopes.
+        <p class="text-xs text-slate-600 leading-relaxed mt-1">
+          Calculates rail-wheel adhesion degradation (&mu; drops from 0.38 dry down to 0.18 wet) and thermal stress to safeguard high-speed trains.
         </p>
-        <div class="mt-3 pt-3 border-t border-gray-800 text-[11px] grid grid-cols-2 gap-2 text-gray-400 font-mono">
-          <div>&bull; Inputs: Track thermocouple, anemometer</div>
-          <div>&bull; Safety SIL: Level 4 Autonomous</div>
-        </div>
       </div>
 
     </div>
   </div>
 
-  <!-- SECTION 3: BOSS OVERRIDE CONTROLS & RECENT LOGS -->
+  <!-- SECTION 3: OVERRIDE SLIDERS & RECENT LOGS -->
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
     
     <!-- Override Sliders (5 cols) -->
-    <div class="lg:col-span-5 cyber-card p-6 border-amber-500/30">
-      <div class="flex items-center space-x-3 mb-4 pb-2 border-b border-gray-800">
-        <i class="fa-solid fa-sliders text-amber-400"></i>
-        <h3 class="font-orbitron font-bold text-white text-sm">AI EQUILIBRIUM OVERRIDE CONTROLS</h3>
+    <div class="lg:col-span-5 ir-card p-6">
+      <div class="flex items-center space-x-2 mb-4 pb-3 border-b border-slate-100">
+        <i class="fa-solid fa-sliders text-orange-600"></i>
+        <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wide">
+          Network Equilibrium Override Sliders
+        </h3>
       </div>
-      <p class="text-xs text-gray-400 mb-6">
-        Tune Boss AI risk tolerance and optimization weights in real time. Adjustments re-balance dispatch policies globally.
+      <p class="text-xs text-slate-500 mb-5">
+        Adjust Boss AI optimization weights and risk margins in real time.
       </p>
 
-      <div class="space-y-6">
-        <!-- Slider 1 -->
+      <div class="space-y-5">
         <div>
-          <div class="flex items-center justify-between text-xs mb-1.5 font-mono">
-            <span class="text-gray-300">Safety Margin Factor:</span>
-            <span id="val-safety_margin_factor" class="text-amber-400 font-bold">{{ ai_data.boss_ai.parameters.safety_margin_factor }}</span>
+          <div class="flex items-center justify-between text-xs mb-1.5 font-medium text-slate-700">
+            <span>Safety Margin Factor:</span>
+            <span id="val-safety_margin_factor" class="font-mono font-bold text-ir-blue">{{ ai_data.boss_ai.parameters.safety_margin_factor }}</span>
           </div>
           <input type="range" min="1.0" max="2.5" step="0.05" value="{{ ai_data.boss_ai.parameters.safety_margin_factor }}"
             onchange="updateAiParameter('safety_margin_factor', this.value)"
-            class="w-full accent-amber-400 bg-gray-800 h-2 rounded cursor-pointer">
-          <span class="text-[10px] text-gray-500">Minimum headway distance buffer multiplier (1.0 = minimum allowed).</span>
+            class="w-full accent-orange-600 bg-slate-200 h-2 rounded cursor-pointer">
+          <span class="text-[11px] text-slate-400">Headway distance buffer multiplier.</span>
         </div>
 
-        <!-- Slider 2 -->
         <div>
-          <div class="flex items-center justify-between text-xs mb-1.5 font-mono">
-            <span class="text-gray-300">Reroute Sensitivity:</span>
-            <span id="val-reroute_sensitivity" class="text-cyan-400 font-bold">{{ ai_data.boss_ai.parameters.reroute_sensitivity }}</span>
+          <div class="flex items-center justify-between text-xs mb-1.5 font-medium text-slate-700">
+            <span>Reroute Sensitivity:</span>
+            <span id="val-reroute_sensitivity" class="font-mono font-bold text-ir-blue">{{ ai_data.boss_ai.parameters.reroute_sensitivity }}</span>
           </div>
           <input type="range" min="0.1" max="1.0" step="0.05" value="{{ ai_data.boss_ai.parameters.reroute_sensitivity }}"
             onchange="updateAiParameter('reroute_sensitivity', this.value)"
-            class="w-full accent-cyan-400 bg-gray-800 h-2 rounded cursor-pointer">
-          <span class="text-[10px] text-gray-500">Threshold for triggering automated freight bypass around central stations.</span>
+            class="w-full accent-orange-600 bg-slate-200 h-2 rounded cursor-pointer">
+          <span class="text-[11px] text-slate-400">Threshold to trigger freight bypass routing.</span>
         </div>
 
-        <!-- Slider 3 -->
         <div>
-          <div class="flex items-center justify-between text-xs mb-1.5 font-mono">
-            <span class="text-gray-300">Delay Penalty Weight (w1):</span>
-            <span id="val-delay_penalty_weight" class="text-emerald-400 font-bold">{{ ai_data.boss_ai.parameters.delay_penalty_weight }}</span>
+          <div class="flex items-center justify-between text-xs mb-1.5 font-medium text-slate-700">
+            <span>Delay Penalty Weight (w1):</span>
+            <span id="val-delay_penalty_weight" class="font-mono font-bold text-ir-blue">{{ ai_data.boss_ai.parameters.delay_penalty_weight }}</span>
           </div>
           <input type="range" min="0.1" max="1.0" step="0.05" value="{{ ai_data.boss_ai.parameters.delay_penalty_weight }}"
             onchange="updateAiParameter('delay_penalty_weight', this.value)"
-            class="w-full accent-emerald-400 bg-gray-800 h-2 rounded cursor-pointer">
-          <span class="text-[10px] text-gray-500">Pushes speed envelope higher to recover delayed passenger routes.</span>
+            class="w-full accent-orange-600 bg-slate-200 h-2 rounded cursor-pointer">
+          <span class="text-[11px] text-slate-400">Pushes speed envelope higher to recover schedules.</span>
         </div>
       </div>
     </div>
 
-    <!-- Live AI Logs Table (7 cols) -->
-    <div class="lg:col-span-7 cyber-card p-6">
-      <div class="flex items-center justify-between mb-4 pb-2 border-b border-gray-800">
+    <!-- AI Decision Logs (7 cols) -->
+    <div class="lg:col-span-7 ir-card overflow-hidden">
+      <div class="bg-slate-50 px-6 py-3.5 border-b border-slate-200 flex items-center justify-between">
         <div class="flex items-center space-x-2">
-          <i class="fa-solid fa-list-check text-cyan-400"></i>
-          <h3 class="font-orbitron font-bold text-white text-sm">NEURAL SYSTEM DISPATCH LOGS</h3>
+          <i class="fa-solid fa-list-check text-ir-blue"></i>
+          <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wide">
+            Central AI Decision & Action Logs
+          </h3>
         </div>
-        <span class="text-[10px] font-mono text-gray-400">Auto-streaming 100Hz</span>
+        <span class="text-xs text-slate-500 font-mono">100Hz Telemetry Cycle</span>
       </div>
 
       <div class="overflow-x-auto">
-        <table class="w-full text-left text-xs">
+        <table class="w-full ir-table">
           <thead>
-            <tr class="border-b border-gray-800 text-gray-400 font-mono text-[11px]">
-              <th class="py-2 px-2">TIME</th>
-              <th class="py-2 px-2">SOURCE AGENT</th>
-              <th class="py-2 px-2">LEVEL</th>
-              <th class="py-2 px-2">ACTION / EVENT</th>
+            <tr>
+              <th>Time</th>
+              <th>Source Agent</th>
+              <th>Level</th>
+              <th>Event / Decision</th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-gray-800/60 font-mono">
+          <tbody>
             {% for log in ai_data.recent_ai_logs %}
-            <tr class="hover:bg-cyan-950/20 transition">
-              <td class="py-2.5 px-2 text-gray-400">{{ log.timestamp }}</td>
-              <td class="py-2.5 px-2 text-cyan-300 font-semibold">{{ log.source }}</td>
-              <td class="py-2.5 px-2">
-                <span class="px-1.5 py-0.5 rounded text-[9px] font-bold
-                  {% if log.level == 'INFO' %}bg-blue-900/60 text-blue-300 border border-blue-500/40
-                  {% elif log.level == 'ACTION' %}bg-emerald-900/60 text-emerald-300 border border-emerald-500/40
-                  {% elif log.level == 'ADVISORY' %}bg-amber-900/60 text-amber-300 border border-amber-500/40
-                  {% else %}bg-purple-900/60 text-purple-300 border border-purple-500/40{% endif %}">
+            <tr>
+              <td class="font-mono text-slate-500 text-xs">{{ log.timestamp }}</td>
+              <td class="font-bold text-ir-blue text-xs">{{ log.source }}</td>
+              <td>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold
+                  {% if log.level == 'INFO' %}badge-primary
+                  {% elif log.level == 'ACTION' %}badge-ontime
+                  {% elif log.level == 'ADVISORY' %}badge-delayed
+                  {% else %}bg-purple-50 text-purple-700 border border-purple-200{% endif %}">
                   {{ log.level }}
                 </span>
               </td>
-              <td class="py-2.5 px-2 text-gray-300 font-sans text-xs">{{ log.message }}</td>
+              <td class="text-slate-700 text-xs">{{ log.message }}</td>
             </tr>
             {% endfor %}
           </tbody>

@@ -1,30 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}Railway AI Neural Monitoring{% endblock %}</title>
+  <title>{% block title %}IRCTC RailAI | Indian Railways Autonomous Monitoring Portal{% endblock %}</title>
   
-  <!-- TailwindCSS via CDN with configured dark mode and theme -->
+  <!-- TailwindCSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
-      darkMode: 'class',
       theme: {
         extend: {
           colors: {
-            'rail-dark': '#060913',
-            'rail-panel': '#0a1122',
-            'rail-cyan': '#00f3ff',
-            'rail-amber': '#ffb703',
-            'rail-emerald': '#10b981',
-            'rail-rose': '#ff1e56',
-            'rail-purple': '#9d4edd',
-          },
-          fontFamily: {
-            orbitron: ['Orbitron', 'monospace', 'sans-serif'],
-            rajdhani: ['Rajdhani', 'sans-serif'],
-            inter: ['Inter', 'sans-serif'],
+            'ir-blue': '#0f2e5a',
+            'ir-blue-dark': '#0a1f3d',
+            'ir-blue-light': '#1e4b85',
+            'ir-orange': '#ea580c',
+            'ir-orange-light': '#fb923c',
+            'ir-green': '#15803d',
           }
         }
       }
@@ -34,64 +27,77 @@
   <!-- FontAwesome 6 Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <!-- Custom Control Room Styles -->
+  <!-- Clean IRCTC Theme Styles -->
   <link rel="stylesheet" href="/static/css/custom.css">
   {% block extra_head %}{% endblock %}
 </head>
-<body class="railway-bg min-h-screen flex flex-col text-gray-200 selection:bg-cyan-500 selection:text-black">
+<body class="bg-slate-100 min-h-screen flex flex-col text-slate-800 antialiased selection:bg-orange-500 selection:text-white">
 
-  <!-- Navigation Header -->
-  <header class="sticky top-0 z-40 bg-rail-dark/90 backdrop-blur-md border-b border-cyan-500/20 shadow-lg">
+  <!-- Top Indian Railways Header -->
+  <header class="irctc-header text-white sticky top-0 z-40 shadow-md">
+    <!-- Top Micro Bar with Official Government / Rail Info -->
+    <div class="bg-[#07172b] px-4 sm:px-6 lg:px-8 py-1 text-[11px] flex items-center justify-between text-slate-300 border-b border-slate-800">
+      <div class="flex items-center space-x-2">
+        <span class="font-medium text-orange-400">भारतीय रेल</span>
+        <span>|</span>
+        <span>GOVERNMENT OF INDIA &bull; MINISTRY OF RAILWAYS</span>
+      </div>
+      <div class="flex items-center space-x-3 font-mono text-[11px]">
+        <span id="header-clock" class="text-amber-300 font-semibold">--:--:-- IST</span>
+        <span class="text-slate-500">|</span>
+        <span class="text-emerald-400 font-sans font-medium flex items-center">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 animate-pulse"></span>
+          CRIS RailAI Live
+        </span>
+      </div>
+    </div>
+
+    <!-- Main Navigation Bar -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       
-      <!-- Brand & Status -->
-      <div class="flex items-center space-x-3">
-        <div class="relative flex items-center justify-center w-10 h-10 rounded-lg bg-cyan-950/60 border border-cyan-400 text-cyan-300 shadow-[0_0_15px_rgba(0,243,255,0.4)]">
-          <i class="fa-solid fa-train-subway text-lg animate-pulse"></i>
-          <span class="absolute -top-1 -right-1 flex h-3 w-3">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-3 w-3 bg-cyan-500"></span>
-          </span>
+      <!-- Brand & Indian Railways Emblem -->
+      <a href="/" class="flex items-center space-x-3 group">
+        <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-ir-blue shadow-sm border border-slate-200">
+          <i class="fa-solid fa-train text-lg text-ir-blue"></i>
         </div>
         <div>
           <div class="flex items-center space-x-2">
-            <span class="font-orbitron font-bold tracking-wider text-white text-base sm:text-lg">CHRONOS<span class="text-cyan-400">RAIL</span></span>
-            <span class="hidden sm:inline-block px-2 py-0.5 text-[10px] font-mono rounded bg-cyan-950/80 border border-cyan-500/50 text-cyan-300">AI NEURAL CORE v4.2</span>
+            <span class="font-bold text-lg tracking-tight text-white font-sans">IRCTC <span class="text-orange-400">RailAI</span></span>
+            <span class="hidden sm:inline-block px-2 py-0.5 text-[10px] font-semibold rounded bg-blue-950/80 text-blue-200 border border-blue-400/30">
+              CENTRAL MONITORING
+            </span>
           </div>
-          <div class="text-[11px] font-rajdhani text-gray-400 flex items-center space-x-2">
-            <span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-            <span>AUTONOMOUS NETWORK SUPERVISION</span>
-            <span class="text-gray-600">|</span>
-            <span id="header-clock" class="font-mono text-cyan-400">--:--:--</span>
+          <div class="text-[11px] text-slate-300 -mt-0.5">
+            National Train Autonomous Supervision Portal
           </div>
         </div>
-      </div>
+      </a>
 
       <!-- Right Action & User Profile -->
       <div class="flex items-center space-x-3 sm:space-x-4">
         {% if user %}
           <!-- Role Badge -->
-          <div class="hidden md:flex items-center space-x-2 px-3 py-1 rounded-full border 
-            {% if user.role == 'admin' %}bg-amber-950/50 border-amber-500/60 text-amber-300
-            {% elif user.role == 'station_master' %}bg-cyan-950/50 border-cyan-500/60 text-cyan-300
-            {% elif user.role == 'employee' %}bg-emerald-950/50 border-emerald-500/60 text-emerald-300
-            {% else %}bg-blue-950/50 border-blue-500/60 text-blue-300{% endif %}">
+          <div class="flex items-center space-x-2 px-3 py-1 rounded-full text-xs font-semibold
+            {% if user.role == 'admin' %}bg-amber-500/20 text-amber-300 border border-amber-400/40
+            {% elif user.role == 'station_master' %}bg-blue-500/20 text-blue-200 border border-blue-400/40
+            {% elif user.role == 'employee' %}bg-emerald-500/20 text-emerald-300 border border-emerald-400/40
+            {% else %}bg-orange-500/20 text-orange-200 border border-orange-400/40{% endif %}">
             <i class="fa-solid {{ user.avatar }} text-xs"></i>
-            <span class="text-xs font-semibold tracking-wide font-rajdhani uppercase">{{ user.role_display }}</span>
+            <span class="capitalize">{{ user.role_display }}</span>
           </div>
 
-          <!-- Quick Navigation / Switch -->
-          <div class="flex items-center space-x-2">
-            <span class="text-xs text-gray-300 hidden sm:inline font-medium">{{ user.full_name }}</span>
-            <a href="/logout" class="px-3 py-1.5 rounded-md text-xs font-medium bg-red-950/40 border border-red-500/40 text-red-300 hover:bg-red-900/60 transition flex items-center space-x-1.5" title="Sign Out">
+          <!-- User Name & Logout -->
+          <div class="flex items-center space-x-3 text-xs">
+            <span class="text-slate-200 font-medium hidden md:inline">{{ user.full_name }}</span>
+            <a href="/logout" class="px-3 py-1.5 rounded bg-rose-600/20 hover:bg-rose-600/40 text-rose-200 border border-rose-500/30 transition flex items-center space-x-1.5 font-medium" title="Sign Out">
               <i class="fa-solid fa-arrow-right-from-bracket"></i>
               <span class="hidden sm:inline">Logout</span>
             </a>
           </div>
         {% else %}
-          <a href="/login" class="px-4 py-1.5 rounded-md text-xs font-bold font-orbitron bg-cyan-500 text-black hover:bg-cyan-400 transition shadow-[0_0_15px_rgba(0,243,255,0.4)] flex items-center space-x-1.5">
+          <a href="/login" class="px-4 py-2 rounded-md text-xs font-bold bg-orange-600 hover:bg-orange-500 text-white shadow-sm transition flex items-center space-x-1.5">
             <i class="fa-solid fa-lock text-xs"></i>
-            <span>TERMINAL LOGIN</span>
+            <span>OFFICIAL LOGIN</span>
           </a>
         {% endif %}
       </div>
@@ -104,33 +110,32 @@
     {% block content %}{% endblock %}
   </main>
 
-  <!-- Railway Themed Footer -->
-  <footer class="relative mt-auto border-t border-cyan-500/20 bg-rail-dark/95 py-6 text-xs text-gray-500">
-    <div class="rail-tracks-pattern"></div>
+  <!-- Clean Official Footer -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-xs text-slate-500 mt-auto">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center space-x-3">
-        <span class="font-orbitron text-gray-400">CHRONOS RAILWAY AI SYSTEM</span>
-        <span class="text-gray-700">&bull;</span>
-        <span>Moving Block Interlocking & Dynamic Headway Architecture</span>
+      <div class="flex items-center space-x-2">
+        <span class="font-bold text-ir-blue">Centre for Railway Information Systems (CRIS)</span>
+        <span>&bull;</span>
+        <span>IRCTC AI Safety & Traffic Optimization Network</span>
       </div>
-      <div class="flex items-center space-x-4 font-mono text-[11px] text-gray-400">
-        <span class="flex items-center"><i class="fa-solid fa-circle text-[8px] text-emerald-400 mr-1.5 animate-ping"></i> LATENCY: 4.8ms</span>
-        <span>FAIL-SAFE: SIL-4</span>
-        <span class="text-cyan-400">SECURE DISPATCH</span>
+      <div class="flex items-center space-x-4 font-mono text-[11px] text-slate-500">
+        <span>Kavach 4.0 Auto-Protection</span>
+        <span>&bull;</span>
+        <span class="text-emerald-600 font-medium">Network Uptime: 99.98%</span>
       </div>
     </div>
   </footer>
 
   <!-- Scripts -->
-  <script src="/static/js/cursor.js"></script>
   <script src="/static/js/dashboard.js"></script>
   <script>
-    // Live clock updater
     function updateClock() {
       const clock = document.getElementById('header-clock');
       if (clock) {
         const now = new Date();
-        clock.textContent = now.toTimeString().split(' ')[0] + ' IST';
+        const dateStr = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+        const timeStr = now.toLocaleTimeString('en-IN', { hour12: false });
+        clock.textContent = `${dateStr} | ${timeStr} IST`;
       }
     }
     setInterval(updateClock, 1000);

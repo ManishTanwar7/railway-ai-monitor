@@ -13,24 +13,24 @@ function showToast(message, type = 'info') {
   }
 
   const toast = document.createElement('div');
-  toast.className = `pointer-events-auto transform transition-all duration-300 translate-y-4 opacity-0 flex items-center px-4 py-3 rounded-lg shadow-xl border text-sm max-w-md ${
+  toast.className = `pointer-events-auto transform transition-all duration-300 translate-y-4 opacity-0 flex items-center px-4 py-3 rounded-lg shadow-lg border text-sm max-w-md ${
     type === 'success' 
-      ? 'bg-emerald-950/90 border-emerald-500 text-emerald-200' 
+      ? 'bg-emerald-50 border-emerald-300 text-emerald-800' 
       : type === 'warning'
-      ? 'bg-amber-950/90 border-amber-500 text-amber-200'
+      ? 'bg-amber-50 border-amber-300 text-amber-800'
       : type === 'danger'
-      ? 'bg-rose-950/90 border-rose-500 text-rose-200'
-      : 'bg-cyan-950/90 border-cyan-500 text-cyan-200'
+      ? 'bg-rose-50 border-rose-300 text-rose-800'
+      : 'bg-blue-50 border-blue-300 text-blue-900'
   }`;
 
-  const icon = type === 'success' ? 'fa-circle-check' :
-               type === 'warning' ? 'fa-triangle-exclamation' :
-               type === 'danger' ? 'fa-circle-exclamation' : 'fa-circle-info';
+  const icon = type === 'success' ? 'fa-circle-check text-emerald-600' :
+               type === 'warning' ? 'fa-triangle-exclamation text-amber-600' :
+               type === 'danger' ? 'fa-circle-exclamation text-rose-600' : 'fa-circle-info text-blue-600';
 
   toast.innerHTML = `
     <i class="fa-solid ${icon} mr-3 text-lg"></i>
     <div class="flex-1 font-medium">${message}</div>
-    <button class="ml-3 text-gray-400 hover:text-white" onclick="this.parentElement.remove()">
+    <button class="ml-3 text-slate-400 hover:text-slate-700" onclick="this.parentElement.remove()">
       <i class="fa-solid fa-xmark"></i>
     </button>
   `;
@@ -78,16 +78,16 @@ async function overrideSignalAspect(signalId, newAspect) {
       const badge = document.getElementById(`signal-badge-${signalId}`);
       if (badge) {
         badge.textContent = newAspect;
-        badge.className = `px-2.5 py-1 rounded text-xs font-bold font-orbitron ${
-          newAspect === 'GREEN' ? 'bg-emerald-900/60 text-emerald-300 border border-emerald-500 led-pulse-green' :
-          newAspect === 'RED' ? 'bg-rose-900/60 text-rose-300 border border-rose-500 led-pulse-red' :
-          'bg-amber-900/60 text-amber-300 border border-amber-500 led-pulse-amber'
+        badge.className = `px-2 py-0.5 rounded text-[10px] font-bold ${
+          newAspect === 'GREEN' ? 'badge-ontime' :
+          newAspect === 'RED' ? 'badge-halt' :
+          'badge-delayed'
         }`;
       }
       const stateSpan = document.getElementById(`signal-state-${signalId}`);
       if (stateSpan) {
         stateSpan.textContent = 'MANUAL_STATION_OVERRIDE';
-        stateSpan.classList.add('text-amber-400');
+        stateSpan.classList.add('text-orange-600');
       }
     } else {
       showToast(`Failed to override signal: ${result.detail || 'Access denied'}`, 'danger');
@@ -140,16 +140,15 @@ async function triggerDiagnostic(moduleName) {
         const logTable = document.getElementById('employee-diagnostic-logs');
         if (logTable) {
           const row = document.createElement('tr');
-          row.className = 'border-b border-gray-800/60 bg-emerald-950/20 text-xs';
           row.innerHTML = `
-            <td class="py-2 px-3 font-mono text-cyan-400">${new Date().toLocaleTimeString()}</td>
-            <td class="py-2 px-3 font-semibold text-emerald-300">${moduleName}</td>
-            <td class="py-2 px-3"><span class="px-2 py-0.5 rounded bg-emerald-900/60 text-emerald-300 border border-emerald-500">PASSED</span></td>
-            <td class="py-2 px-3 text-gray-300">${result.report}</td>
+            <td class="font-mono text-slate-500 text-xs">${new Date().toLocaleTimeString()}</td>
+            <td class="font-semibold text-slate-900 text-xs">${moduleName}</td>
+            <td><span class="px-2 py-0.5 rounded badge-ontime text-[10px] font-bold">PASSED</span></td>
+            <td class="text-slate-600 text-xs">${result.report}</td>
           `;
           logTable.insertBefore(row, logTable.firstChild);
         }
-      }, 900);
+      }, 700);
     } else {
       showToast(`Diagnostic failed: ${result.detail}`, 'danger');
       if (btn) btn.disabled = false;
@@ -170,15 +169,15 @@ function toggleLiveSimulation() {
 
   if (isLiveModeActive) {
     if (toggleBtn) {
-      toggleBtn.innerHTML = `<i class="fa-solid fa-satellite-dish mr-2 text-emerald-400 animate-pulse"></i> LIVE STREAM: ACTIVE`;
-      toggleBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold border border-emerald-500 bg-emerald-950/40 text-emerald-300 hover:bg-emerald-900/50';
+      toggleBtn.innerHTML = `<i class="fa-solid fa-satellite-dish text-xs animate-pulse"></i> <span>LIVE TRACKING: ACTIVE</span>`;
+      toggleBtn.className = 'px-3 py-2 rounded-md text-xs font-semibold bg-emerald-700 hover:bg-emerald-600 text-white transition flex items-center space-x-1.5 shadow-sm';
     }
     showToast('Live telemetry polling engaged (3s cycle).', 'success');
     startPolling();
   } else {
     if (toggleBtn) {
-      toggleBtn.innerHTML = `<i class="fa-solid fa-pause mr-2 text-amber-400"></i> LIVE STREAM: PAUSED`;
-      toggleBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-bold border border-amber-500 bg-amber-950/40 text-amber-300 hover:bg-amber-900/50';
+      toggleBtn.innerHTML = `<i class="fa-solid fa-pause text-xs"></i> <span>LIVE TRACKING: PAUSED</span>`;
+      toggleBtn.className = 'px-3 py-2 rounded-md text-xs font-semibold bg-amber-600 hover:bg-amber-500 text-white transition flex items-center space-x-1.5 shadow-sm';
     }
     showToast('Live telemetry polling paused.', 'warning');
     if (liveIntervalId) clearInterval(liveIntervalId);
