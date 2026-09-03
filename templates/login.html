@@ -1,46 +1,44 @@
 {% extends "base.html" %}
 
-{% block title %}IRCTC NextGen &bull; Indian Railways Train Search{% endblock %}
+{% block title %}IRCTC RailAI™ &bull; Indian Railways Train Search & Autonomous Radar{% endblock %}
 
 {% block content %}
-<div class="space-y-4 -mt-2 sm:-mt-4">
+<div class="space-y-5 -mt-2 sm:-mt-3">
 
   <!-- ============================================================== -->
-  <!-- BLUE BETA PROMO BANNER (EXACTLY AS IN OFFICIAL IRCTC SITE)    -->
+  <!-- BLUE BETA ANNOUNCEMENT BAR (MATCHING OFFICIAL IRCTC PORTAL)    -->
   <!-- ============================================================== -->
-  <div class="rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 p-3 sm:p-4 flex flex-col sm:flex-row items-center justify-between shadow-sm gap-3">
+  <div class="rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 p-3 sm:p-4 flex flex-col sm:flex-row items-center justify-between shadow-sm gap-3">
     <div class="flex items-center space-x-3">
       <span class="px-2.5 py-1 rounded-md bg-blue-600 text-white font-extrabold text-xs tracking-wider shadow-sm">
         NEW
       </span>
       <span class="text-xs sm:text-sm font-bold text-ir-blue">
-        Explore the Next-Gen autonomous train monitoring system &bull; Indian Railways RailAI
+        IRCTC RailAI™ &bull; Next-Gen Autonomous Train Supervision & Collision Prevention System
       </span>
     </div>
 
-    <div class="flex items-center space-x-2 shrink-0">
-      <button onclick="openLoginModal()"
-        class="px-4 py-1.5 rounded-md bg-[#213d77] hover:bg-[#182e5b] text-white text-xs font-bold transition shadow-sm flex items-center space-x-1.5">
-        <i class="fa-solid fa-user-lock text-xs"></i>
-        <span>Login To System</span>
-      </button>
-    </div>
+    <button onclick="openLoginModal()"
+      class="px-4 py-1.5 rounded-md bg-[#213d77] hover:bg-[#182e5b] text-white text-xs font-bold transition shadow-sm flex items-center space-x-1.5 cursor-pointer shrink-0">
+      <i class="fa-solid fa-user-lock text-xs"></i>
+      <span>Official Staff Login</span>
+    </button>
   </div>
 
   <!-- ============================================================== -->
-  <!-- HERO SECTION: FULL-WIDTH VANDE BHARAT PICTURE BACKGROUND        -->
+  <!-- HERO: FULL-WIDTH VANDE BHARAT PHOTO & CLEAN FLOATING CARD      -->
   <!-- ============================================================== -->
-  <div class="relative rounded-2xl overflow-hidden shadow-2xl min-h-[480px] lg:min-h-[560px] flex items-center">
+  <div class="relative rounded-2xl overflow-hidden shadow-2xl min-h-[500px] lg:min-h-[560px] flex items-center">
     
     <!-- Full-Width Background Picture: Vande Bharat Express -->
     <img src="/static/images/vande_bharat.jpg" alt="Vande Bharat Express Background"
       class="absolute inset-0 w-full h-full object-cover object-right md:object-center">
     
-    <!-- Subtle Gradient Overlay for Clean Visibility -->
-    <div class="absolute inset-0 bg-gradient-to-r from-slate-950/70 via-slate-950/30 to-transparent"></div>
+    <!-- Clean Gradient Overlay for High Readability -->
+    <div class="absolute inset-0 bg-gradient-to-r from-slate-950/75 via-slate-950/35 to-transparent pointer-events-none"></div>
 
-    <!-- Top Right Text: INDIAN RAILWAYS &bull; Safety | Security | Punctuality -->
-    <div class="absolute top-6 right-6 lg:right-10 text-right z-10 hidden sm:block">
+    <!-- Top Right Official Tag -->
+    <div class="absolute top-6 right-6 lg:right-10 text-right z-10 hidden sm:block pointer-events-none">
       <h2 class="text-2xl lg:text-4xl font-extrabold text-white tracking-tight drop-shadow-md font-sans">
         INDIAN RAILWAYS
       </h2>
@@ -49,80 +47,81 @@
       </p>
     </div>
 
-    <!-- FLOATING WHITE CARD (LEFT SIDE, EXACTLY MATCHING IRCTC SCREENSHOT) -->
-    <div class="relative z-20 w-full max-w-lg p-4 sm:p-6 ml-0 sm:ml-4 lg:ml-8">
+    <!-- SINGLE CLEAN FLOATING CARD (LEFT SIDE, EXACTLY LIKE IRCTC) -->
+    <div class="relative z-20 w-full max-w-md p-4 sm:p-6 ml-0 sm:ml-4 lg:ml-8 my-auto">
       <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
         
         <!-- Top Blue Tabs -->
         <div class="grid grid-cols-2 bg-[#213d77] text-white text-xs font-bold text-center">
-          <button class="py-3 px-2 border-b-2 border-orange-500 bg-[#162a53] flex items-center justify-center space-x-1.5">
+          <button class="py-3 px-2 border-b-2 border-orange-500 bg-[#162a53] flex items-center justify-center space-x-1.5 cursor-pointer">
             <i class="fa-solid fa-train text-orange-400"></i>
             <span>LIVE RADAR</span>
           </button>
-          <button onclick="openLoginModal()" class="py-3 px-2 hover:bg-[#162a53] transition flex items-center justify-center space-x-1.5 text-slate-200">
+          <button type="button" onclick="openLoginModal()" class="py-3 px-2 hover:bg-[#162a53] transition flex items-center justify-center space-x-1.5 text-slate-200 cursor-pointer">
             <i class="fa-solid fa-user-lock"></i>
             <span>STAFF LOGIN</span>
           </button>
         </div>
 
         <!-- Form Card Body -->
-        <div class="p-5 sm:p-6 space-y-4">
+        <div class="p-5 sm:p-6 space-y-3.5">
           <div class="text-center pb-2 border-b border-slate-100">
-            <h3 class="text-lg font-extrabold text-ir-blue tracking-tight">TRAIN LIVE STATUS & RADAR</h3>
-            <p class="text-xs text-slate-500">Autonomous GPS Tracking & Platform Locator</p>
+            <h3 class="text-base font-extrabold text-ir-blue tracking-tight">TRAIN LIVE STATUS & RADAR</h3>
+            <p class="text-[11px] text-slate-500">Autonomous GPS Tracking & Platform Locator</p>
           </div>
 
-          <!-- From & To Stations (All 10+ Interlinked Stations Available) -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label class="block text-[11px] font-bold text-slate-600 mb-1">
-                From Station <span class="text-orange-600 font-normal">({{ stations|length }} Available)</span>
-              </label>
-              <select id="search-from-station" class="w-full p-2 text-xs font-bold text-slate-800 bg-slate-50 rounded-lg border border-slate-300 cursor-pointer">
-                {% for stn in stations %}
-                <option value="{{ stn.station_code }}" {% if stn.station_code == 'NDLS' %}selected{% endif %}>
-                  {{ stn.station_name }} ({{ stn.station_code }}) - {{ stn.chainage_km }}km
-                </option>
-                {% endfor %}
-              </select>
-            </div>
+          <!-- From Station (All 11 Available) -->
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">
+              From Station <span class="text-orange-600 font-normal">({{ stations|length }} Available)</span>
+            </label>
+            <select id="search-from-station"
+              class="w-full p-2 text-xs font-bold text-slate-800 bg-slate-50 rounded-lg border border-slate-300 cursor-pointer focus:outline-none focus:border-ir-blue">
+              {% for stn in stations %}
+              <option value="{{ stn.station_code }}" {% if stn.station_code == 'NDLS' %}selected{% endif %}>
+                {{ stn.station_name }} ({{ stn.station_code }}) - {{ stn.chainage_km }}km
+              </option>
+              {% endfor %}
+            </select>
+          </div>
 
-            <div>
-              <label class="block text-[11px] font-bold text-slate-600 mb-1">
-                To Station <span class="text-orange-600 font-normal">({{ stations|length }} Available)</span>
-              </label>
-              <select id="search-to-station" class="w-full p-2 text-xs font-bold text-slate-800 bg-slate-50 rounded-lg border border-slate-300 cursor-pointer">
-                {% for stn in stations %}
-                <option value="{{ stn.station_code }}" {% if stn.station_code == 'BSB' %}selected{% endif %}>
-                  {{ stn.station_name }} ({{ stn.station_code }}) - {{ stn.chainage_km }}km
-                </option>
-                {% endfor %}
-              </select>
-            </div>
+          <!-- To Station (All 11 Available) -->
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">
+              To Station <span class="text-orange-600 font-normal">({{ stations|length }} Available)</span>
+            </label>
+            <select id="search-to-station"
+              class="w-full p-2 text-xs font-bold text-slate-800 bg-slate-50 rounded-lg border border-slate-300 cursor-pointer focus:outline-none focus:border-ir-blue">
+              {% for stn in stations %}
+              <option value="{{ stn.station_code }}" {% if stn.station_code == 'BSB' %}selected{% endif %}>
+                {{ stn.station_name }} ({{ stn.station_code }}) - {{ stn.chainage_km }}km
+              </option>
+              {% endfor %}
+            </select>
           </div>
 
           <!-- Train Select & Date -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="grid grid-cols-2 gap-2.5">
             <div>
-              <label class="block text-[11px] font-bold text-slate-600 mb-1">Select Train</label>
+              <label class="block text-[11px] font-bold text-slate-700 mb-1">Select Train</label>
               <select id="home-train-select" onchange="updateSearchDest(this.value)"
                 class="w-full p-2 text-xs font-bold text-slate-800 bg-slate-50 rounded-lg border border-slate-300 cursor-pointer">
-                <option value="22436" selected>22436 - Vande Bharat Exp</option>
-                <option value="12002">12002 - Bhopal Shatabdi</option>
-                <option value="12952">12952 - Mumbai Rajdhani</option>
-                <option value="12424">12424 - Dibrugarh Rajdhani</option>
+                <option value="22436" selected>22436 - Vande Bharat</option>
+                <option value="12002">12002 - Shatabdi</option>
+                <option value="12952">12952 - Rajdhani</option>
+                <option value="12424">12424 - Dibrugarh</option>
               </select>
             </div>
 
             <div>
-              <label class="block text-[11px] font-bold text-slate-600 mb-1">Journey Date</label>
+              <label class="block text-[11px] font-bold text-slate-700 mb-1">Journey Date</label>
               <input type="text" value="03/09/2026 (Today)" readonly
                 class="w-full p-2 text-xs font-bold text-slate-800 bg-slate-50 rounded-lg border border-slate-300">
             </div>
           </div>
 
-          <!-- Big Orange Action Button (Navigates to Selected Train) -->
-          <div class="pt-2">
+          <!-- Big Orange Action Button -->
+          <div class="pt-1.5">
             <button type="button" onclick="goToLiveRadar()"
               class="w-full py-3 px-4 rounded-lg bg-orange-600 hover:bg-orange-500 text-white font-extrabold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center space-x-2 cursor-pointer">
               <i class="fa-solid fa-magnifying-glass text-xs"></i>
@@ -130,11 +129,11 @@
             </button>
           </div>
 
-          <!-- 1-Click Role Login Pop-up Trigger -->
-          <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+          <!-- Staff Portal Trigger -->
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
             <span class="text-slate-500 font-medium">Railway Operator?</span>
-            <button onclick="openLoginModal()" class="font-bold text-ir-blue hover:text-orange-600 flex items-center space-x-1 cursor-pointer">
-              <span>Open Staff Portal</span>
+            <button type="button" onclick="openLoginModal()" class="font-bold text-ir-blue hover:text-orange-600 flex items-center space-x-1 cursor-pointer">
+              <span>Open Staff Sign In</span>
               <i class="fa-solid fa-arrow-right text-[10px]"></i>
             </button>
           </div>
@@ -144,70 +143,33 @@
       </div>
     </div>
 
-  <!-- ============================================================== -->
-  <!-- 10+ INTERLINKED STATIONS GOLDEN CORRIDOR STRIP                 -->
-  <!-- ============================================================== -->
-  <div class="ir-card p-4 bg-white/95 backdrop-blur shadow-sm">
-    <div class="flex items-center justify-between mb-2.5 pb-2 border-b border-slate-100">
-      <div class="flex items-center space-x-2">
-        <i class="fa-solid fa-map-location-dot text-orange-600"></i>
-        <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wide">
-          10+ Interlinked High-Speed Stations &bull; Golden Corridor (805 km)
-        </h3>
-      </div>
-      <span class="text-[11px] font-bold text-ir-blue bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
-        {{ stations|length }} Stations Active
-      </span>
-    </div>
-
-    <!-- 11 Clickable Station Tiles -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2">
-      {% for stn in stations %}
-      <button type="button" onclick="pickStation('{{ stn.station_code }}')"
-        class="p-2 rounded-lg border border-slate-200 bg-slate-50 hover:border-orange-500 hover:bg-orange-50/50 transition text-left cursor-pointer group">
-        <div class="flex items-center justify-between">
-          <span class="font-mono font-bold text-xs text-ir-blue group-hover:text-orange-600">{{ stn.station_code }}</span>
-          <span class="text-[10px] text-slate-400 font-semibold">{{ stn.chainage_km }}km</span>
-        </div>
-        <div class="text-[11px] font-bold text-slate-800 truncate mt-0.5">{{ stn.station_name }}</div>
-        <div class="text-[10px] text-slate-500 mt-0.5 flex items-center justify-between">
-          <span>{{ stn.platform_count }} Platforms</span>
-          <span class="text-emerald-700 font-bold text-[9px]"><i class="fa-solid fa-shield-halved"></i> Kavach</span>
-        </div>
-      </button>
-      {% endfor %}
-    </div>
   </div>
 
   <!-- ============================================================== -->
-  <!-- REAL-WORLD GOVT OF INDIA / CRIS NTES LIVE DATA STREAM          -->
+  <!-- CRIS NTES TELEMETRY STREAM BAR (CLEAN & ORGANIZED)             -->
   <!-- ============================================================== -->
-  <div class="ir-card p-5 bg-white/95 backdrop-blur shadow-sm border-t-2 border-t-ir-blue">
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+  <div class="ir-card p-4 bg-white shadow-sm border-t-2 border-t-ir-blue">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
       <div class="flex items-center space-x-3">
-        <div class="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-300 text-emerald-700 flex items-center justify-center text-base">
+        <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center text-sm shrink-0">
           <i class="fa-solid fa-satellite-dish animate-pulse"></i>
         </div>
         <div>
-          <div class="flex items-center space-x-2">
-            <span class="text-xs font-bold text-slate-900">National Train Enquiry System (NTES) &bull; CRIS Telemetry</span>
-            <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-bold">
-              REAL-TIME SYNC
-            </span>
+          <div class="font-bold text-slate-900 flex items-center space-x-2">
+            <span>National Train Enquiry System (NTES) Telemetry Stream</span>
+            <span class="px-2 py-0.2 rounded bg-emerald-100 text-emerald-800 text-[10px] font-bold">100 Hz LIVE</span>
           </div>
-          <div class="text-[11px] text-slate-500 mt-0.5">
-            Synchronized with Ministry of Railways live GPS feeds across Delhi, Kanpur, Agra & Varanasi corridors.
-          </div>
+          <p class="text-slate-500 text-[11px] mt-0.5">
+            10+ Interlinked Stations connected: New Delhi, Kanpur, Prayagraj to Varanasi corridor.
+          </p>
         </div>
       </div>
 
-      <div class="flex items-center space-x-3 text-xs">
-        <button onclick="openLoginModal()"
-          class="px-3.5 py-1.5 rounded-lg bg-ir-blue hover:bg-ir-blue-light text-white font-bold transition flex items-center space-x-1.5 shadow-sm">
-          <i class="fa-solid fa-lock text-xs"></i>
-          <span>Official Sign In</span>
-        </button>
-      </div>
+      <button type="button" onclick="openLoginModal()"
+        class="px-3.5 py-1.5 rounded-lg bg-ir-blue hover:bg-ir-blue-light text-white font-bold transition flex items-center space-x-1.5 shadow-sm shrink-0 cursor-pointer self-start sm:self-auto">
+        <i class="fa-solid fa-lock text-xs"></i>
+        <span>Official Sign In</span>
+      </button>
     </div>
   </div>
 
@@ -217,31 +179,27 @@
 {% block extra_scripts %}
 <script>
   const TRAIN_DESTS = {
-    '22436': { from: 'New Delhi (NDLS)', to: 'Varanasi Jn (BSB)' },
-    '12002': { from: 'New Delhi (NDLS)', to: 'Rani Kamlapati (RKMP)' },
-    '12952': { from: 'New Delhi (NDLS)', to: 'Mumbai Central (MMCT)' },
-    '12424': { from: 'New Delhi (NDLS)', to: 'Dibrugarh (DBRG)' }
+    '22436': { from: 'NDLS', to: 'BSB' },
+    '12002': { from: 'NDLS', to: 'RKMP' },
+    '12952': { from: 'NDLS', to: 'MMCT' },
+    '12424': { from: 'NDLS', to: 'DBRG' }
   };
 
   function updateSearchDest(trainId) {
     const route = TRAIN_DESTS[trainId];
     if (route) {
-      document.getElementById('search-from-station').value = route.from;
-      document.getElementById('search-to-station').value = route.to;
+      const fromSel = document.getElementById('search-from-station');
+      const toSel = document.getElementById('search-to-station');
+      if (fromSel) fromSel.value = route.from;
+      if (toSel && toSel.querySelector(`option[value="${route.to}"]`)) {
+        toSel.value = route.to;
+      }
     }
   }
 
   function goToLiveRadar() {
     const trainId = document.getElementById('home-train-select').value;
     window.location.href = `/dashboard/passenger?train=${trainId}`;
-  }
-
-  function pickStation(code) {
-    const toSelect = document.getElementById('search-to-station');
-    if (toSelect) {
-      toSelect.value = code;
-    }
-    showToast(`Destination set to ${code}. Ready to track.`, 'info');
   }
 </script>
 {% endblock %}

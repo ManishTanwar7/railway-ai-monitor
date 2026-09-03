@@ -39,7 +39,7 @@ def generate_report():
 
     p1 = doc.add_paragraph()
     p1.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r1 = p1.add_run("INDIAN RAILWAYS AUTONOMOUS AI MONITORING SYSTEM\n& KAVACH 4.0 COLLISION AVOIDANCE ARCHITECTURE")
+    r1 = p1.add_run("IRCTC RailAI™ &bull; AUTONOMOUS RAILWAY AI MONITORING SYSTEM\n& KAVACH 4.0 COLLISION AVOIDANCE ARCHITECTURE")
     r1.font.name = "Arial"
     r1.font.size = Pt(20)
     r1.font.bold = True
@@ -47,11 +47,11 @@ def generate_report():
 
     p2 = doc.add_paragraph()
     p2.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r2 = p2.add_run("Comprehensive Technical Specification, Mathematical Formulations,\n& 10+ Interlinked Stations SQL Dataset Report")
+    r2 = p2.add_run("Engineered & Developed by Star Coders Team\nIn Collaboration with Centre for Railway Information Systems (CRIS), Ministry of Railways\n© 2026 IRCTC RailAI™. All Rights Reserved.")
     r2.font.name = "Arial"
-    r2.font.size = Pt(12)
+    r2.font.size = Pt(11)
     r2.font.italic = True
-    r2.font.color.rgb = gray
+    r2.font.color.rgb = orange
 
     doc.add_paragraph().paragraph_format.space_after = Pt(14)
 
