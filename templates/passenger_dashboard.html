@@ -180,39 +180,9 @@
       </div>
     </div>
 
-    <!-- 8 Platform Tiles (Clean Visual Grid) -->
-    <div class="p-5 grid grid-cols-2 sm:grid-cols-4 gap-3">
-      {% for p in station_data[0].platforms %}
-      <div class="p-3 rounded-xl border {% if p.status == 'OCCUPIED' %}bg-amber-50/70 border-amber-300{% elif p.status == 'APPROACHING' %}bg-blue-50/70 border-blue-300{% elif p.status == 'CLEAR' %}bg-emerald-50/50 border-emerald-200{% else %}bg-slate-50 border-slate-200{% endif %}">
-        <div class="flex items-center justify-between">
-          <span class="px-2 py-0.5 rounded bg-ir-blue text-white text-[11px] font-bold">
-            PF {{ p.platform_num }}
-          </span>
-          <span class="text-[10px] font-bold px-1.5 py-0.2 rounded
-            {% if p.status == 'OCCUPIED' %}badge-delayed
-            {% elif p.status == 'APPROACHING' %}badge-primary
-            {% elif p.status == 'CLEAR' %}badge-ontime
-            {% else %}bg-slate-200 text-slate-700{% endif %}">
-            {{ p.status }}
-          </span>
-        </div>
-
-        <div class="mt-2 text-xs font-bold text-slate-900 truncate">
-          {% if p.train_id != 'STANDBY' and p.train_id != 'OPEN' %}
-            {{ p.train_name }}
-          {% else %}
-            <span class="text-slate-400 font-normal italic">Open Track</span>
-          {% endif %}
-        </div>
-
-        <div class="mt-1 text-[11px] text-slate-500 flex items-center justify-between">
-          <span>{{ p.destination }}</span>
-          <span class="font-bold text-slate-700">
-            {% if p.departure_eta_min > 0 %}{{ p.departure_eta_min }}m{% else %}--{% endif %}
-          </span>
-        </div>
-      </div>
-      {% endfor %}
+    <!-- Dynamic Platform Tiles for Selected Station -->
+    <div id="platform-tiles-container" class="p-5 grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <!-- Dynamically populated by renderPlatformTiles() -->
     </div>
   </div>
 
@@ -291,20 +261,174 @@
     {% endfor %}
   };
 
+  const STATION_PLATFORMS_DATA = {
+    'NDLS': [
+      { num: 1, name: 'Vande Bharat Express', dest: 'Varanasi (BSB)', eta: '15m', status: 'OCCUPIED' },
+      { num: 2, name: 'Open Track', dest: 'Ready for Entry', eta: '--', status: 'CLEAR' },
+      { num: 3, name: 'Bhopal Shatabdi Exp', dest: 'Rani Kamlapati', eta: '8m', status: 'APPROACHING' },
+      { num: 4, name: 'Open Track', dest: 'Ready for Entry', eta: '--', status: 'CLEAR' },
+      { num: 5, name: 'Dibrugarh Rajdhani', dest: 'Dibrugarh (DBRG)', eta: '25m', status: 'OCCUPIED' },
+      { num: 6, name: 'Mumbai Rajdhani', dest: 'Mumbai Central', eta: '40m', status: 'BOARDING' },
+      { num: 7, name: 'Inspection Coach', dest: 'Yard Siding', eta: '--', status: 'STANDBY' },
+      { num: 8, name: 'Open Track', dest: 'Ready for Entry', eta: '--', status: 'CLEAR' }
+    ],
+    'CNB': [
+      { num: 1, name: 'Vande Bharat Express (22436)', dest: 'Varanasi Jn (BSB)', eta: '18m', status: 'APPROACHING' },
+      { num: 2, name: 'Gomti Express (12420)', dest: 'New Delhi (NDLS)', eta: '12m', status: 'OCCUPIED' },
+      { num: 3, name: 'Shram Shakti Express', dest: 'New Delhi (NDLS)', eta: '35m', status: 'BOARDING' },
+      { num: 4, name: 'Open Track', dest: 'Through Line', eta: '--', status: 'CLEAR' },
+      { num: 5, name: 'Dibrugarh Rajdhani (12424)', dest: 'Dibrugarh (DBRG)', eta: '4m', status: 'OCCUPIED' },
+      { num: 6, name: 'Prayagraj Express (12418)', dest: 'Prayagraj (PRYJ)', eta: '22m', status: 'APPROACHING' },
+      { num: 7, name: 'Freight Container Rake', dest: 'Dadri DFC', eta: '--', status: 'STANDBY' },
+      { num: 8, name: 'Chitrakoot Express', dest: 'Jabalpur Jn', eta: '--', status: 'CLEAR' },
+      { num: 9, name: 'Kanpur-Lucknow MEMU', dest: 'Lucknow NR', eta: '10m', status: 'BOARDING' },
+      { num: 10, name: 'Open Track', dest: 'Yard Line', eta: '--', status: 'CLEAR' }
+    ],
+    'PRYJ': [
+      { num: 1, name: 'Vande Bharat Express', dest: 'Varanasi Jn (BSB)', eta: '65m', status: 'STANDBY' },
+      { num: 2, name: 'Kalka Mail (12312)', dest: 'Howrah Jn (HWH)', eta: '14m', status: 'OCCUPIED' },
+      { num: 3, name: 'Magadh Express', dest: 'Islampur', eta: '20m', status: 'BOARDING' },
+      { num: 4, name: 'Open Track', dest: 'River Bridge Track', eta: '--', status: 'CLEAR' },
+      { num: 5, name: 'Dibrugarh Rajdhani', dest: 'Dibrugarh (DBRG)', eta: '48m', status: 'APPROACHING' },
+      { num: 6, name: 'Shiv Ganga Express', dest: 'Varanasi (BSB)', eta: '15m', status: 'OCCUPIED' },
+      { num: 7, name: 'Sangam Express', dest: 'Meerut City', eta: '--', status: 'CLEAR' },
+      { num: 8, name: 'Bundelkhand Express', dest: 'Gwalior Jn', eta: '30m', status: 'BOARDING' },
+      { num: 9, name: 'Open Track', dest: 'Main Line', eta: '--', status: 'CLEAR' },
+      { num: 10, name: 'Inspection Engine', dest: 'Siding', eta: '--', status: 'STANDBY' }
+    ],
+    'BSB': [
+      { num: 1, name: 'Vande Bharat Express (22436)', dest: 'Terminal Docking', eta: 'On Time', status: 'APPROACHING' },
+      { num: 2, name: 'Shiv Ganga Express (12560)', dest: 'New Delhi (NDLS)', eta: '20m', status: 'BOARDING' },
+      { num: 3, name: 'Kashi Vishwanath Exp', dest: 'New Delhi (NDLS)', eta: '45m', status: 'OCCUPIED' },
+      { num: 4, name: 'Open Track', dest: 'Bay Line', eta: '--', status: 'CLEAR' },
+      { num: 5, name: 'Ganga Kaveri Express', dest: 'Chennai Central', eta: '15m', status: 'OCCUPIED' },
+      { num: 6, name: 'Budh Purnima Express', dest: 'Rajgir', eta: '35m', status: 'BOARDING' },
+      { num: 7, name: 'Open Track', dest: 'Entry Track', eta: '--', status: 'CLEAR' },
+      { num: 8, name: 'Mahakal Express', dest: 'Indore Jn', eta: '--', status: 'CLEAR' },
+      { num: 9, name: 'Loco Shunting Unit', dest: 'Loco Shed', eta: '--', status: 'STANDBY' }
+    ],
+    'GZB': [
+      { num: 1, name: 'Ghaziabad Local EMU', dest: 'New Delhi (NDLS)', eta: '5m', status: 'BOARDING' },
+      { num: 2, name: 'Bhopal Shatabdi', dest: 'Rani Kamlapati', eta: '14m', status: 'APPROACHING' },
+      { num: 3, name: 'Open Track', dest: 'Main Line', eta: '--', status: 'CLEAR' },
+      { num: 4, name: 'Meerut Passenger', dest: 'Meerut Cantt', eta: '18m', status: 'OCCUPIED' },
+      { num: 5, name: 'Freight Goods Loop', dest: 'DFC Bypass', eta: '--', status: 'STANDBY' },
+      { num: 6, name: 'Open Track', dest: 'Yard Siding', eta: '--', status: 'CLEAR' }
+    ],
+    'ALJN': [
+      { num: 1, name: 'Bhopal Shatabdi', dest: 'Rani Kamlapati', eta: '32m', status: 'APPROACHING' },
+      { num: 2, name: 'Aligarh-Delhi MEMU', dest: 'Old Delhi (DLI)', eta: '8m', status: 'BOARDING' },
+      { num: 3, name: 'Prayagraj Express', dest: 'Prayagraj (PRYJ)', eta: '25m', status: 'OCCUPIED' },
+      { num: 4, name: 'Open Track', dest: 'Fast Track', eta: '--', status: 'CLEAR' },
+      { num: 5, name: 'Bareilly Passenger', dest: 'Bareilly Jn', eta: '--', status: 'CLEAR' },
+      { num: 6, name: 'Freight Train', dest: 'Kanpur DFC', eta: '--', status: 'STANDBY' },
+      { num: 7, name: 'Inspection Trolley', dest: 'Siding', eta: '--', status: 'STANDBY' }
+    ],
+    'TDL': [
+      { num: 1, name: 'Tundla-Agra Shuttle', dest: 'Agra Cantt', eta: '10m', status: 'BOARDING' },
+      { num: 2, name: 'Vande Bharat Express', dest: 'Varanasi Jn', eta: '45m', status: 'APPROACHING' },
+      { num: 3, name: 'Open Track', dest: 'Through Line', eta: '--', status: 'CLEAR' },
+      { num: 4, name: 'Freight Goods Diversion', dest: 'Bypass Line', eta: '--', status: 'STANDBY' },
+      { num: 5, name: 'Crew Change Loco', dest: 'Depot Yard', eta: '--', status: 'CLEAR' }
+    ],
+    'ETW': [
+      { num: 1, name: 'Vande Bharat Express', dest: 'Varanasi Jn', eta: 'Just Left', status: 'OCCUPIED' },
+      { num: 2, name: 'Etawah-Gwalior Link', dest: 'Gwalior Jn', eta: '16m', status: 'BOARDING' },
+      { num: 3, name: 'Open Track', dest: 'Main Line', eta: '--', status: 'CLEAR' },
+      { num: 4, name: 'Avadh Express', dest: 'Gorakhpur Jn', eta: '28m', status: 'APPROACHING' },
+      { num: 5, name: 'Bypass Loop Track', dest: 'Loop Line', eta: '--', status: 'CLEAR' }
+    ],
+    'FTP': [
+      { num: 1, name: 'Chauri Chaura Express', dest: 'Gorakhpur Jn', eta: '12m', status: 'OCCUPIED' },
+      { num: 2, name: 'Open Track', dest: 'Main Up Line', eta: '--', status: 'CLEAR' },
+      { num: 3, name: 'Kanpur-Prayagraj Pass', dest: 'Prayagraj (PRYJ)', eta: '20m', status: 'BOARDING' },
+      { num: 4, name: 'Open Track', dest: 'Main Down Line', eta: '--', status: 'CLEAR' }
+    ],
+    'MZP': [
+      { num: 1, name: 'Mahanagari Express', dest: 'Mumbai CSMT', eta: '15m', status: 'OCCUPIED' },
+      { num: 2, name: 'Open Track', dest: 'River Line', eta: '--', status: 'CLEAR' },
+      { num: 3, name: 'Varanasi-Prayagraj Pass', dest: 'Prayagraj', eta: '24m', status: 'APPROACHING' },
+      { num: 4, name: 'Open Track', dest: 'Loop Line', eta: '--', status: 'CLEAR' }
+    ],
+    'DDU': [
+      { num: 1, name: 'Kalka Mail', dest: 'Howrah Jn', eta: '10m', status: 'OCCUPIED' },
+      { num: 2, name: 'Vande Bharat Express', dest: 'Varanasi Jn', eta: '25m', status: 'APPROACHING' },
+      { num: 3, name: 'Brahmaputra Mail', dest: 'Dibrugarh', eta: '35m', status: 'BOARDING' },
+      { num: 4, name: 'Open Track', dest: 'East Yard', eta: '--', status: 'CLEAR' },
+      { num: 5, name: 'Ganga Sutlej Express', dest: 'Firozpur Cantt', eta: '18m', status: 'OCCUPIED' },
+      { num: 6, name: 'Purushottam Express', dest: 'Puri', eta: '--', status: 'CLEAR' },
+      { num: 7, name: 'Marshalling Shunter', dest: 'Yard Siding', eta: '--', status: 'STANDBY' },
+      { num: 8, name: 'Through Fast Track', dest: 'Main Line', eta: '--', status: 'CLEAR' }
+    ]
+  };
+
+  function renderPlatformTiles(code) {
+    const container = document.getElementById('platform-tiles-container');
+    if (!container) return;
+
+    const list = STATION_PLATFORMS_DATA[code] || STATION_PLATFORMS_DATA['NDLS'];
+    let html = '';
+
+    list.forEach(p => {
+      let bgClass = 'bg-slate-50 border-slate-200';
+      let badgeClass = 'bg-slate-100 text-slate-700';
+
+      if (p.status === 'OCCUPIED') {
+        bgClass = 'bg-amber-50/60 border-amber-300';
+        badgeClass = 'bg-amber-100 text-amber-800 font-bold';
+      } else if (p.status === 'APPROACHING') {
+        bgClass = 'bg-blue-50/60 border-blue-300';
+        badgeClass = 'bg-blue-100 text-blue-800 font-bold';
+      } else if (p.status === 'BOARDING') {
+        bgClass = 'bg-emerald-50/60 border-emerald-300';
+        badgeClass = 'bg-emerald-100 text-emerald-800 font-bold';
+      } else if (p.status === 'CLEAR') {
+        bgClass = 'bg-emerald-50/30 border-emerald-200';
+        badgeClass = 'bg-emerald-100 text-emerald-700 font-bold';
+      }
+
+      html += `
+        <div class="p-3 rounded-xl border ${bgClass} transition">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded bg-ir-blue text-white text-[11px] font-bold">
+              PF ${p.num}
+            </span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded ${badgeClass}">
+              ${p.status}
+            </span>
+          </div>
+
+          <div class="mt-2 text-xs font-bold text-slate-900 truncate">
+            ${p.name}
+          </div>
+
+          <div class="mt-1 text-[11px] text-slate-500 flex items-center justify-between">
+            <span class="truncate pr-1">${p.dest}</span>
+            <span class="font-bold text-slate-700 shrink-0">${p.eta}</span>
+          </div>
+        </div>
+      `;
+    });
+
+    container.innerHTML = html;
+  }
+
   function switchPlatformStation(code) {
     const stn = STATIONS_INFO[code];
     if (!stn) return;
     document.getElementById('pf-station-title').textContent = `${stn.name} (${stn.code}) • Platform Finder`;
-    showToast(`Switched platform finder to ${stn.name} (${stn.platforms} platforms)`, 'info');
+    renderPlatformTiles(code);
+    showToast(`Updated platforms for ${stn.name} (${stn.platforms} PFs)`, 'info');
   }
 
-  // Auto-select train from URL parameter (e.g. ?train=12002)
+  // Auto-select train from URL parameter and render initial platform tiles
   document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const trainParam = urlParams.get('train');
     if (trainParam && PASSENGER_TRAINS[trainParam]) {
       selectPassengerTrain(trainParam);
     }
+    renderPlatformTiles('NDLS');
   });
 </script>
 {% endblock %}
