@@ -1,15 +1,13 @@
-/* Indian Railways / IRCTC RailAI Monitoring - Clean & Professional Portal Theme */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap');
+/* Indian Railways / IRCTC RailAI - Clean Visual Infographics & Picture Styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
   --ir-blue: #0f2e5a;
-  --ir-blue-dark: #0a1f3d;
+  --ir-blue-dark: #07172b;
   --ir-blue-light: #1e4b85;
   --ir-orange: #ea580c;
   --ir-orange-light: #fb923c;
   --ir-green: #15803d;
-  --ir-bg: #f8fafc;
-  --ir-card: #ffffff;
   --ir-border: #e2e8f0;
 }
 
@@ -20,49 +18,27 @@ body {
   cursor: default !important;
 }
 
-/* Indian Railways Top Header Style */
+/* Indian Railways Header */
 .irctc-header {
-  background: linear-gradient(135deg, #0a2240 0%, #153a66 100%);
+  background: linear-gradient(135deg, #07172b 0%, #0f2e5a 100%);
   border-bottom: 3px solid #ea580c;
 }
 
-/* Crisp Clean IRCTC Portal Card */
+/* Clean Professional Cards */
 .ir-card {
   background-color: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 0.5rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px -1px rgba(0, 0, 0, 0.08);
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
   transition: all 0.2s ease;
 }
 
 .ir-card:hover {
-  box-shadow: 0 4px 12px -2px rgba(15, 46, 90, 0.12);
+  box-shadow: 0 6px 16px -3px rgba(15, 46, 90, 0.1);
   border-color: #cbd5e1;
 }
 
-/* Primary IRCTC Blue Button */
-.btn-ir-primary {
-  background-color: #0f2e5a;
-  color: #ffffff;
-  font-weight: 600;
-  transition: all 0.15s ease-in-out;
-}
-.btn-ir-primary:hover {
-  background-color: #1a4277;
-}
-
-/* Orange Accent Button */
-.btn-ir-orange {
-  background-color: #ea580c;
-  color: #ffffff;
-  font-weight: 600;
-  transition: all 0.15s ease-in-out;
-}
-.btn-ir-orange:hover {
-  background-color: #c2410c;
-}
-
-/* Indian Railway Train Status Badges */
+/* Badges */
 .badge-ontime {
   background-color: #ecfdf5;
   color: #15803d;
@@ -87,7 +63,98 @@ body {
   border: 1px solid #bfdbfe;
 }
 
-/* Subtle clean table styling */
+/* Visual Train Track Graphic */
+.visual-track-bg {
+  background-image: repeating-linear-gradient(
+    90deg,
+    #cbd5e1 0px,
+    #cbd5e1 4px,
+    transparent 4px,
+    transparent 18px
+  );
+  height: 6px;
+  position: relative;
+}
+
+/* Realistic 3-Aspect Visual Signal Light */
+.visual-signal-unit {
+  width: 36px;
+  background: #1e293b;
+  border-radius: 18px;
+  padding: 6px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  border: 2px solid #0f172a;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.signal-lamp {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #334155;
+  transition: all 0.3s ease;
+}
+
+.lamp-red-active {
+  background: #ef4444;
+  box-shadow: 0 0 10px #ef4444;
+}
+
+.lamp-yellow-active {
+  background: #f59e0b;
+  box-shadow: 0 0 10px #f59e0b;
+}
+
+.lamp-green-active {
+  background: #10b981;
+  box-shadow: 0 0 10px #10b981;
+}
+
+/* Visual Train Coach Box */
+.coach-box {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 6px 10px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: #334155;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.coach-loco {
+  background: #0f2e5a;
+  color: #ffffff;
+  border-color: #0a1f3d;
+  border-radius: 4px 10px 10px 4px;
+}
+
+/* Visual Step Flow Cards (Graphic Picture Pipeline) */
+.pipeline-step-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  position: relative;
+}
+
+.pipeline-step-box:hover {
+  border-color: #3b82f6;
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+}
+
+/* Table Style */
 .ir-table th {
   background-color: #f8fafc;
   color: #475569;
@@ -107,20 +174,4 @@ body {
 
 .ir-table tr:hover td {
   background-color: #f8fafc;
-}
-
-/* Clean Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
-}
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
 }

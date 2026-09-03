@@ -9,26 +9,26 @@
   <div class="ir-card overflow-hidden">
     <div class="bg-ir-blue p-5 text-white flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div class="flex items-center space-x-4">
-        <div class="w-11 h-11 rounded-lg bg-blue-900 border border-blue-700 flex items-center justify-center text-emerald-400">
-          <i class="fa-solid fa-screwdriver-wrench text-xl"></i>
+        <div class="w-11 h-11 rounded-lg bg-emerald-600 flex items-center justify-center text-white text-xl shadow-sm">
+          <i class="fa-solid fa-screwdriver-wrench"></i>
         </div>
         <div>
           <div class="flex items-center space-x-2">
             <h1 class="text-xl font-bold text-white tracking-tight">
-              Signal & Telecommunication (S&T) Field Console
+              Signal & Telecommunication (S&T) Engineer Console
             </h1>
-            <span class="px-2.5 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-400/40">
-              FIELD TECHNICIAN CLEARANCE
+            <span class="px-2.5 py-0.5 rounded text-[10px] font-bold bg-emerald-400 text-slate-900">
+              FIELD ENGINEER
             </span>
           </div>
-          <p class="text-xs text-slate-300 mt-0.5">
-            Northern Railway S&T Directorate &bull; Assigned sub-module diagnostics, track sensor calibrations, and inspection logging.
+          <p class="text-xs text-slate-300 mt-1">
+            Visual sensor diagnostics, track circuit health, and live telemetry calibrations for Northern Railway.
           </p>
         </div>
       </div>
 
-      <div class="text-xs font-mono bg-blue-950 px-3 py-2 rounded border border-blue-800 text-slate-300">
-        ENGINEER ID: <strong class="text-white">IR-EMP-8842</strong>
+      <div class="text-xs font-mono bg-blue-950 px-3 py-2 rounded border border-blue-700 text-slate-300">
+        TECHNICIAN ID: <strong class="text-white">IR-EMP-8842</strong>
       </div>
     </div>
 
@@ -36,71 +36,84 @@
     <div class="bg-emerald-50 px-6 py-2.5 border-t border-emerald-200 text-xs text-emerald-800 flex items-center justify-between">
       <div class="flex items-center space-x-2">
         <i class="fa-solid fa-shield-halved text-emerald-600"></i>
-        <span><strong>Assigned Scope:</strong> You have operational clearance for <strong>{{ assigned_modules|join(" & ") }}</strong> only. Higher tier Leader/Boss AI parameters are restricted to Central Railway Board.</span>
+        <span><strong>Assigned Modules:</strong> You are assigned to <strong>{{ assigned_modules|join(" & ") }}</strong> only. Other AI modules remain locked to Central Railway Board.</span>
       </div>
-      <span class="font-mono font-semibold text-emerald-700">POLICY: ENFORCED</span>
+      <span class="font-mono font-semibold text-emerald-700">POLICY: ACTIVE</span>
     </div>
   </div>
 
-  <!-- SECTION 1: ASSIGNED AI MODULES CARDS -->
+  <!-- SECTION 1: VISUAL SENSOR & AI MODULE CARDS (PICTURE WAY) -->
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
     {% for module in assigned_modules_details %}
-    <div class="ir-card p-6 border-l-4 border-l-emerald-600">
-      <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
-        <div class="flex items-center space-x-2">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
-          <h2 class="font-bold text-slate-900 text-base">{{ module.name }}</h2>
+    <div class="ir-card p-6 border-l-4 border-l-emerald-600 flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-100">
+          <div class="flex items-center space-x-2.5">
+            <div class="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center text-base">
+              <i class="fa-solid {{ module.icon }}"></i>
+            </div>
+            <div>
+              <h2 class="font-bold text-slate-900 text-sm">{{ module.name }}</h2>
+              <div class="text-[11px] text-emerald-700 font-semibold">{{ module.calculation_type }}</div>
+            </div>
+          </div>
+          <span class="px-2 py-0.5 rounded text-[11px] font-mono font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+            {{ module.latency_ms }} ms
+          </span>
         </div>
-        <span class="px-2 py-0.5 rounded text-[11px] font-mono font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-          {{ module.id }} &bull; {{ module.latency_ms }} ms
-        </span>
-      </div>
 
-      <p class="text-xs text-slate-600 leading-relaxed mb-4">
-        {{ module.explanation }}
-      </p>
+        <p class="text-xs text-slate-600 leading-relaxed mb-4">
+          {{ module.simple_job }}
+        </p>
 
-      <!-- Formula Box -->
-      <div class="mb-4 p-3 rounded bg-slate-50 border border-slate-200 font-mono text-xs text-emerald-800 overflow-x-auto">
-        {{ module.formula }}
-      </div>
+        <!-- VISUAL 4-STEP INFOGRAPHIC PIPELINE -->
+        <div class="mb-4">
+          <div class="text-[11px] font-bold text-slate-700 uppercase tracking-wide mb-2 flex items-center">
+            <i class="fa-solid fa-diagram-project mr-1.5 text-ir-blue"></i> Visual Workflow Pipeline
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+            {% for st in module.visual_steps %}
+            <div class="pipeline-step-box">
+              <div class="w-8 h-8 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center text-sm mb-1">
+                <i class="fa-solid {{ st.icon }}"></i>
+              </div>
+              <div class="text-[10px] font-bold text-slate-800 leading-tight">{{ st.step }}</div>
+              <div class="text-[9px] text-slate-500 mt-0.5 leading-snug">{{ st.detail }}</div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
 
-      <!-- Inputs & Outputs -->
-      <div class="grid grid-cols-2 gap-3 mb-4 text-xs">
-        <div class="bg-slate-50 p-3 rounded border border-slate-200">
-          <span class="text-slate-500 font-semibold block mb-1">CONNECTED SENSORS:</span>
-          <ul class="text-slate-700 space-y-0.5">
+        <!-- Connected Physical Sensors Strip -->
+        <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 mb-4 text-xs">
+          <span class="text-slate-500 font-bold uppercase text-[10px] block mb-1">Track Sensors Connected:</span>
+          <div class="flex flex-wrap gap-1.5">
             {% for inp in module.inputs %}
-            <li>&bull; {{ inp }}</li>
+            <span class="px-2 py-0.5 rounded bg-white text-slate-700 text-[11px] border border-slate-200 font-medium">
+              <i class="fa-solid fa-plug-circle-check text-emerald-600 mr-1 text-[10px]"></i> {{ inp }}
+            </span>
             {% endfor %}
-          </ul>
-        </div>
-        <div class="bg-slate-50 p-3 rounded border border-slate-200">
-          <span class="text-slate-500 font-semibold block mb-1">COMPUTED TELEMETRY:</span>
-          <ul class="text-ir-blue font-mono space-y-0.5">
-            {% for out in module.outputs %}
-            <li>&bull; {{ out }}</li>
-            {% endfor %}
-          </ul>
+          </div>
         </div>
       </div>
 
-      <!-- Action Footer -->
+      <!-- Action Footer with Visual Test Button -->
       <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
-        <div class="text-xs text-slate-500">
-          Telemetry Status: <strong class="text-emerald-700">100% HEALTHY</strong>
+        <div class="text-xs text-slate-500 flex items-center">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>
+          Status: <strong class="text-emerald-700 ml-1">100% OPERATIONAL</strong>
         </div>
         <button onclick="triggerDiagnostic('{{ module.name }}')"
-          class="px-3.5 py-1.5 rounded bg-emerald-700 hover:bg-emerald-600 text-white font-semibold text-xs transition shadow-sm flex items-center space-x-1.5">
-          <i class="fa-solid fa-vial-virus text-xs"></i>
-          <span>RUN DIAGNOSTIC</span>
+          class="px-4 py-2 rounded-md bg-emerald-700 hover:bg-emerald-600 text-white font-semibold text-xs transition shadow-sm flex items-center space-x-1.5">
+          <i class="fa-solid fa-stethoscope text-xs"></i>
+          <span>RUN HEALTH TEST</span>
         </button>
       </div>
     </div>
     {% endfor %}
   </div>
 
-  <!-- SECTION 2: DIAGNOSTIC LOGS & FIELD TICKET SUBMISSION -->
+  <!-- SECTION 2: DIAGNOSTIC LOGS & FIELD REPORT DISPATCH -->
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
     
     <!-- Diagnostic Test Records (7 cols) -->
@@ -109,7 +122,7 @@
         <div class="flex items-center space-x-2">
           <i class="fa-solid fa-clipboard-check text-emerald-700"></i>
           <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wide">
-            Module Calibration & Diagnostic Records
+            Module Calibration & Health Test Records
           </h3>
         </div>
         <span class="text-xs text-slate-500 font-mono">Live Audit</span>
@@ -120,61 +133,61 @@
           <thead>
             <tr>
               <th>Timestamp</th>
-              <th>Module</th>
-              <th>Result</th>
+              <th>AI Module</th>
+              <th>Health</th>
               <th>Diagnostic Findings</th>
             </tr>
           </thead>
           <tbody id="employee-diagnostic-logs">
             <tr>
-              <td class="font-mono text-slate-500 text-xs">10:24:12</td>
-              <td class="font-semibold text-slate-900 text-xs">Signal Pulse Agent</td>
+              <td class="font-mono text-slate-500 text-xs">11:24:12</td>
+              <td class="font-bold text-slate-900 text-xs">Signal Pulse Agent</td>
               <td><span class="px-2 py-0.5 rounded badge-ontime text-[10px] font-bold">PASSED</span></td>
-              <td class="text-slate-600 text-xs">Optical sensor laser alignment verified (&plusmn;0.01mm).</td>
+              <td class="text-slate-600 text-xs">Axle counter pulse alignment 100% synchronized.</td>
             </tr>
             <tr>
-              <td class="font-mono text-slate-500 text-xs">09:58:30</td>
-              <td class="font-semibold text-slate-900 text-xs">Weather Telemetry Analyzer</td>
+              <td class="font-mono text-slate-500 text-xs">10:58:30</td>
+              <td class="font-bold text-slate-900 text-xs">Weather Telemetry Analyzer</td>
               <td><span class="px-2 py-0.5 rounded badge-ontime text-[10px] font-bold">PASSED</span></td>
-              <td class="text-slate-600 text-xs">Laser disdrometer precipitation reading calibrated.</td>
+              <td class="text-slate-600 text-xs">Laser rain sensor calibrated within &plusmn;0.2% tolerance.</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- Field Ticket Submission (5 cols) -->
+    <!-- Field Report Submission (5 cols) -->
     <div class="lg:col-span-5 ir-card p-6">
       <div class="flex items-center space-x-2 mb-4 pb-3 border-b border-slate-100">
         <i class="fa-solid fa-wrench text-orange-600"></i>
         <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wide">
-          Submit Field Maintenance Report
+          Submit Track Inspection Ticket
         </h3>
       </div>
       <p class="text-xs text-slate-500 mb-4">
-        Log physical track or signal inspections directly to Central Dispatch.
+        Log physical track or signal maintenance directly to Station Master & Railway Board.
       </p>
 
-      <form onsubmit="event.preventDefault(); showToast('Field Ticket dispatched to Central Dispatch.', 'success'); this.reset();" class="space-y-3">
+      <form onsubmit="event.preventDefault(); showToast('Inspection report dispatched to Station Master.', 'success'); this.reset();" class="space-y-3">
         <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">AFFECTED MODULE / TRACK BLOCK</label>
-          <select class="w-full py-2 px-3 rounded border border-slate-300 text-slate-800 text-xs focus:outline-none focus:border-ir-blue bg-white">
-            <option>Signal Pulse Agent - Block UP-MAIN-BLK-12</option>
-            <option>Signal Pulse Agent - Block AGC-DOWN-BLK-04</option>
-            <option>Weather Telemetry - Agra Sector Anemometer</option>
-            <option>Track Ultrasonic Diagnostic Siding 4</option>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">AFFECTED TRACK BLOCK / SENSOR</label>
+          <select class="w-full py-2 px-3 rounded border border-slate-300 text-slate-800 text-xs focus:outline-none focus:border-ir-blue bg-white font-medium">
+            <option>Track Block UP-MAIN-BLK-12 (Vande Bharat Corridor)</option>
+            <option>Track Block AGC-DOWN-BLK-04 (Agra Cantt Siding)</option>
+            <option>Anemometer Wind Sensor - Sector Beta</option>
+            <option>New Delhi Yard Platform 4 Track Circuit</option>
           </select>
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">INSPECTION FINDING / NOTE</label>
-          <textarea rows="3" required placeholder="Enter visual inspection notes or sensor replacement log..."
+          <label class="block text-xs font-semibold text-slate-700 mb-1">FIELD OBSERVATION / ACTION TAKEN</label>
+          <textarea rows="3" required placeholder="Enter visual inspection note or sensor replacement log..."
             class="w-full p-2.5 rounded border border-slate-300 text-slate-800 text-xs placeholder-slate-400 focus:outline-none focus:border-ir-blue"></textarea>
         </div>
 
         <button type="submit"
           class="w-full py-2.5 px-4 rounded bg-ir-blue hover:bg-ir-blue-light text-white font-semibold text-xs uppercase tracking-wider transition shadow-sm">
-          SUBMIT TO CENTRAL LOG
+          DISPATCH TO CENTRAL DISPATCH
         </button>
       </form>
     </div>

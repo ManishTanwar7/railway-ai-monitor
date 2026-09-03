@@ -5,20 +5,20 @@
 {% block content %}
 <div class="space-y-6">
 
-  <!-- Passenger Search Banner (IRCTC Style) -->
+  <!-- Passenger Search Banner (IRCTC NTES Style) -->
   <div class="ir-card overflow-hidden">
     <div class="bg-gradient-to-r from-ir-blue to-blue-900 p-6 text-white">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div class="flex items-center space-x-2 text-xs font-semibold text-orange-300 mb-1">
             <i class="fa-solid fa-train"></i>
-            <span>NATIONAL TRAIN ENQUIRY SYSTEM (NTES) &bull; AI LIVE TRACKER</span>
+            <span>NATIONAL TRAIN ENQUIRY SYSTEM (NTES) &bull; LIVE AI PASSENGER RADAR</span>
           </div>
           <h1 class="text-2xl font-bold text-white tracking-tight">
             Live Train Running Status & Platform Locator
           </h1>
           <p class="text-xs text-slate-300 mt-1">
-            Real-time GPS tracking and AI predicted arrival timings across Indian Railways network.
+            Visual train journey tracks, live GPS speedometers, and platform numbers across Indian Railways.
           </p>
         </div>
 
@@ -29,11 +29,11 @@
               <i class="fa-solid fa-magnifying-glass"></i>
             </div>
             <input type="text" id="passenger-search" oninput="filterPassengerTrains(this.value)"
-              placeholder="Search Train No, Name, or Station..."
+              placeholder="Search Train No (e.g. 22436, 12002)..."
               class="w-full pl-9 pr-3 py-2.5 rounded-md bg-white text-slate-800 placeholder-slate-400 text-xs shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 font-medium">
           </div>
           <div id="search-result-count" class="text-[11px] text-slate-300 mt-1 text-right font-medium">
-            Showing {{ gps_data|length }} active trains
+            Showing {{ gps_data|length }} active passenger trains
           </div>
         </div>
       </div>
@@ -43,144 +43,153 @@
     <div class="bg-amber-50 px-6 py-2.5 border-t border-amber-200 text-xs text-amber-800 flex items-center justify-between">
       <div class="flex items-center space-x-2">
         <i class="fa-solid fa-circle-info text-amber-600"></i>
-        <span><strong>Travel Advisory:</strong> Sector Beta (Agra - Gwalior corridor) experiencing light speed regulation due to weather. Vande Bharat and Rajdhani express trains are on schedule.</span>
+        <span><strong>Travel Advisory:</strong> High-speed Vande Bharat and Rajdhani express trains are running on schedule with 99.4% punctuality index.</span>
       </div>
-      <span class="hidden sm:inline font-mono font-semibold text-emerald-700">99.4% On-Time Index</span>
+      <span class="hidden sm:inline font-mono font-semibold text-emerald-700">Kavach 4.0 Active</span>
     </div>
   </div>
 
-  <!-- SECTION 1: LIVE TRAIN RUNNING STATUS CARDS -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="passenger-trains-grid">
+  <!-- SECTION 1: LIVE TRAIN RUNNING STATUS CARDS (WITH VISUAL ROUTE STEPPERS) -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-5" id="passenger-trains-grid">
     {% for train in gps_data %}
-    <div class="ir-card p-5 passenger-train-card hover:border-ir-blue transition relative">
-      <div class="flex items-start justify-between pb-3 mb-3 border-b border-slate-100">
-        <div>
-          <div class="flex items-center space-x-2">
-            <span class="px-2 py-0.5 rounded text-xs font-bold font-mono bg-blue-50 text-ir-blue border border-blue-200">
-              {{ train.train_id }}
+    <div class="ir-card p-5 passenger-train-card hover:border-ir-blue transition relative flex flex-col justify-between">
+      <div>
+        <!-- Top Train Header -->
+        <div class="flex items-start justify-between pb-3 mb-3 border-b border-slate-100">
+          <div>
+            <div class="flex items-center space-x-2">
+              <span class="coach-box coach-loco text-xs py-1 px-2 font-mono font-bold">
+                {{ train.train_id }}
+              </span>
+              <span class="font-bold text-slate-900 text-sm">{{ train.train_name }}</span>
+            </div>
+            <div class="text-xs text-slate-500 mt-1 flex items-center space-x-1.5 font-medium">
+              <span class="text-ir-blue font-semibold">{{ train.origin }}</span>
+              <i class="fa-solid fa-arrow-right text-[10px] text-slate-400"></i>
+              <span class="text-slate-800 font-semibold">{{ train.destination }}</span>
+            </div>
+          </div>
+
+          <!-- Status Badge -->
+          <span class="px-2.5 py-1 rounded text-xs font-bold
+            {% if 'Delayed' in train.status %}badge-delayed{% else %}badge-ontime{% endif %}">
+            <i class="fa-solid {% if 'Delayed' in train.status %}fa-clock{% else %}fa-circle-check{% endif %} mr-1"></i>
+            {{ train.status }}
+          </span>
+        </div>
+
+        <!-- VISUAL TRAIN JOURNEY TRACK STEPPER (GRAPHIC WAY) -->
+        <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 mb-3.5">
+          <div class="flex items-center justify-between text-[11px] font-semibold text-slate-600 mb-2">
+            <span class="flex items-center"><i class="fa-solid fa-circle text-[7px] text-emerald-600 mr-1"></i> {{ train.origin.split(' ')[0] }}</span>
+            <span class="text-orange-600 font-bold flex items-center">
+              <i class="fa-solid fa-train text-xs mr-1 animate-bounce"></i> En Route ({{ train.distance_to_next_km }} km away)
             </span>
-            <span class="font-bold text-slate-900 text-sm">{{ train.train_name }}</span>
+            <span class="flex items-center"><i class="fa-solid fa-flag-checkered text-[9px] text-ir-blue mr-1"></i> {{ train.destination.split(' ')[0] }}</span>
           </div>
-          <div class="text-xs text-slate-500 mt-1 flex items-center space-x-1.5 font-medium">
-            <span class="text-ir-blue">{{ train.origin }}</span>
-            <i class="fa-solid fa-arrow-right text-[10px] text-slate-400"></i>
-            <span class="text-slate-800">{{ train.destination }}</span>
+
+          <!-- Track Graphic with Progress -->
+          <div class="w-full bg-slate-200 h-2.5 rounded-full relative overflow-hidden flex items-center">
+            <div class="bg-gradient-to-r from-blue-600 to-orange-500 h-2.5 rounded-full" style="width: 68%"></div>
+          </div>
+          
+          <div class="flex items-center justify-between text-[10px] text-slate-400 mt-1 font-mono">
+            <span>Departed: {{ train.departure_time }}</span>
+            <span class="text-ir-blue font-bold">Speed: {{ train.speed_kmh }} km/h</span>
+            <span>Arrival: {{ train.scheduled_arrival }}</span>
           </div>
         </div>
 
-        <!-- Status Badge -->
-        <span class="px-2.5 py-1 rounded text-xs font-bold
-          {% if 'Delayed' in train.status %}badge-delayed{% else %}badge-ontime{% endif %}">
-          <i class="fa-solid {% if 'Delayed' in train.status %}fa-clock{% else %}fa-circle-check{% endif %} mr-1"></i>
-          {{ train.status }}
-        </span>
-      </div>
-
-      <!-- Train Stats Strip -->
-      <div class="grid grid-cols-3 gap-2 py-2 px-3 bg-slate-50 rounded-md border border-slate-100 mb-3 text-center">
-        <div>
-          <div class="text-[10px] text-slate-500 uppercase font-semibold">Current Speed</div>
-          <div class="font-mono font-bold text-slate-900 text-sm mt-0.5" id="train-speed-{{ train.train_id }}">
-            {{ train.speed_kmh }} km/h
+        <!-- 3 Quick Metrics Cards -->
+        <div class="grid grid-cols-3 gap-2 py-2 px-3 bg-white rounded-md border border-slate-100 mb-3 text-center">
+          <div>
+            <div class="text-[10px] text-slate-500 uppercase font-semibold">Current Speed</div>
+            <div class="font-mono font-bold text-ir-blue text-sm mt-0.5" id="train-speed-{{ train.train_id }}">
+              {{ train.speed_kmh }} km/h
+            </div>
           </div>
-        </div>
-        <div>
-          <div class="text-[10px] text-slate-500 uppercase font-semibold">Next Stop ETA</div>
-          <div class="font-mono font-bold text-orange-600 text-sm mt-0.5" id="train-eta-{{ train.train_id }}">
-            {{ train.eta_next_station_min }} min
+          <div>
+            <div class="text-[10px] text-slate-500 uppercase font-semibold">Next Stop ETA</div>
+            <div class="font-mono font-bold text-orange-600 text-sm mt-0.5" id="train-eta-{{ train.train_id }}">
+              {{ train.eta_next_station_min }} min
+            </div>
           </div>
-        </div>
-        <div>
-          <div class="text-[10px] text-slate-500 uppercase font-semibold">Departure</div>
-          <div class="font-mono font-bold text-slate-800 text-sm mt-0.5">{{ train.departure_time }}</div>
+          <div>
+            <div class="text-[10px] text-slate-500 uppercase font-semibold">Signal Ahead</div>
+            <div class="font-semibold text-emerald-700 text-xs mt-0.5 flex items-center justify-center">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 mr-1"></span> {{ train.signal_aspect }}
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- Next Station Detail -->
-      <div class="flex items-center justify-between text-xs text-slate-600 pt-1">
+      <div class="flex items-center justify-between text-xs text-slate-600 pt-2 border-t border-slate-100">
         <div>
           <span class="text-slate-500">Approaching:</span> 
-          <span class="text-slate-900 font-semibold">{{ train.next_station }}</span>
+          <span class="text-slate-900 font-bold">{{ train.next_station }}</span>
         </div>
-        <div class="text-[11px] font-mono text-ir-blue font-medium">
-          <i class="fa-solid fa-road mr-1 text-slate-400"></i> {{ train.distance_to_next_km }} km away
+        <div class="text-[11px] font-mono text-emerald-700 font-semibold">
+          <i class="fa-solid fa-shield-halved mr-1"></i> {{ train.ai_status }}
         </div>
       </div>
     </div>
     {% endfor %}
   </div>
 
-  <!-- SECTION 2: NEW DELHI RAILWAY STATION (NDLS) PLATFORM BOARD -->
+  <!-- SECTION 2: NEW DELHI RAILWAY STATION (NDLS) VISUAL PLATFORM BAYS -->
   <div class="ir-card overflow-hidden">
     <div class="bg-slate-50 px-6 py-3.5 border-b border-slate-200 flex items-center justify-between">
       <div class="flex items-center space-x-2">
         <i class="fa-solid fa-building-columns text-ir-blue"></i>
         <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wide">
-          New Delhi Railway Station (NDLS) &bull; Live Platform Allocations
+          New Delhi Railway Station (NDLS) &bull; Visual Platform Track Bays
         </h2>
       </div>
-      <span class="text-xs text-slate-500">Autonomous Track Dispatch</span>
+      <span class="text-xs text-slate-500 font-semibold">8 Active Platform Tracks</span>
     </div>
 
-    <!-- Station Highlights -->
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 p-5 bg-white border-b border-slate-100">
-      <div class="p-3 rounded-md bg-blue-50/60 border border-blue-100">
-        <div class="text-[11px] font-semibold text-slate-500">STATION CROWD LEVEL</div>
-        <div class="text-base font-bold text-ir-blue mt-0.5">MODERATE (Smooth Transit)</div>
-        <div class="text-xs text-slate-500">Average wait time at security: 3 mins</div>
-      </div>
-      <div class="p-3 rounded-md bg-emerald-50/60 border border-emerald-100">
-        <div class="text-[11px] font-semibold text-slate-500">CATENARY POWER GRID</div>
-        <div class="text-base font-bold text-emerald-700 mt-0.5">25.0 kV &bull; 100% NOMINAL</div>
-        <div class="text-xs text-slate-500">All 8 overhead tracks fully electrified</div>
-      </div>
-      <div class="p-3 rounded-md bg-orange-50/60 border border-orange-100">
-        <div class="text-[11px] font-semibold text-slate-500">PASSENGER AMENITIES</div>
-        <div class="text-base font-bold text-orange-700 mt-0.5">ALL LIFTS & ESCALATORS ONLINE</div>
-        <div class="text-xs text-slate-500">Executive lounge & battery carts active</div>
-      </div>
-    </div>
+    <!-- Visual Platform Bay Grid (Picture Way) -->
+    <div class="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {% for p in station_data[0].platforms %}
+      <div class="p-4 rounded-lg border {% if p.status == 'OCCUPIED' %}bg-amber-50/70 border-amber-300{% elif p.status == 'APPROACHING' %}bg-blue-50/70 border-blue-300{% elif p.status == 'CLEAR' %}bg-emerald-50/50 border-emerald-200{% else %}bg-slate-50 border-slate-200{% endif %} flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="px-2.5 py-1 rounded bg-ir-blue text-white text-xs font-bold">
+              PLATFORM {{ p.platform_num }}
+            </span>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded
+              {% if p.status == 'OCCUPIED' %}badge-delayed
+              {% elif p.status == 'APPROACHING' %}badge-primary
+              {% elif p.status == 'CLEAR' %}badge-ontime
+              {% else %}bg-slate-200 text-slate-700{% endif %}">
+              {{ p.status }}
+            </span>
+          </div>
 
-    <!-- Platform Table -->
-    <div class="overflow-x-auto">
-      <table class="w-full ir-table">
-        <thead>
-          <tr>
-            <th>Platform</th>
-            <th>Track Status</th>
-            <th>Train No & Name</th>
-            <th>Destination</th>
-            <th>Est. Departure</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for p in station_data[0].platforms %}
-          <tr>
-            <td class="font-bold text-ir-blue">Platform {{ p.platform_num }}</td>
-            <td>
-              <span class="px-2 py-0.5 rounded text-[11px] font-semibold
-                {% if p.status == 'OCCUPIED' %}badge-delayed
-                {% elif p.status == 'APPROACHING' %}badge-primary
-                {% elif p.status == 'CLEAR' %}badge-ontime
-                {% else %}bg-slate-100 text-slate-600 border border-slate-200{% endif %}">
-                {{ p.status }}
-              </span>
-            </td>
-            <td class="font-semibold text-slate-900">
-              {% if p.train_id != 'STANDBY' and p.train_id != 'OPEN' %}
-                <span class="font-mono text-ir-blue font-bold mr-1">{{ p.train_id }}</span> {{ p.train_name }}
-              {% else %}
-                <span class="text-slate-400 italic">No train currently docked</span>
-              {% endif %}
-            </td>
-            <td class="text-slate-700">{{ p.destination }}</td>
-            <td class="font-mono font-semibold text-slate-800">
-              {% if p.departure_eta_min > 0 %}In {{ p.departure_eta_min }} min{% else %}--{% endif %}
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+          <!-- Train Info -->
+          {% if p.train_id != 'STANDBY' and p.train_id != 'OPEN' %}
+          <div class="mt-2">
+            <div class="font-bold text-slate-900 text-xs flex items-center">
+              <i class="fa-solid fa-train text-ir-blue mr-1.5"></i> {{ p.train_id }} - {{ p.train_name }}
+            </div>
+            <div class="text-[11px] text-slate-500 mt-0.5">To: <strong>{{ p.destination }}</strong></div>
+          </div>
+          {% else %}
+          <div class="mt-2 text-xs text-slate-400 italic">
+            Track Open & Clear
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="mt-3 pt-2 border-t border-slate-200/60 text-[11px] flex items-center justify-between text-slate-600">
+          <span>Est. Departure:</span>
+          <span class="font-bold text-slate-800">
+            {% if p.departure_eta_min > 0 %}In {{ p.departure_eta_min }}m{% else %}--{% endif %}
+          </span>
+        </div>
+      </div>
+      {% endfor %}
     </div>
   </div>
 
