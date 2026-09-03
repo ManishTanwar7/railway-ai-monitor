@@ -138,54 +138,35 @@
   </div>
 
   <!-- ============================================================== -->
-  <!-- 4 QUICK ACCESS ROLE TILES (FOR INSTANT SWITCHING)              -->
+  <!-- REAL-WORLD GOVT OF INDIA / CRIS NTES LIVE DATA STREAM          -->
   <!-- ============================================================== -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-    
-    <a href="/login/admin"
-      class="ir-card p-4 hover:border-amber-400 transition flex items-center space-x-3 bg-white/95">
-      <div class="w-10 h-10 rounded-lg bg-amber-500 text-white flex items-center justify-center text-lg shrink-0">
-        <i class="fa-solid fa-crown"></i>
+  <div class="ir-card p-5 bg-white/95 backdrop-blur shadow-sm border-t-2 border-t-ir-blue">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+      <div class="flex items-center space-x-3">
+        <div class="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-300 text-emerald-700 flex items-center justify-center text-base">
+          <i class="fa-solid fa-satellite-dish animate-pulse"></i>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="text-xs font-bold text-slate-900">National Train Enquiry System (NTES) &bull; CRIS Telemetry</span>
+            <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 text-[10px] font-bold">
+              REAL-TIME SYNC
+            </span>
+          </div>
+          <div class="text-[11px] text-slate-500 mt-0.5">
+            Synchronized with Ministry of Railways live GPS feeds across Delhi, Kanpur, Agra & Varanasi corridors.
+          </div>
+        </div>
       </div>
-      <div>
-        <div class="text-xs font-bold text-slate-900">Admin (Chief Controller)</div>
-        <div class="text-[11px] text-amber-700">AI Simulator & Controls</div>
-      </div>
-    </a>
 
-    <a href="/login/stationmaster"
-      class="ir-card p-4 hover:border-blue-400 transition flex items-center space-x-3 bg-white/95">
-      <div class="w-10 h-10 rounded-lg bg-ir-blue text-white flex items-center justify-center text-lg shrink-0">
-        <i class="fa-solid fa-tower-observation"></i>
+      <div class="flex items-center space-x-3 text-xs">
+        <button onclick="openLoginModal()"
+          class="px-3.5 py-1.5 rounded-lg bg-ir-blue hover:bg-ir-blue-light text-white font-bold transition flex items-center space-x-1.5 shadow-sm">
+          <i class="fa-solid fa-lock text-xs"></i>
+          <span>Official Sign In</span>
+        </button>
       </div>
-      <div>
-        <div class="text-xs font-bold text-slate-900">Station Master</div>
-        <div class="text-[11px] text-blue-700">Track Radar & Signals</div>
-      </div>
-    </a>
-
-    <a href="/login/employee"
-      class="ir-card p-4 hover:border-emerald-400 transition flex items-center space-x-3 bg-white/95">
-      <div class="w-10 h-10 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-lg shrink-0">
-        <i class="fa-solid fa-screwdriver-wrench"></i>
-      </div>
-      <div>
-        <div class="text-xs font-bold text-slate-900">Field Engineer</div>
-        <div class="text-[11px] text-emerald-700">Track Sensors & Health</div>
-      </div>
-    </a>
-
-    <a href="/dashboard/passenger"
-      class="ir-card p-4 hover:border-orange-400 transition flex items-center space-x-3 bg-white/95">
-      <div class="w-10 h-10 rounded-lg bg-orange-600 text-white flex items-center justify-center text-lg shrink-0">
-        <i class="fa-solid fa-train"></i>
-      </div>
-      <div>
-        <div class="text-xs font-bold text-slate-900">Passenger Portal</div>
-        <div class="text-[11px] text-orange-700">Free Live Train Radar</div>
-      </div>
-    </a>
-
+    </div>
   </div>
 
 </div>

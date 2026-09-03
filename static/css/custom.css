@@ -216,20 +216,29 @@ body {
 }
 
 .train-passing-animate {
-  animation: trainPassingMove 0.65s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  animation: trainPassingMove 3.2s cubic-bezier(0.2, 0.8, 0.4, 1) forwards;
 }
 
 @keyframes trainPassingMove {
   0% {
-    left: -400px;
-    opacity: 0.9;
+    left: -420px;
+    opacity: 1;
   }
-  50% {
+  25% {
+    left: 15%;
+    opacity: 1;
+  }
+  55% {
+    left: 55%;
+    opacity: 1;
+  }
+  85% {
+    left: 90%;
     opacity: 1;
   }
   100% {
-    left: 105%;
-    opacity: 0.9;
+    left: 110%;
+    opacity: 1;
   }
 }
 

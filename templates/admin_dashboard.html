@@ -649,7 +649,7 @@
       trainSprite.classList.add('train-passing-animate');
     }
 
-    // HALF-WAY THROUGH TRAIN PASS (300ms): REVEAL NEW DATA
+    // AS TRAIN REACHES THE MIDDLE (1500ms): REVEAL NEW DATA
     setTimeout(() => {
       document.getElementById('inspect-tier').textContent = data.tier;
       document.getElementById('inspect-name').textContent = data.name;
@@ -681,11 +681,12 @@
       if (trainLabel) {
         trainLabel.textContent = `VANDE BHARAT PASSED &bull; ${data.name.toUpperCase()} ACTIVE`;
       }
-    }, 300);
+    }, 1500);
 
+    // Release switch lock when train completes full transit
     setTimeout(() => {
       isSwitching = false;
-    }, 650);
+    }, 3200);
   }
 
   // Interactive Live Action Simulation
