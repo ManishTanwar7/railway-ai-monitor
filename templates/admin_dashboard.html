@@ -769,6 +769,17 @@
       aiMessage.textContent = 'Obstacle spotted 800m ahead! AI instantly turned signal RED and applied emergency brakes. Train stopped smoothly 500m away. Crash prevented!';
       showToast('Crash Guard: Emergency brakes applied. Collision successfully prevented!', 'danger');
     }
+
+    // Persist live simulation state directly to SQLite database in real time
+    try {
+      fetch('/api/simulate/ai-action', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mode: mode, train_id: '22436' })
+      });
+    } catch (e) {
+      console.log('Live DB sync notice:', e);
+    }
   }
 
   // Auto-select boss node on initial page load

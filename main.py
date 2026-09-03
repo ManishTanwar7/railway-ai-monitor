@@ -362,7 +362,34 @@ async def override_signal(payload: SignalOverridePayload, request: Request):
         raise HTTPException(status_code=404, detail=f"Signal {payload.signal_id} not found.")
 
     save_dataset("signals", signals)
+    try:
+        from db import update_signal_in_db
+        update_signal_in_db(payload.signal_id, payload.new_aspect)
+    except Exception:
+        pass
     return JSONResponse(content={"status": "success", "signal_id": payload.signal_id, "aspect": payload.new_aspect})
+
+
+class SimulationPayload(BaseModel):
+    mode: str
+    train_id: Optional[str] = "22436"
+
+@app.post("/api/simulate/ai-action")
+async def simulate_action_and_update_db(payload: SimulationPayload):
+    """Links interactive simulator actions directly to live SQLite database in real time."""
+    from db import update_train_telemetry_in_db, record_ai_decision_in_db
+    
+    if payload.mode == "normal":
+        update_train_telemetry_in_db(payload.train_id, 158.5, "GREEN", "Cruising (On Time)", 1200.0, 0.0)
+        record_ai_decision_in_db(payload.train_id, "CNB", "Fast Track Finder", 160.0, "Signal SIG-12 GREEN: 158 km/h cruise", 1200.0)
+    elif payload.mode == "rain":
+        update_train_telemetry_in_db(payload.train_id, 110.0, "YELLOW", "Regulated Wet Rail", 980.0, 2.0)
+        record_ai_decision_in_db(payload.train_id, "ETW", "Rain & Track Grip Checker", 110.0, "Rain 18mm: Speed limited to 110 km/h", 980.0)
+    elif payload.mode == "obstacle":
+        update_train_telemetry_in_db(payload.train_id, 0.0, "RED", "Kavach Emergency Halt", 500.0, 15.0)
+        record_ai_decision_in_db(payload.train_id, "CNB", "Kavach Crash Guard", 0.0, "Obstacle 800m ahead: Auto Emergency Brake Applied", 500.0)
+    
+    return JSONResponse(content={"status": "updated_in_live_db", "mode": payload.mode})
 
 
 class AiParamPayload(BaseModel):
