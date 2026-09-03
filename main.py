@@ -66,7 +66,7 @@ async def root(request: Request):
 
 @app.get("/login", response_class=HTMLResponse)
 async def login_page(request: Request, error: Optional[str] = None):
-    """Renders cybernetic terminal login page."""
+    """Renders visual Vande Bharat split landing & 1-click role login."""
     user = get_current_user_from_request(request)
     if user:
         return RedirectResponse(url=user["dashboard_url"], status_code=status.HTTP_302_FOUND)
@@ -77,21 +77,53 @@ async def login_page(request: Request, error: Optional[str] = None):
     )
 
 
+@app.get("/login/{role}")
+async def quick_role_login(role: str):
+    """Direct 1-click access: Logs in immediately without password requirement."""
+    role_map = {
+        "admin": "admin",
+        "stationmaster": "stationmaster",
+        "station-master": "stationmaster",
+        "employee": "employee",
+        "passenger": "passenger"
+    }
+    username = role_map.get(role.lower(), "passenger")
+    user = USERS_DB.get(username)
+    if not user:
+        return RedirectResponse(url="/login", status_code=status.HTTP_302_FOUND)
+
+    token = create_access_token(data={"sub": user["username"], "role": user["role"]})
+    response = RedirectResponse(url=user["dashboard_url"], status_code=status.HTTP_302_FOUND)
+    response.set_cookie(
+        key=COOKIE_NAME,
+        value=token,
+        httponly=True,
+        max_age=60 * 60 * 24,
+        samesite="lax"
+    )
+    return response
+
+
 @app.post("/login", response_class=HTMLResponse)
 async def handle_login(
     request: Request,
     username: str = Form(...),
-    password: str = Form(...)
+    password: Optional[str] = Form(None)
 ):
-    """Processes login credentials, creates JWT token cookie, and redirects to dashboard."""
-    user = authenticate_user(username, password)
+    """Processes login credentials. If password is provided, verifies it; if empty, allows direct 1-click access."""
+    user = None
+    if password:
+        user = authenticate_user(username, password)
+    elif username in USERS_DB:
+        user = USERS_DB[username]
+
     if not user:
         return templates.TemplateResponse(
             request=request,
             name="login.html",
             context={
                 "user": None,
-                "error": "Invalid Operator ID or Passcode. Please select a preset role or check credentials."
+                "error": "Invalid Operator ID. Please select one of the 1-click role buttons."
             },
             status_code=status.HTTP_401_UNAUTHORIZED
         )
