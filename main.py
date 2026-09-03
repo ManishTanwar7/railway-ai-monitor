@@ -228,10 +228,17 @@ async def employee_dashboard(request: Request):
 
 @app.get("/dashboard/passenger", response_class=HTMLResponse)
 async def passenger_dashboard(request: Request):
-    """Passenger View: High-contrast commuter board with live train ETA, delay reasons, and station info."""
-    user = get_current_user_from_request(request)
-    if not user:
-        return RedirectResponse(url="/login", status_code=status.HTTP_302_FOUND)
+    """Passenger View: 100% Open and password-free live train ETA and platform tracker."""
+    user = get_current_user_from_request(request) or {
+        "username": "passenger",
+        "full_name": "Public Passenger",
+        "role": ROLE_PASSENGER,
+        "role_display": "Passenger",
+        "badge": "PUBLIC TRAIN TRACKER",
+        "avatar": "fa-ticket",
+        "color": "orange",
+        "dashboard_url": "/dashboard/passenger"
+    }
 
     gps_data = load_dataset("gps_tracker")
     station_data = load_dataset("station_ops")
