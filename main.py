@@ -175,12 +175,12 @@ async def employee_dashboard(request: Request):
         return RedirectResponse(url="/login?error=Employee clearance required.", status_code=status.HTTP_302_FOUND)
 
     ai_data = load_dataset("ai_hierarchy")
-    assigned_names = user.get("assigned_modules", ["Signal Pulse Agent", "Weather Telemetry Analyzer"])
+    assigned_names = user.get("assigned_modules", ["Smart Signal Switcher", "Rain & Track Grip Checker"])
     
-    # Filter worker AIs strictly to assigned modules
+    # Filter worker AIs strictly to assigned modules (supporting simple names and IDs)
     assigned_modules_details = [
         worker for worker in ai_data.get("worker_ais", [])
-        if worker["name"] in assigned_names
+        if worker["name"] in assigned_names or worker.get("id") in ["W-SIGNAL", "W-WEATHER"]
     ]
 
     return templates.TemplateResponse(

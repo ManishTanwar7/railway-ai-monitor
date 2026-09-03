@@ -46,8 +46,8 @@ USERS_DB = {
         "avatar": "fa-screwdriver-wrench",
         "color": "emerald",
         "assigned_modules": [
-            "Signal Pulse Agent",
-            "Weather Telemetry Analyzer"
+            "Smart Signal Switcher",
+            "Rain & Track Grip Checker"
         ],
         "dashboard_url": "/dashboard/employee"
     },

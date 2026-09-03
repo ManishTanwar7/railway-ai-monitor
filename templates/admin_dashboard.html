@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Admin (Boss AI Hierarchy) | IRCTC RailAI{% endblock %}
+{% block title %}Admin (Master AI Tree) | IRCTC RailAI{% endblock %}
 
 {% block content %}
 <div class="space-y-6">
@@ -15,14 +15,14 @@
         <div>
           <div class="flex items-center space-x-2">
             <h1 class="text-xl font-bold text-white tracking-tight">
-              Central Railway Board &bull; Boss AI Supervisor
+              Central Railway Board &bull; AI Network Tree
             </h1>
             <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-400 text-slate-900">
-              LEVEL 3 BOSS
+              CHIEF BOSS
             </span>
           </div>
           <p class="text-xs text-slate-300 mt-0.5">
-            Click any AI node in the tree below to inspect its visual graphs, sensors, and live decisions.
+            Click any AI team member in the tree below to watch the train pass and view their live visual data.
           </p>
         </div>
       </div>
@@ -31,13 +31,13 @@
         <button id="live-toggle-btn" onclick="toggleLiveSimulation()"
           class="px-3 py-1.5 rounded-md text-xs font-semibold bg-emerald-700 hover:bg-emerald-600 text-white transition flex items-center space-x-1.5 shadow-sm">
           <i class="fa-solid fa-satellite-dish text-xs animate-pulse"></i>
-          <span>LIVE TRACKING</span>
+          <span>LIVE RADAR</span>
         </button>
 
         <button onclick="showToast('Re-calibrating neural weights across all sub-agents...', 'info')"
           class="px-3 py-1.5 rounded-md text-xs font-semibold bg-blue-800 hover:bg-blue-700 text-white border border-blue-600 transition flex items-center space-x-1.5 shadow-sm">
           <i class="fa-solid fa-arrows-rotate text-xs"></i>
-          <span>CALIBRATE</span>
+          <span>RECALIBRATE</span>
         </button>
       </div>
     </div>
@@ -59,7 +59,7 @@
           <i class="fa-solid fa-bolt"></i>
         </div>
         <div>
-          <div class="text-[10px] font-semibold text-slate-400 uppercase">Latency</div>
+          <div class="text-[10px] font-semibold text-slate-400 uppercase">Speed / Latency</div>
           <div class="text-lg font-bold text-ir-blue">{{ ai_data.boss_ai.latency_ms }} ms</div>
         </div>
       </div>
@@ -69,8 +69,8 @@
           <i class="fa-solid fa-train"></i>
         </div>
         <div>
-          <div class="text-[10px] font-semibold text-slate-400 uppercase">Sectors</div>
-          <div class="text-lg font-bold text-slate-900">{{ ai_data.active_topology_nodes }} Track Blocks</div>
+          <div class="text-[10px] font-semibold text-slate-400 uppercase">Active Corridors</div>
+          <div class="text-lg font-bold text-slate-900">{{ ai_data.active_topology_nodes }} Sectors</div>
         </div>
       </div>
 
@@ -79,41 +79,41 @@
           <i class="fa-solid fa-shield-halved"></i>
         </div>
         <div>
-          <div class="text-[10px] font-semibold text-slate-400 uppercase">Kavach 4.0</div>
-          <div class="text-lg font-bold text-purple-700">Protected</div>
+          <div class="text-[10px] font-semibold text-slate-400 uppercase">Kavach Safety</div>
+          <div class="text-lg font-bold text-purple-700">100% Protected</div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- ============================================================== -->
-  <!-- SECTION 1: INTERACTIVE AI WORKING TREE (CLICK TO VIEW DATA)    -->
+  <!-- SECTION 1: INTERACTIVE AI TREE (SIMPLE EVERYDAY NAMES)         -->
   <!-- ============================================================== -->
   <div class="ir-card p-6">
     <div class="flex items-center justify-between mb-4 pb-2 border-b border-slate-100">
       <div class="flex items-center space-x-2">
         <i class="fa-solid fa-sitemap text-orange-600"></i>
         <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wide">
-          Interactive AI Hierarchy Tree &bull; Click Any Node to View Visual Data
+          AI Team Tree &bull; Click to Switch (Train Transition)
         </h2>
       </div>
-      <span class="text-xs text-slate-500 font-semibold">
-        <i class="fa-solid fa-hand-pointer text-orange-600 mr-1"></i> Click to Inspect
+      <span class="text-xs text-ir-blue font-semibold flex items-center">
+        <i class="fa-solid fa-train text-orange-600 mr-1.5 animate-pulse"></i> Click any node to watch train pass
       </span>
     </div>
 
-    <!-- Tree Visual Layout -->
+    <!-- Tree Visual Structure with Simple Names -->
     <div class="flex flex-col items-center py-2">
       
-      <!-- LEVEL 3: BOSS AI NODE -->
+      <!-- LEVEL 3: CHIEF BOSS AI -->
       <button onclick="selectAiNode('boss')" id="node-boss"
         class="tree-node px-6 py-3 rounded-xl bg-gradient-to-r from-blue-900 to-ir-blue text-white shadow-md border-2 border-orange-500 hover:scale-105 transition flex items-center space-x-3 cursor-pointer">
         <div class="w-9 h-9 rounded-full bg-white text-ir-blue flex items-center justify-center text-base shadow">
           <i class="fa-solid fa-crown text-amber-500"></i>
         </div>
         <div class="text-left">
-          <div class="text-[10px] font-bold text-amber-400 uppercase">Level 3 Master Boss</div>
-          <div class="text-sm font-bold tracking-tight">Chronos-Omni Rail Core</div>
+          <div class="text-[10px] font-bold text-amber-400 uppercase">Chief Boss</div>
+          <div class="text-sm font-bold tracking-tight">Railway Master Brain</div>
         </div>
         <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
       </button>
@@ -121,7 +121,7 @@
       <!-- Connecting Stem 1 -->
       <div class="w-0.5 h-6 bg-slate-300"></div>
 
-      <!-- LEVEL 2: 3 LEADER AI NODES -->
+      <!-- LEVEL 2: 3 TEAM LEADER NODES -->
       <div class="w-full max-w-3xl relative">
         <div class="absolute top-0 left-12 right-12 h-0.5 bg-slate-300"></div>
         <div class="grid grid-cols-3 gap-4 pt-3">
@@ -133,8 +133,8 @@
               <div class="w-7 h-7 mx-auto rounded-full bg-blue-100 text-ir-blue flex items-center justify-center text-xs mb-1">
                 <i class="fa-solid fa-route"></i>
               </div>
-              <div class="text-[9px] font-bold text-slate-400 uppercase">Level 2 Leader</div>
-              <div class="text-xs font-bold text-slate-900 leading-tight">Route Optimizer</div>
+              <div class="text-[9px] font-bold text-slate-400 uppercase">Team Leader 1</div>
+              <div class="text-xs font-bold text-slate-900 leading-tight">Fast Track Finder</div>
             </button>
             <div class="w-0.5 h-4 bg-slate-300"></div>
           </div>
@@ -146,8 +146,8 @@
               <div class="w-7 h-7 mx-auto rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-xs mb-1">
                 <i class="fa-solid fa-shield-halved"></i>
               </div>
-              <div class="text-[9px] font-bold text-slate-400 uppercase">Level 2 Leader</div>
-              <div class="text-xs font-bold text-slate-900 leading-tight">Safety Interlock</div>
+              <div class="text-[9px] font-bold text-slate-400 uppercase">Team Leader 2</div>
+              <div class="text-xs font-bold text-slate-900 leading-tight">Crash Protection Shield</div>
             </button>
             <div class="w-0.5 h-4 bg-slate-300"></div>
           </div>
@@ -159,8 +159,8 @@
               <div class="w-7 h-7 mx-auto rounded-full bg-purple-100 text-purple-700 flex items-center justify-center text-xs mb-1">
                 <i class="fa-solid fa-building-columns"></i>
               </div>
-              <div class="text-[9px] font-bold text-slate-400 uppercase">Level 2 Leader</div>
-              <div class="text-xs font-bold text-slate-900 leading-tight">Station Dispatcher</div>
+              <div class="text-[9px] font-bold text-slate-400 uppercase">Team Leader 3</div>
+              <div class="text-xs font-bold text-slate-900 leading-tight">Station Platform Manager</div>
             </button>
             <div class="w-0.5 h-4 bg-slate-300"></div>
           </div>
@@ -168,17 +168,17 @@
         </div>
       </div>
 
-      <!-- LEVEL 1: 5 WORKER AI NODES -->
+      <!-- LEVEL 1: 5 SIMPLE WORKER NODES -->
       <div class="w-full max-w-4xl pt-1">
         <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
           
           <button onclick="selectAiNode('worker-eta')" id="node-worker-eta"
             class="tree-node p-2 rounded-lg bg-slate-50 border-2 border-slate-200 hover:border-blue-500 shadow-sm transition text-center cursor-pointer">
             <div class="w-6 h-6 mx-auto rounded-md bg-blue-100 text-blue-700 flex items-center justify-center text-[10px] mb-1">
-              <i class="fa-solid fa-gauge-high"></i>
+              <i class="fa-solid fa-clock"></i>
             </div>
             <div class="text-[9px] font-bold text-slate-400">Worker 1</div>
-            <div class="text-[11px] font-bold text-slate-900 leading-tight">ETA Forecaster</div>
+            <div class="text-[11px] font-bold text-slate-900 leading-tight">Train Arrival Clock</div>
           </button>
 
           <button onclick="selectAiNode('worker-congestion')" id="node-worker-congestion"
@@ -187,7 +187,7 @@
               <i class="fa-solid fa-route"></i>
             </div>
             <div class="text-[9px] font-bold text-slate-400">Worker 2</div>
-            <div class="text-[11px] font-bold text-slate-900 leading-tight">Traffic Rerouter</div>
+            <div class="text-[11px] font-bold text-slate-900 leading-tight">Traffic Jam Avoider</div>
           </button>
 
           <button onclick="selectAiNode('worker-signal')" id="node-worker-signal"
@@ -196,7 +196,7 @@
               <i class="fa-solid fa-traffic-light"></i>
             </div>
             <div class="text-[9px] font-bold text-slate-400">Worker 3</div>
-            <div class="text-[11px] font-bold text-slate-900 leading-tight">Signal Pulse</div>
+            <div class="text-[11px] font-bold text-slate-900 leading-tight">Smart Signal Switcher</div>
           </button>
 
           <button onclick="selectAiNode('worker-brake')" id="node-worker-brake"
@@ -205,7 +205,7 @@
               <i class="fa-solid fa-circle-stop"></i>
             </div>
             <div class="text-[9px] font-bold text-slate-400">Worker 4</div>
-            <div class="text-[11px] font-bold text-slate-900 leading-tight">Safe Braking</div>
+            <div class="text-[11px] font-bold text-slate-900 leading-tight">Smooth Brake Stopper</div>
           </button>
 
           <button onclick="selectAiNode('worker-weather')" id="node-worker-weather"
@@ -214,7 +214,7 @@
               <i class="fa-solid fa-cloud-sun-rain"></i>
             </div>
             <div class="text-[9px] font-bold text-slate-400">Worker 5</div>
-            <div class="text-[11px] font-bold text-slate-900 leading-tight">Weather Grip</div>
+            <div class="text-[11px] font-bold text-slate-900 leading-tight">Rain & Grip Checker</div>
           </button>
 
         </div>
@@ -223,9 +223,49 @@
     </div>
 
     <!-- ============================================================== -->
-    <!-- DYNAMIC VISUAL DATA PANEL (CHANGES WHEN YOU CLICK ANY NODE)    -->
+    <!-- REALISTIC TRAIN PASSING TRANSITION TRACK                      -->
+    <!-- (ZOOMS ACROSS AS YOU SWITCH BETWEEN AI NODES!)                 -->
     <!-- ============================================================== -->
-    <div id="ai-inspection-box" class="mt-6 pt-5 border-t border-slate-200">
+    <div class="mt-5">
+      <div class="train-track-container" id="train-track-bed">
+        <div class="rail-ties"></div>
+        
+        <!-- Moving Vande Bharat Express Model -->
+        <div class="train-sprite" id="speeding-train-sprite">
+          <div class="train-coach-unit">
+            <div class="coach-window"></div>
+            <div class="coach-window"></div>
+            <div class="coach-window"></div>
+            <div class="train-wheel" style="left: 10px;"></div>
+            <div class="train-wheel" style="right: 10px;"></div>
+          </div>
+          <div class="train-coach-unit">
+            <div class="coach-window"></div>
+            <div class="coach-window"></div>
+            <div class="coach-window"></div>
+            <div class="train-wheel" style="left: 10px;"></div>
+            <div class="train-wheel" style="right: 10px;"></div>
+          </div>
+          <div class="train-engine">
+            <div class="train-windshield"></div>
+            <div class="train-stripe"></div>
+            <div class="train-wheel" style="left: 16px;"></div>
+            <div class="train-wheel" style="right: 20px;"></div>
+          </div>
+        </div>
+
+        <div class="absolute inset-0 flex items-center justify-between px-4 pointer-events-none text-[10px] font-mono font-bold text-slate-400">
+          <span class="flex items-center"><i class="fa-solid fa-train-track mr-1"></i> DELHI CORRIDOR</span>
+          <span id="train-pass-label" class="text-orange-400 font-semibold">VANDE BHARAT LIVE TRANSIT</span>
+          <span>KANPUR EXP &bull; 160 KM/H</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- DYNAMIC VISUAL DATA PANEL (REVEALED AFTER TRAIN PASSES)       -->
+    <!-- ============================================================== -->
+    <div id="ai-inspection-box" class="pt-2">
       
       <!-- INSPECTOR HEADER -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 bg-slate-50 p-4 rounded-xl border border-slate-200">
@@ -236,12 +276,12 @@
           <div>
             <div class="flex items-center space-x-2">
               <span id="inspect-tier" class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-400 text-slate-900 uppercase">
-                Level 3 Master Boss
+                Chief Boss
               </span>
-              <h3 id="inspect-name" class="font-bold text-slate-900 text-base">Chronos-Omni Rail Core</h3>
+              <h3 id="inspect-name" class="font-bold text-slate-900 text-base">Railway Master Brain</h3>
             </div>
-            <p id="inspect-job" class="text-xs text-slate-600 mt-0.5">
-              Master Brain that coordinates all trains, signals, and weather to achieve 99.4% punctuality.
+            <p id="inspect-job" class="text-xs text-slate-600 mt-0.5 font-medium">
+              The main brain that keeps all trains running on time and 100% safe across India.
             </p>
           </div>
         </div>
@@ -254,7 +294,7 @@
           </div>
           <div class="h-8 w-px bg-slate-200"></div>
           <div>
-            <div class="text-[10px] text-slate-400 font-semibold uppercase">Latency</div>
+            <div class="text-[10px] text-slate-400 font-semibold uppercase">Speed</div>
             <div class="text-base font-bold text-ir-blue font-mono" id="inspect-lat">4.8 ms</div>
           </div>
           <div class="h-8 w-px bg-slate-200"></div>
@@ -265,10 +305,10 @@
         </div>
       </div>
 
-      <!-- 4 VISUAL PICTURE STEPS PIPELINE (NO TEXT WALLS) -->
+      <!-- 4 VISUAL PICTURE STEPS PIPELINE (ZERO TEXT WALLS) -->
       <div class="mb-5">
         <div class="text-xs font-bold text-slate-700 uppercase tracking-wide mb-2 flex items-center">
-          <i class="fa-solid fa-diagram-project mr-1.5 text-ir-blue"></i> Visual Real-Time Data Pipeline
+          <i class="fa-solid fa-diagram-project mr-1.5 text-ir-blue"></i> Visual Real-Time Action Flow
         </div>
 
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center" id="inspect-steps-grid">
@@ -312,7 +352,7 @@
         </div>
       </div>
 
-      <!-- VISUAL TRACK GRAPHIC -->
+      <!-- VISUAL TRACK PROGRESS -->
       <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
         <div class="flex items-center justify-between text-xs font-semibold text-slate-700 mb-2">
           <span>New Delhi (NDLS)</span>
@@ -335,7 +375,7 @@
 
   </div>
 
-  <!-- SECTION 2: TUNING CONTROLS & LIVE ACTIONS -->
+  <!-- SECTION 2: SLIDERS & LIVE LOGS -->
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
     
     <!-- Controls (5 cols) -->
@@ -423,12 +463,12 @@
 
 {% block extra_scripts %}
 <script>
-  // Interactive Node Data for the Tree
+  // Simple, everyday names for normal people
   const AI_NODES = {
     'boss': {
-      tier: 'Level 3 Master Boss',
-      name: 'Chronos-Omni Rail Core',
-      job: 'Master Brain that coordinates all trains, signals, and weather to achieve 99.4% punctuality.',
+      tier: 'Chief Boss',
+      name: 'Railway Master Brain',
+      job: 'The main brain that keeps all trains running on time and 100% safe across India.',
       icon: 'fa-crown',
       color: 'bg-orange-600',
       acc: '99.4%',
@@ -442,9 +482,9 @@
       ]
     },
     'leader-route': {
-      tier: 'Level 2 Leader',
-      name: 'Route Optimizer Alpha',
-      job: 'Directs trains across fast tracks and reroutes slow cargo trains to side loop tracks.',
+      tier: 'Team Leader 1',
+      name: 'Fast Track Finder',
+      job: 'Finds the fastest open track and diverts slow freight trains so express trains run non-stop.',
       icon: 'fa-route',
       color: 'bg-blue-600',
       acc: '98.7%',
@@ -458,9 +498,9 @@
       ]
     },
     'leader-safety': {
-      tier: 'Level 2 Leader',
-      name: 'Safety Interlock Sentinel',
-      job: 'Guarantees that no two trains ever get too close; automatically holds signals red on conflict.',
+      tier: 'Team Leader 2',
+      name: 'Crash Protection Shield',
+      job: 'Guarantees two trains never bump into each other; auto-brakes if any train comes too close.',
       icon: 'fa-shield-halved',
       color: 'bg-emerald-600',
       acc: '99.99%',
@@ -474,9 +514,9 @@
       ]
     },
     'leader-dispatch': {
-      tier: 'Level 2 Leader',
-      name: 'Dispatch Neural Hub',
-      job: 'Allocates platforms at New Delhi (NDLS) so incoming trains never wait outside the station.',
+      tier: 'Team Leader 3',
+      name: 'Station Platform Manager',
+      job: 'Prepares empty platform tracks at stations so passengers never wait outside on arrival.',
       icon: 'fa-building-columns',
       color: 'bg-purple-600',
       acc: '97.5%',
@@ -490,10 +530,10 @@
       ]
     },
     'worker-eta': {
-      tier: 'Level 1 Worker',
-      name: 'ETA Velocity Forecaster',
-      job: 'Calculates exact train arrival time down to the minute by checking speed, rain, and ahead signals.',
-      icon: 'fa-gauge-high',
+      tier: 'Field Worker 1',
+      name: 'Train Arrival Clock',
+      job: 'Tells passengers exactly what minute their train will arrive by checking GPS speed and track signals.',
+      icon: 'fa-clock',
       color: 'bg-blue-600',
       acc: '99.1%',
       lat: '1.4 ms',
@@ -506,9 +546,9 @@
       ]
     },
     'worker-congestion': {
-      tier: 'Level 1 Worker',
+      tier: 'Field Worker 2',
       name: 'Traffic Jam Avoider',
-      job: 'Spots track congestion 30 minutes in advance and moves goods trains out of the way.',
+      job: 'Sees track jams 30 minutes before they happen and moves slow cargo trains out of the way.',
       icon: 'fa-route',
       color: 'bg-purple-600',
       acc: '96.8%',
@@ -522,25 +562,25 @@
       ]
     },
     'worker-signal': {
-      tier: 'Level 1 Worker',
-      name: 'Signal Pulse Agent',
-      job: 'Turns signals green automatically when track is clear, and turns them red the instant a train passes.',
+      tier: 'Field Worker 3',
+      name: 'Smart Signal Switcher',
+      job: 'Turns signals green automatically when track ahead is clear, and flips them red as soon as train passes.',
       icon: 'fa-traffic-light',
       color: 'bg-emerald-600',
       acc: '99.99%',
       lat: '0.8 ms',
       status: 'STREAMING',
       steps: [
-        { icon: 'fa-circle-dot', title: '1. Axle Sensor', desc: 'Train cleared block' },
+        { icon: 'fa-circle-dot', title: '1. Axle Sensor', desc: 'Track Block 12 Empty' },
         { icon: 'fa-shield-halved', title: '2. Gap Buffer', desc: 'Safe headway > 500m' },
         { icon: 'fa-traffic-light', title: '3. Light Switched', desc: 'Signal turns GREEN' },
         { icon: 'fa-forward', title: '4. Non-Stop Run', desc: 'Full speed cleared' }
       ]
     },
     'worker-brake': {
-      tier: 'Level 1 Worker',
-      name: 'Safe Braking Calculator',
-      job: 'Calculates the exact safe braking distance in meters to smoothly stop trains without jolting passengers.',
+      tier: 'Field Worker 4',
+      name: 'Smooth Brake Stopper',
+      job: 'Calculates the exact meters needed to stop the train safely without jerking passengers.',
       icon: 'fa-circle-stop',
       color: 'bg-rose-600',
       acc: '99.8%',
@@ -554,9 +594,9 @@
       ]
     },
     'worker-weather': {
-      tier: 'Level 1 Worker',
-      name: 'Weather & Track Grip Analyzer',
-      job: 'Measures rain, crosswinds, and track heat to prevent wheel slippage on wet or hot rails.',
+      tier: 'Field Worker 5',
+      name: 'Rain & Track Grip Checker',
+      job: 'Checks rain, strong winds, and track temperature so train wheels never slip on wet rails.',
       icon: 'fa-cloud-sun-rain',
       color: 'bg-amber-600',
       acc: '98.5%',
@@ -571,9 +611,13 @@
     }
   };
 
+  let isSwitching = false;
+
   function selectAiNode(nodeKey) {
     const data = AI_NODES[nodeKey];
-    if (!data) return;
+    if (!data || isSwitching) return;
+
+    isSwitching = true;
 
     // Visual highlight on tree node
     document.querySelectorAll('.tree-node').forEach(btn => {
@@ -584,34 +628,67 @@
       activeBtn.classList.add('ring-4', 'ring-orange-400', 'border-orange-500');
     }
 
-    // Update Inspection Box
-    document.getElementById('inspect-tier').textContent = data.tier;
-    document.getElementById('inspect-name').textContent = data.name;
-    document.getElementById('inspect-job').textContent = data.job;
-    document.getElementById('inspect-acc').textContent = data.acc;
-    document.getElementById('inspect-lat').textContent = data.lat;
-    document.getElementById('inspect-status').textContent = data.status;
+    // TRIGGER SPEEDING TRAIN TRANSITION EFFECT
+    const trainSprite = document.getElementById('speeding-train-sprite');
+    const trainLabel = document.getElementById('train-pass-label');
+    const inspectionBox = document.getElementById('ai-inspection-box');
 
-    // Update Icon & Color
-    const iconElem = document.getElementById('inspect-icon');
-    iconElem.className = `fa-solid ${data.icon}`;
-    const iconBox = document.getElementById('inspect-icon-box');
-    iconBox.className = `w-10 h-10 rounded-lg ${data.color} text-white flex items-center justify-center text-lg shadow-sm`;
-
-    // Update 4 visual steps
-    for (let i = 0; i < 4; i++) {
-      const step = data.steps[i];
-      if (step) {
-        document.getElementById(`step-icon-${i+1}`).className = `fa-solid ${step.icon}`;
-        document.getElementById(`step-title-${i+1}`).textContent = step.title;
-        document.getElementById(`step-desc-${i+1}`).textContent = step.desc;
-      }
+    if (trainLabel) {
+      trainLabel.textContent = `SWITCHING TO ${data.name.toUpperCase()}...`;
     }
 
-    showToast(`Inspecting [${data.name}] visual telemetry.`, 'info');
+    if (trainSprite) {
+      trainSprite.classList.remove('train-passing-animate');
+      // Force DOM reflow to restart animation cleanly
+      void trainSprite.offsetWidth;
+      trainSprite.classList.add('train-passing-animate');
+    }
+
+    // HALF-WAY THROUGH TRAIN PASS (300ms): REVEAL NEW DATA
+    setTimeout(() => {
+      // Update Inspection Box text & gauges
+      document.getElementById('inspect-tier').textContent = data.tier;
+      document.getElementById('inspect-name').textContent = data.name;
+      document.getElementById('inspect-job').textContent = data.job;
+      document.getElementById('inspect-acc').textContent = data.acc;
+      document.getElementById('inspect-lat').textContent = data.lat;
+      document.getElementById('inspect-status').textContent = data.status;
+
+      // Update Icon & Color
+      const iconElem = document.getElementById('inspect-icon');
+      iconElem.className = `fa-solid ${data.icon}`;
+      const iconBox = document.getElementById('inspect-icon-box');
+      iconBox.className = `w-10 h-10 rounded-lg ${data.color} text-white flex items-center justify-center text-lg shadow-sm`;
+
+      // Update 4 visual steps
+      for (let i = 0; i < 4; i++) {
+        const step = data.steps[i];
+        if (step) {
+          document.getElementById(`step-icon-${i+1}`).className = `fa-solid ${step.icon}`;
+          document.getElementById(`step-title-${i+1}`).textContent = step.title;
+          document.getElementById(`step-desc-${i+1}`).textContent = step.desc;
+        }
+      }
+
+      // Add smooth reveal fade
+      if (inspectionBox) {
+        inspectionBox.classList.remove('data-panel-fade');
+        void inspectionBox.offsetWidth;
+        inspectionBox.classList.add('data-panel-fade');
+      }
+
+      if (trainLabel) {
+        trainLabel.textContent = `VANDE BHARAT PASSED &bull; ${data.name.toUpperCase()} ACTIVE`;
+      }
+    }, 300);
+
+    // Release switch lock after animation finishes
+    setTimeout(() => {
+      isSwitching = false;
+    }, 650);
   }
 
-  // Auto-select boss node on page load
+  // Auto-select boss node on initial page load
   document.addEventListener('DOMContentLoaded', () => {
     selectAiNode('boss');
   });

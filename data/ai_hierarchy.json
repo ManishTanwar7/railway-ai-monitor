@@ -4,19 +4,20 @@
   "inference_clock_hz": "100 Hz",
   "system_confidence": 99.4,
   "boss_ai": {
-    "name": "Chronos-Omni Rail Core",
-    "tier": "Level 3 - Boss Orchestrator",
-    "role": "Central Indian Railways Master AI",
-    "simple_job": "The Master Brain that connects all train sensors, signals, and weather stations to make trains run fast, safe, and on time.",
-    "version": "v4.2.0-Enterprise",
-    "model_type": "Kavach 4.0 Neural Safety & Punctuality Engine",
+    "name": "Railway Master Brain",
+    "simple_title": "The Master Brain",
+    "tier": "Level 3 - Chief Boss",
+    "role": "Central Train Controller",
+    "simple_job": "The main brain that keeps all trains running on time and 100% safe across India.",
+    "version": "v4.2.0-CRIS",
+    "model_type": "Kavach 4.0 Auto Protection",
     "status": "OPERATIONAL",
     "cpu_load_pct": 28.4,
     "gpu_memory_pct": 42.1,
     "latency_ms": 4.8,
-    "decision_frequency": "Every 0.5 seconds",
-    "formula_summary": "min L = w1 * TotalDelay + w2 * KineticEnergyLoss + w3 * HeadwayCollisionRisk",
-    "math_explanation": "Chronos-Omni continuously balances three goals: 1) Keep trains running strictly on time, 2) Save electric power, and 3) Guarantee zero train collisions by maintaining a moving safety cushion around every train.",
+    "decision_frequency": "Every 0.5s",
+    "formula_summary": "Punctuality + Energy Saving + Zero Crash Guarantee",
+    "math_explanation": "Watches all tracks, prevents collisions, and makes sure express trains never stop at red lights unnecessarily.",
     "parameters": {
       "safety_margin_factor": 1.55,
       "energy_conservation_weight": 0.25,
@@ -26,208 +27,179 @@
   },
   "leader_ais": [
     {
-      "name": "Route Optimizer Alpha",
+      "name": "Fast Track Finder",
+      "simple_title": "Route Planner",
       "icon": "fa-route",
-      "tier": "Level 2 - Leader AI",
-      "specialization": "Fast Route & Track Chooser",
-      "simple_job": "Finds the fastest open track and redirects trains around slow freight tracks.",
+      "tier": "Level 2 - Team Leader",
+      "specialization": "Fast Route & Open Track Chooser",
+      "simple_job": "Finds the fastest open track and diverts slow freight trains so express trains run non-stop.",
       "managed_workers": [
-        "ETA Velocity Forecaster",
-        "Track Congestion Predictor"
+        "Train Arrival Clock",
+        "Traffic Jam Avoider"
       ],
       "accuracy_pct": 98.7,
       "latency_ms": 11.2,
       "status": "ACTIVE",
-      "algorithm": "Automatic Track Clearance & Bypass Router"
+      "algorithm": "Fast Track Clearance"
     },
     {
-      "name": "Safety Interlock Sentinel",
+      "name": "Crash Protection Shield",
+      "simple_title": "Kavach Safety Guard",
       "icon": "fa-shield-halved",
-      "tier": "Level 2 - Leader AI",
+      "tier": "Level 2 - Team Leader",
       "specialization": "Kavach Anti-Collision Shield",
-      "simple_job": "Ensures two trains never get too close and auto-applies emergency brakes if needed.",
+      "simple_job": "Guarantees two trains never bump into each other; auto-brakes if any train comes too close.",
       "managed_workers": [
-        "Signal Pulse Agent",
-        "Dynamic Brake & Weight Calc"
+        "Smart Signal Switcher",
+        "Smooth Brake Stopper"
       ],
       "accuracy_pct": 99.99,
       "latency_ms": 2.1,
       "status": "ACTIVE",
-      "algorithm": "Kavach 4.0 Fail-Safe Distance Cushion"
+      "algorithm": "Zero Collision Shield"
     },
     {
-      "name": "Dispatch Neural Hub",
+      "name": "Station Platform Manager",
+      "simple_title": "Platform Controller",
       "icon": "fa-building-columns",
-      "tier": "Level 2 - Leader AI",
-      "specialization": "Platform & Station Controller",
-      "simple_job": "Allocates empty platforms to arriving trains so passengers never wait outside the station.",
+      "tier": "Level 2 - Team Leader",
+      "specialization": "Platform & Gate Manager",
+      "simple_job": "Prepares empty platform tracks at stations so passengers never wait outside on arrival.",
       "managed_workers": [
-        "Weather Telemetry Analyzer"
+        "Rain & Track Grip Checker"
       ],
       "accuracy_pct": 97.5,
       "latency_ms": 14.8,
       "status": "ACTIVE",
-      "algorithm": "Platform Bay & Boarding Flow Matcher"
+      "algorithm": "Platform Bay Allocator"
     }
   ],
   "worker_ais": [
     {
       "id": "W-ETA",
-      "name": "ETA Velocity Forecaster",
-      "icon": "fa-gauge-high",
+      "name": "Train Arrival Clock",
+      "simple_title": "Arrival Clock",
+      "icon": "fa-clock",
       "color": "blue",
-      "tier": "Level 1 - Worker AI",
-      "assigned_to": "Route Optimizer Alpha",
-      "assigned_employee_role": "AI Module: Speed & Timetable Calibration",
+      "tier": "Level 1 - Field Worker",
+      "assigned_to": "Fast Track Finder",
+      "assigned_employee_role": "Speed & Arrival Timing",
       "status": "STREAMING",
       "latency_ms": 1.4,
-      "calculation_type": "Train Arrival Clock",
-      "simple_job": "Predicts exact arrival time down to the minute by checking current train speed, rain on tracks, and signals ahead.",
-      "formula": "ETA = sum( d_segment / (v_max * (1 - C_congestion) * (1 - W_weather)) ) + Dwell_Time",
+      "calculation_type": "Exact Arrival Time",
+      "simple_job": "Tells passengers exactly what minute their train will arrive by checking GPS speed and track signals.",
+      "formula": "ETA = Distance / Speed - Weather Delay + Station Dwell",
       "visual_steps": [
         {
           "icon": "fa-satellite",
           "step": "1. Satellite GPS",
-          "detail": "Measures live speed: 158 km/h"
+          "detail": "Live Speed: 158 km/h"
         },
         {
           "icon": "fa-cloud-rain",
-          "step": "2. Weather Check",
-          "detail": "Rain friction: -5 km/h"
+          "step": "2. Rain Sensor",
+          "detail": "Track grip (-4m)"
         },
         {
           "icon": "fa-traffic-light",
-          "step": "3. Ahead Signals",
-          "detail": "Green wave cleared"
+          "step": "3. Signal Lights",
+          "detail": "Green lights cleared"
         },
         {
           "icon": "fa-flag-checkered",
           "step": "4. Exact Arrival",
-          "detail": "Station ETA: 18 mins"
-        }
-      ]
-    },
-    {
-      "id": "W-WEATHER",
-      "name": "Weather Telemetry Analyzer",
-      "icon": "fa-cloud-sun-rain",
-      "color": "amber",
-      "tier": "Level 1 - Worker AI",
-      "assigned_to": "Dispatch Neural Hub",
-      "assigned_employee_role": "AI Module: Environmental Risk & Track Telemetry",
-      "status": "STREAMING",
-      "latency_ms": 3.2,
-      "calculation_type": "Track Grip & Weather Safety",
-      "simple_job": "Measures rain, crosswinds, and rail heat to make sure train wheels do not slip on wet or overheated rails.",
-      "formula": "W_impact = alpha * Rain_Rate^0.55 + beta * max(0, Wind_Gust - 45) + gamma * (Track_Temp - T_neutral)^1.8",
-      "visual_steps": [
-        {
-          "icon": "fa-temperature-half",
-          "step": "1. Rail Temp Sensor",
-          "detail": "29.8 C (Normal heat)"
-        },
-        {
-          "icon": "fa-droplet",
-          "step": "2. Rain Sensor",
-          "detail": "Dry rails (Grip: 95%)"
-        },
-        {
-          "icon": "fa-wind",
-          "step": "3. Wind Sensor",
-          "detail": "14 km/h breeze (Safe)"
-        },
-        {
-          "icon": "fa-circle-check",
-          "step": "4. Speed Limit",
-          "detail": "Full Speed 160 km/h allowed"
+          "detail": "18 Mins to Kanpur"
         }
       ]
     },
     {
       "id": "W-CONGESTION",
-      "name": "Track Congestion Predictor",
+      "name": "Traffic Jam Avoider",
+      "simple_title": "Jam Avoider",
       "icon": "fa-route",
       "color": "purple",
-      "tier": "Level 1 - Worker AI",
-      "assigned_to": "Route Optimizer Alpha",
-      "assigned_employee_role": "AI Module: Corridor Flow & Bottleneck Analytics",
+      "tier": "Level 1 - Field Worker",
+      "assigned_to": "Fast Track Finder",
+      "assigned_employee_role": "Track Traffic Flow",
       "status": "STREAMING",
       "latency_ms": 2.8,
-      "calculation_type": "Traffic Jam Avoider",
-      "simple_job": "Spots track congestion 30 minutes before it happens and automatically diverts slow goods trains to loop lines.",
-      "formula": "rho_congestion = (Arrival_Rate_lambda) / (Service_Rate_mu * Available_Tracks_c) + Queue_Spillback_Factor",
+      "calculation_type": "Traffic Jam Clearance",
+      "simple_job": "Sees track jams 30 minutes before they happen and moves slow cargo trains out of the way.",
+      "formula": "Traffic Index = Trains Waiting / Track Capacity",
       "visual_steps": [
         {
           "icon": "fa-train",
-          "step": "1. Inbound Trains",
-          "detail": "3 Express, 1 Goods Train"
+          "step": "1. Train Count",
+          "detail": "4 Trains in Block"
         },
         {
           "icon": "fa-layer-group",
-          "step": "2. Junction Status",
-          "detail": "Main track 86% occupied"
+          "step": "2. Junction Busy",
+          "detail": "NDLS 86% occupied"
         },
         {
           "icon": "fa-arrows-split-up-and-left",
-          "step": "3. Smart Switch",
-          "detail": "Move goods train to Loop Line"
+          "step": "3. Switch Track",
+          "detail": "Cargo moved to Loop 4B"
         },
         {
           "icon": "fa-bolt",
-          "step": "4. Express Priority",
-          "detail": "Zero delays for Vande Bharat"
+          "step": "4. Fast Pass",
+          "detail": "Zero delays for Express"
         }
       ]
     },
     {
       "id": "W-SIGNAL",
-      "name": "Signal Pulse Agent",
+      "name": "Smart Signal Switcher",
+      "simple_title": "Signal Switcher",
       "icon": "fa-traffic-light",
       "color": "emerald",
-      "tier": "Level 1 - Worker AI",
-      "assigned_to": "Safety Interlock Sentinel",
-      "assigned_employee_role": "AI Module: Signal & Interlocking Telemetry",
+      "tier": "Level 1 - Field Worker",
+      "assigned_to": "Crash Protection Shield",
+      "assigned_employee_role": "Signals & Lights",
       "status": "STREAMING",
       "latency_ms": 0.8,
-      "calculation_type": "Smart Traffic Light Controller",
-      "simple_job": "Automatically turns signals green when the track ahead is clear, and turns them red the instant a train passes.",
-      "formula": "Headway_Safety = d_braking(v, mu) + v * t_comm_latency + d_safety_buffer (min 400m)",
+      "calculation_type": "Green/Red Light Flipper",
+      "simple_job": "Turns signals green automatically when track ahead is clear, and flips them red as soon as train passes.",
+      "formula": "Signal Aspect = Green when Ahead Gap > 1,000m",
       "visual_steps": [
         {
           "icon": "fa-circle-dot",
           "step": "1. Axle Counter",
-          "detail": "Train cleared Block 12"
+          "detail": "Track Block 12 Empty"
         },
         {
           "icon": "fa-shield-halved",
-          "step": "2. Safety Cushion",
-          "detail": "Next train > 1,200m away"
+          "step": "2. Safe Gap",
+          "detail": "Next train 1,200m away"
         },
         {
           "icon": "fa-traffic-light",
-          "step": "3. Signal Flipped",
-          "detail": "Aspect switched to GREEN"
+          "step": "3. Light Flipped",
+          "detail": "Signal set to GREEN"
         },
         {
           "icon": "fa-forward",
           "step": "4. Green Wave",
-          "detail": "Smooth non-stop pass"
+          "detail": "Full speed allowed"
         }
       ]
     },
     {
       "id": "W-BRAKE",
-      "name": "Dynamic Brake & Weight Calc",
+      "name": "Smooth Brake Stopper",
+      "simple_title": "Brake Stopper",
       "icon": "fa-circle-stop",
       "color": "rose",
-      "tier": "Level 1 - Worker AI",
-      "assigned_to": "Safety Interlock Sentinel",
-      "assigned_employee_role": "AI Module: Mechanical Diagnostics & Rolling Stock",
+      "tier": "Level 1 - Field Worker",
+      "assigned_to": "Crash Protection Shield",
+      "assigned_employee_role": "Train Brakes & Stopping",
       "status": "STREAMING",
       "latency_ms": 1.1,
-      "calculation_type": "Emergency Braking Distance",
-      "simple_job": "Calculates exact meters needed to stop the train safely without jolting passengers, even on wet slopes.",
-      "formula": "d_stop = (M_train * v^2) / (2 * (F_friction + F_regen_brake + F_grade))",
+      "calculation_type": "Safe Stopping Distance",
+      "simple_job": "Calculates the exact meters needed to stop the train safely without jerking passengers.",
+      "formula": "Braking Distance = (Weight * Speed^2) / Braking Force",
       "visual_steps": [
         {
           "icon": "fa-weight-hanging",
@@ -236,52 +208,89 @@
         },
         {
           "icon": "fa-gauge-simple",
-          "step": "2. Bogie Speed",
+          "step": "2. Speed",
           "detail": "130 km/h cruising"
         },
         {
           "icon": "fa-road",
           "step": "3. Track Grip",
-          "detail": "Dry steel rail grip 0.38"
+          "detail": "Steel rail grip 0.38"
         },
         {
           "icon": "fa-ruler",
           "step": "4. Safe Stop Gap",
-          "detail": "Full safe stop in 620 meters"
+          "detail": "Smooth stop in 620m"
+        }
+      ]
+    },
+    {
+      "id": "W-WEATHER",
+      "name": "Rain & Track Grip Checker",
+      "simple_title": "Rain & Grip Checker",
+      "icon": "fa-cloud-sun-rain",
+      "color": "amber",
+      "tier": "Level 1 - Field Worker",
+      "assigned_to": "Station Platform Manager",
+      "assigned_employee_role": "Weather & Track Sensors",
+      "status": "STREAMING",
+      "latency_ms": 3.2,
+      "calculation_type": "Rail Grip & Rain Safety",
+      "simple_job": "Checks rain, strong winds, and track temperature so train wheels never slip on wet rails.",
+      "formula": "Track Grip = Dry Grip - Rain Factor - Heat Expansion",
+      "visual_steps": [
+        {
+          "icon": "fa-temperature-half",
+          "step": "1. Rail Heat",
+          "detail": "29.8 C (Safe)"
+        },
+        {
+          "icon": "fa-droplet",
+          "step": "2. Rain Check",
+          "detail": "0mm Dry (Grip 95%)"
+        },
+        {
+          "icon": "fa-wind",
+          "step": "3. Wind Speed",
+          "detail": "14 km/h breeze"
+        },
+        {
+          "icon": "fa-circle-check",
+          "step": "4. Speed Limit",
+          "detail": "Full 160 km/h allowed"
         }
       ]
     }
   ],
   "recent_ai_logs": [
     {
-      "timestamp": "11:34:10",
-      "source": "Boss AI (Central)",
+      "timestamp": "12:04:10",
+      "source": "Railway Master Brain",
       "level": "INFO",
-      "message": "All 128 Indian Railways sectors running smoothly with 99.4% punctuality."
+      "message": "All trains running safely across 128 sectors with 99.4% punctuality."
     },
     {
-      "timestamp": "11:32:45",
-      "source": "Signal Pulse Agent",
+      "timestamp": "12:02:45",
+      "source": "Smart Signal Switcher",
       "level": "ACTION",
-      "message": "Signal SIG-N101 automatically set to GREEN for Vande Bharat Express (22436)."
+      "message": "Flipped Signal SIG-N101 to GREEN for Vande Bharat Express (22436)."
     },
     {
-      "timestamp": "11:29:18",
-      "source": "Weather Telemetry",
+      "timestamp": "11:59:18",
+      "source": "Rain & Grip Checker",
       "level": "ADVISORY",
-      "message": "Agra-Gwalior corridor: Track grip good (95%). Clear speed ahead."
+      "message": "Delhi-Agra sector: Track grip 95%. Clear speed ahead."
     },
     {
-      "timestamp": "11:25:02",
-      "source": "Route Optimizer",
+      "timestamp": "11:55:02",
+      "source": "Traffic Jam Avoider",
       "level": "OPTIMIZE",
-      "message": "Diverted Goods Train 4096 to Loop Line 4B. Express tracks fully open."
+      "message": "Moved cargo train to loop siding track. Express line 100% clear."
     },
     {
-      "timestamp": "11:20:15",
-      "source": "Safety Sentinel",
+      "timestamp": "11:50:15",
+      "source": "Crash Protection Shield",
       "level": "CHECK",
-      "message": "Kavach 4.0 Moving Block Safety verification: 0 collision risks detected."
+      "message": "Kavach 4.0 Moving Safety Cushion: 0 collision risks detected."
     }
   ]
 }

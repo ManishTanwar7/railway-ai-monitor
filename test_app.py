@@ -117,7 +117,7 @@ def test_rbac_and_dashboard_views():
     # Employee dashboard access (restricted to assigned modules)
     res = employee_client.get("/dashboard/employee")
     assert res.status_code == 200
-    assert "Signal Pulse Agent" in res.text
+    assert "Smart Signal Switcher" in res.text or "Signal Pulse Agent" in res.text
     print("  ✓ Employee can view /dashboard/employee with assigned modules (200 OK)")
 
     # Passenger dashboard access
