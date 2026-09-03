@@ -155,17 +155,29 @@
   </div>
 
   <!-- ============================================================== -->
-  <!-- 3. PLATFORM LOCATOR AT NEW DELHI STATION                       -->
+  <!-- 3. PLATFORM LOCATOR ACROSS 10+ STATIONS                        -->
   <!-- ============================================================== -->
   <div class="ir-card overflow-hidden bg-white shadow-sm">
-    <div class="bg-slate-50 px-6 py-3.5 border-b border-slate-200 flex items-center justify-between">
+    <div class="bg-slate-50 px-6 py-3.5 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
       <div class="flex items-center space-x-2">
         <i class="fa-solid fa-building-columns text-ir-blue"></i>
-        <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wide">
+        <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wide" id="pf-station-title">
           New Delhi Railway Station (NDLS) &bull; Platform Finder
         </h3>
       </div>
-      <span class="text-xs text-slate-500">Live Track Allocations</span>
+      
+      <!-- Select Any of the 10+ Interlinked Stations -->
+      <div class="flex items-center space-x-2">
+        <label class="text-[11px] font-bold text-slate-500 whitespace-nowrap">Switch Station:</label>
+        <select id="select-active-station" onchange="switchPlatformStation(this.value)"
+          class="px-2.5 py-1 text-xs font-bold text-slate-800 bg-white border border-slate-300 rounded-lg cursor-pointer">
+          {% for stn in stations %}
+          <option value="{{ stn.station_code }}" {% if stn.station_code == 'NDLS' %}selected{% endif %}>
+            {{ stn.station_name }} ({{ stn.station_code }}) - {{ stn.platform_count }} PFs
+          </option>
+          {% endfor %}
+        </select>
+      </div>
     </div>
 
     <!-- 8 Platform Tiles (Clean Visual Grid) -->
@@ -267,6 +279,23 @@
     }
 
     showToast(`Switched radar to ${data.name} (${data.id}).`, 'info');
+  }
+
+  const STATIONS_INFO = {
+    {% for stn in stations %}
+    "{{ stn.station_code }}": {
+      code: "{{ stn.station_code }}",
+      name: "{{ stn.station_name }}",
+      platforms: {{ stn.platform_count }}
+    }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  };
+
+  function switchPlatformStation(code) {
+    const stn = STATIONS_INFO[code];
+    if (!stn) return;
+    document.getElementById('pf-station-title').textContent = `${stn.name} (${stn.code}) • Platform Finder`;
+    showToast(`Switched platform finder to ${stn.name} (${stn.platforms} platforms)`, 'info');
   }
 
   // Auto-select train from URL parameter (e.g. ?train=12002)

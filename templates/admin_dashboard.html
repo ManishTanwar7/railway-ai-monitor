@@ -377,24 +377,16 @@
             </span>
             <div class="w-4 h-4 bg-rose-500 rounded-full animate-ping mt-1"></div>
           </div>
-        </div>
-
-        <div class="flex justify-between items-center text-[11px] text-slate-400 mt-4 font-semibold px-2">
-          <div class="flex items-center space-x-1 text-slate-300">
-            <span class="w-2.5 h-2.5 rounded-full bg-ir-blue border border-white"></span>
-            <span>New Delhi (NDLS)</span>
-          </div>
-          <div class="flex items-center space-x-1 text-slate-300">
-            <span class="w-2.5 h-2.5 rounded-full bg-slate-500"></span>
-            <span>Mathura Jn</span>
-          </div>
-          <div class="flex items-center space-x-1 text-slate-300">
-            <span class="w-2.5 h-2.5 rounded-full bg-slate-500"></span>
-            <span>Agra Cantt</span>
-          </div>
-          <div class="flex items-center space-x-1 text-orange-400">
-            <span class="w-2.5 h-2.5 rounded-full bg-orange-500 border border-white"></span>
-            <span>Kanpur Central</span>
+        <!-- ALL 10+ INTERLINKED STATIONS ALONG HIGH-SPEED CORRIDOR -->
+        <div class="overflow-x-auto pb-1 mt-4">
+          <div class="flex justify-between items-center text-[10px] text-slate-400 font-semibold min-w-[700px] px-1">
+            {% for stn in stations %}
+            <div class="flex flex-col items-center space-y-1 {% if stn.station_code == 'NDLS' %}text-ir-blue{% elif stn.station_code == 'BSB' %}text-orange-400 font-bold{% elif stn.station_code == 'CNB' %}text-emerald-400 font-bold{% else %}text-slate-300{% endif %}">
+              <span class="w-2 h-2 rounded-full {% if stn.station_code == 'NDLS' %}bg-blue-400 ring-2 ring-white{% elif stn.station_code == 'BSB' %}bg-orange-500 ring-2 ring-white{% elif stn.station_code == 'CNB' %}bg-emerald-400 ring-2 ring-emerald-200 animate-pulse{% else %}bg-slate-500{% endif %}"></span>
+              <span class="font-mono text-[9px]">{{ stn.station_code }}</span>
+              <span class="text-[9px] text-slate-400">{{ stn.chainage_km }}k</span>
+            </div>
+            {% endfor %}
           </div>
         </div>
       </div>
@@ -416,7 +408,61 @@
   </div>
 
   <!-- ============================================================== -->
-  <!-- 3. LIVE TRAINS MONITORED TABLE                                 -->
+  <!-- 3. 10+ INTERLINKED STATIONS SQL DATASHEET TABLE                -->
+  <!-- ============================================================== -->
+  <div class="ir-card overflow-hidden bg-white/95 shadow-sm">
+    <div class="bg-slate-50 px-6 py-3.5 border-b border-slate-200 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <i class="fa-solid fa-network-wired text-orange-600"></i>
+        <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wide">
+          10+ Interlinked High-Speed Stations &bull; Golden Corridor Topology (805 km)
+        </h3>
+      </div>
+      <span class="text-[11px] font-bold text-ir-blue bg-blue-50 px-2.5 py-0.5 rounded border border-blue-200">
+        {{ stations|length }} Interlinked Stations Active
+      </span>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="w-full ir-table">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Station Name</th>
+            <th>Chainage</th>
+            <th>Division / Zone</th>
+            <th>Platforms</th>
+            <th>GPS Coordinates</th>
+            <th>Kavach Protection</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for stn in stations %}
+          <tr>
+            <td class="font-mono font-bold text-ir-blue">{{ stn.station_code }}</td>
+            <td class="font-bold text-slate-900">{{ stn.station_name }}</td>
+            <td class="font-mono text-slate-700 font-semibold">{{ stn.chainage_km }} km</td>
+            <td class="text-slate-600">{{ stn.division }} ({{ stn.zone }})</td>
+            <td>
+              <span class="px-2 py-0.5 rounded bg-blue-50 text-ir-blue border border-blue-200 text-xs font-bold">
+                {{ stn.platform_count }} Platforms
+              </span>
+            </td>
+            <td class="font-mono text-[11px] text-slate-500">{{ stn.latitude }}°, {{ stn.longitude }}°</td>
+            <td>
+              <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-[11px] font-bold flex items-center w-fit">
+                <i class="fa-solid fa-shield-halved mr-1 text-[10px]"></i> 100% Interlocked
+              </span>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- 4. LIVE TRAINS MONITORED TABLE                                 -->
   <!-- ============================================================== -->
   <div class="ir-card overflow-hidden bg-white/95 shadow-sm">
     <div class="bg-slate-50 px-6 py-3 border-b border-slate-200 flex items-center justify-between">

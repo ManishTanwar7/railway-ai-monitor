@@ -72,24 +72,32 @@
             <p class="text-xs text-slate-500">Autonomous GPS Tracking & Platform Locator</p>
           </div>
 
-          <!-- From & To Stations -->
+          <!-- From & To Stations (All 10+ Interlinked Stations Available) -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label class="block text-[11px] font-bold text-slate-600 mb-1">From</label>
-              <div class="relative">
-                <i class="fa-solid fa-location-arrow absolute left-3 top-3 text-slate-400 text-xs"></i>
-                <input type="text" id="search-from-station" value="New Delhi (NDLS)" readonly
-                  class="w-full pl-8 pr-2 py-2 text-xs font-bold text-slate-800 bg-slate-50 rounded-lg border border-slate-300">
-              </div>
+              <label class="block text-[11px] font-bold text-slate-600 mb-1">
+                From Station <span class="text-orange-600 font-normal">({{ stations|length }} Available)</span>
+              </label>
+              <select id="search-from-station" class="w-full p-2 text-xs font-bold text-slate-800 bg-slate-50 rounded-lg border border-slate-300 cursor-pointer">
+                {% for stn in stations %}
+                <option value="{{ stn.station_code }}" {% if stn.station_code == 'NDLS' %}selected{% endif %}>
+                  {{ stn.station_name }} ({{ stn.station_code }}) - {{ stn.chainage_km }}km
+                </option>
+                {% endfor %}
+              </select>
             </div>
 
             <div>
-              <label class="block text-[11px] font-bold text-slate-600 mb-1">To</label>
-              <div class="relative">
-                <i class="fa-solid fa-location-dot absolute left-3 top-3 text-slate-400 text-xs"></i>
-                <input type="text" id="search-to-station" value="Varanasi Jn (BSB)" readonly
-                  class="w-full pl-8 pr-2 py-2 text-xs font-bold text-slate-800 bg-slate-50 rounded-lg border border-slate-300">
-              </div>
+              <label class="block text-[11px] font-bold text-slate-600 mb-1">
+                To Station <span class="text-orange-600 font-normal">({{ stations|length }} Available)</span>
+              </label>
+              <select id="search-to-station" class="w-full p-2 text-xs font-bold text-slate-800 bg-slate-50 rounded-lg border border-slate-300 cursor-pointer">
+                {% for stn in stations %}
+                <option value="{{ stn.station_code }}" {% if stn.station_code == 'BSB' %}selected{% endif %}>
+                  {{ stn.station_name }} ({{ stn.station_code }}) - {{ stn.chainage_km }}km
+                </option>
+                {% endfor %}
+              </select>
             </div>
           </div>
 
@@ -136,6 +144,39 @@
       </div>
     </div>
 
+  <!-- ============================================================== -->
+  <!-- 10+ INTERLINKED STATIONS GOLDEN CORRIDOR STRIP                 -->
+  <!-- ============================================================== -->
+  <div class="ir-card p-4 bg-white/95 backdrop-blur shadow-sm">
+    <div class="flex items-center justify-between mb-2.5 pb-2 border-b border-slate-100">
+      <div class="flex items-center space-x-2">
+        <i class="fa-solid fa-map-location-dot text-orange-600"></i>
+        <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wide">
+          10+ Interlinked High-Speed Stations &bull; Golden Corridor (805 km)
+        </h3>
+      </div>
+      <span class="text-[11px] font-bold text-ir-blue bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
+        {{ stations|length }} Stations Active
+      </span>
+    </div>
+
+    <!-- 11 Clickable Station Tiles -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2">
+      {% for stn in stations %}
+      <button type="button" onclick="pickStation('{{ stn.station_code }}')"
+        class="p-2 rounded-lg border border-slate-200 bg-slate-50 hover:border-orange-500 hover:bg-orange-50/50 transition text-left cursor-pointer group">
+        <div class="flex items-center justify-between">
+          <span class="font-mono font-bold text-xs text-ir-blue group-hover:text-orange-600">{{ stn.station_code }}</span>
+          <span class="text-[10px] text-slate-400 font-semibold">{{ stn.chainage_km }}km</span>
+        </div>
+        <div class="text-[11px] font-bold text-slate-800 truncate mt-0.5">{{ stn.station_name }}</div>
+        <div class="text-[10px] text-slate-500 mt-0.5 flex items-center justify-between">
+          <span>{{ stn.platform_count }} Platforms</span>
+          <span class="text-emerald-700 font-bold text-[9px]"><i class="fa-solid fa-shield-halved"></i> Kavach</span>
+        </div>
+      </button>
+      {% endfor %}
+    </div>
   </div>
 
   <!-- ============================================================== -->
@@ -193,6 +234,14 @@
   function goToLiveRadar() {
     const trainId = document.getElementById('home-train-select').value;
     window.location.href = `/dashboard/passenger?train=${trainId}`;
+  }
+
+  function pickStation(code) {
+    const toSelect = document.getElementById('search-to-station');
+    if (toSelect) {
+      toSelect.value = code;
+    }
+    showToast(`Destination set to ${code}. Ready to track.`, 'info');
   }
 </script>
 {% endblock %}

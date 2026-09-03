@@ -70,10 +70,15 @@ async def login_page(request: Request, error: Optional[str] = None):
     user = get_current_user_from_request(request)
     if user:
         return RedirectResponse(url=user["dashboard_url"], status_code=status.HTTP_302_FOUND)
+    
+    from db import get_all_stations, get_interlinked_tracks
+    stations = get_all_stations()
+    tracks = get_interlinked_tracks()
+    
     return templates.TemplateResponse(
         request=request,
         name="login.html",
-        context={"user": None, "error": error}
+        context={"user": None, "error": error, "stations": stations, "tracks": tracks}
     )
 
 
@@ -161,11 +166,14 @@ async def logout():
 
 @app.get("/dashboard/admin", response_class=HTMLResponse)
 async def admin_dashboard(request: Request):
-    """Admin (Boss) View: Complete AI Hierarchy, Mathematical Formulations, Overrides."""
+    """Admin (Boss) View: Complete AI Hierarchy, 10+ Stations Datasheet, Simulator."""
     user = get_current_user_from_request(request)
     if not user or user["role"] != ROLE_ADMIN:
         return RedirectResponse(url="/login?error=Admin clearance required.", status_code=status.HTTP_302_FOUND)
 
+    from db import get_all_stations, get_interlinked_tracks
+    stations = get_all_stations()
+    tracks = get_interlinked_tracks()
     ai_data = load_dataset("ai_hierarchy")
     gps_data = load_dataset("gps_tracker")
     return templates.TemplateResponse(
@@ -174,18 +182,23 @@ async def admin_dashboard(request: Request):
         context={
             "user": user,
             "ai_data": ai_data,
-            "gps_data": gps_data
+            "gps_data": gps_data,
+            "stations": stations,
+            "tracks": tracks
         }
     )
 
 
 @app.get("/dashboard/station-master", response_class=HTMLResponse)
 async def station_master_dashboard(request: Request):
-    """Station Master View: Control-room radar, live GPS train movement, signals switchboard, congestion."""
+    """Station Master View: Control-room radar, 10+ stations switchboard, congestion."""
     user = get_current_user_from_request(request)
     if not user or user["role"] not in [ROLE_STATION_MASTER, ROLE_ADMIN]:
         return RedirectResponse(url="/login?error=Station Master clearance required.", status_code=status.HTTP_302_FOUND)
 
+    from db import get_all_stations, get_interlinked_tracks
+    stations = get_all_stations()
+    tracks = get_interlinked_tracks()
     gps_data = load_dataset("gps_tracker")
     signals_data = load_dataset("signals")
     congestion_data = load_dataset("congestion")
@@ -201,7 +214,9 @@ async def station_master_dashboard(request: Request):
             "signals_data": signals_data,
             "congestion_data": congestion_data,
             "delay_patterns": delay_patterns,
-            "weather_data": weather_data
+            "weather_data": weather_data,
+            "stations": stations,
+            "tracks": tracks
         }
     )
 
@@ -235,7 +250,7 @@ async def employee_dashboard(request: Request):
 
 @app.get("/dashboard/passenger", response_class=HTMLResponse)
 async def passenger_dashboard(request: Request):
-    """Passenger View: 100% Open and password-free live train ETA and platform tracker."""
+    """Passenger View: 100% Open and password-free live train ETA and 10+ stations tracker."""
     user = get_current_user_from_request(request) or {
         "username": "passenger",
         "full_name": "Public Passenger",
@@ -247,6 +262,9 @@ async def passenger_dashboard(request: Request):
         "dashboard_url": "/dashboard/passenger"
     }
 
+    from db import get_all_stations, get_interlinked_tracks
+    stations = get_all_stations()
+    tracks = get_interlinked_tracks()
     gps_data = load_dataset("gps_tracker")
     station_data = load_dataset("station_ops")
 
@@ -256,7 +274,9 @@ async def passenger_dashboard(request: Request):
         context={
             "user": user,
             "gps_data": gps_data,
-            "station_data": station_data
+            "station_data": station_data,
+            "stations": stations,
+            "tracks": tracks
         }
     )
 
