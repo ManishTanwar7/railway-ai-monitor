@@ -115,10 +115,10 @@ CREATE TABLE live_train_tracking (
 );
 
 INSERT INTO live_train_tracking VALUES
-('22436', 'Vande Bharat Express', 'ETW', 'CNB', 158.5, 0.0, 'GREEN', 1200.0, 'Cruising (On Time)'),
+('15558', 'Amrit Bharat Express', 'ETW', 'CNB', 158.5, 0.0, 'GREEN', 1200.0, 'Cruising (On Time)'),
+('99001', 'Hydrogen Green Express', 'NDLS', 'ALJN', 140.0, 0.0, 'GREEN', 1250.0, 'Eco-Cruise (On Time)'),
 ('12002', 'Bhopal Shatabdi Express', 'GZB', 'ALJN', 130.0, 6.0, 'DOUBLE_YELLOW', 980.0, 'Regulated (+6m)'),
-('12952', 'Mumbai Rajdhani Express', 'NDLS', 'GZB', 128.4, 0.0, 'GREEN', 1150.0, 'Departed (On Time)'),
-('12424', 'Dibrugarh Rajdhani Express', 'CNB', 'PRYJ', 131.2, 0.0, 'GREEN', 1220.0, 'Express Run (On Time)');
+('12952', 'Mumbai Rajdhani Express', 'NDLS', 'GZB', 128.4, 0.0, 'GREEN', 1150.0, 'Departed (On Time)');
 
 -- --------------------------------------------------------------------
 -- 5. AI MODEL DECISION INFERENCE LOG
@@ -135,7 +135,7 @@ CREATE TABLE ai_decisions (
 );
 
 INSERT INTO ai_decisions (train_id, station_code, ai_module, recommended_speed_kmh, interlocking_action, safety_margin_m) VALUES
-('22436', 'CNB', 'Fast Track Finder', 160.0, 'Clear Main Platform 1 Docking Path', 1200.0),
-('22436', 'ETW', 'Rain & Track Grip Checker', 158.5, '0mm Dry Rail - Grip 95% Verified', 1200.0),
-('12002', 'ALJN', 'Traffic Jam Avoider', 130.0, 'Hold Freight Goods Train on Loop 2', 980.0),
-('22436', 'CNB', 'Kavach Crash Guard', 158.5, 'Safe Headway Clear - Zero Collision Risk', 1200.0);
+('15558', 'CNB', 'Fast Track Finder', 160.0, 'Clear Main Platform 1 Docking Path for Amrit Bharat', 1200.0),
+('15558', 'ETW', 'Rain & Track Grip Checker', 158.5, '0mm Dry Rail - Grip 95% Verified', 1200.0),
+('99001', 'ALJN', 'Eco-Speed Governor', 140.0, 'Hydrogen Fuel Cell Optimum Consumption', 1250.0),
+('15558', 'CNB', 'Kavach Crash Guard', 158.5, 'Safe Headway Clear - Zero Collision Risk', 1200.0);

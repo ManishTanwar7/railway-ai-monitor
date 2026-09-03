@@ -204,7 +204,7 @@
 
         <div class="absolute inset-0 flex items-center justify-between px-4 pointer-events-none text-[10px] font-mono font-bold text-slate-400">
           <span class="flex items-center"><i class="fa-solid fa-train-track mr-1"></i> DELHI MAIN LINE</span>
-          <span id="train-pass-label" class="text-orange-400 font-semibold">VANDE BHARAT TRANSIT &bull; 160 KM/H</span>
+          <span id="train-pass-label" class="text-orange-400 font-semibold">AMRIT BHARAT TRANSIT &bull; 160 KM/H</span>
           <span>KANPUR EXP</span>
         </div>
       </div>
@@ -349,7 +349,7 @@
       <div class="flex items-center justify-between text-xs pb-3 border-b border-slate-800 mb-4">
         <div class="flex items-center space-x-2">
           <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" id="sim-live-indicator"></span>
-          <span class="font-bold text-slate-300" id="sim-train-title">Vande Bharat Express (22436)</span>
+          <span class="font-bold text-slate-300" id="sim-train-title">Amrit Bharat Express (15558)</span>
         </div>
         <div class="flex items-center space-x-3 font-mono text-xs">
           <span>Speed: <strong class="text-orange-400 font-bold text-sm" id="sim-speed-val">158 km/h</strong></span>
@@ -367,7 +367,7 @@
             class="absolute top-1/2 -translate-y-1/2 left-[55%] transition-all duration-700 flex items-center">
             <div class="flex items-center bg-white text-ir-blue px-3 py-1.5 rounded-lg shadow-lg border-2 border-orange-500 text-xs font-bold space-x-2">
               <i class="fa-solid fa-train text-orange-600 text-sm"></i>
-              <span>VANDE BHARAT</span>
+              <span>AMRIT BHARAT</span>
             </div>
           </div>
 
@@ -399,7 +399,7 @@
         <div>
           <span class="font-bold text-orange-400" id="sim-ai-agent-label">Fast Track Finder:</span>
           <span class="text-slate-200 ml-1" id="sim-ai-message">
-            Track is 100% clear. Signal SIG-12 is GREEN. Vande Bharat cruising smoothly at 158 km/h. On-time arrival guaranteed.
+            Track is 100% clear. Signal SIG-12 is GREEN. Amrit Bharat cruising smoothly at 158 km/h. On-time arrival guaranteed.
           </span>
         </div>
       </div>
@@ -725,7 +725,7 @@
       }
 
       if (trainLabel) {
-        trainLabel.textContent = `VANDE BHARAT PASSED &bull; ${data.name.toUpperCase()} ACTIVE`;
+        trainLabel.textContent = `AMRIT BHARAT PASSED &bull; ${data.name.toUpperCase()} ACTIVE`;
       }
     }, 1500);
 
@@ -772,7 +772,7 @@
       liveIndicator.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse';
       aiIcon.className = 'fa-solid fa-circle-check';
       aiAgentLabel.textContent = 'Fast Track Finder:';
-      aiMessage.textContent = 'Track is 100% clear. Signal SIG-12 is GREEN. Vande Bharat cruising smoothly at 158 km/h. On-time arrival guaranteed.';
+      aiMessage.textContent = 'Track is 100% clear. Signal SIG-12 is GREEN. Amrit Bharat cruising smoothly at 158 km/h. On-time arrival guaranteed.';
       showToast('Normal conditions: Train running fast on green signal.', 'success');
     } 
     else if (mode === 'rain') {

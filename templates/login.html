@@ -6,48 +6,62 @@
 <div class="space-y-5 -mt-2 sm:-mt-3">
 
   <!-- ============================================================== -->
-  <!-- BLUE BETA ANNOUNCEMENT BAR (MATCHING OFFICIAL IRCTC PORTAL)    -->
+  <!-- EXPLICIT PROPOSAL BANNER: DEVELOPED BY STAR CODERS TEAM       -->
   <!-- ============================================================== -->
-  <div class="rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 p-3 sm:p-4 flex flex-col sm:flex-row items-center justify-between shadow-sm gap-3">
+  <div class="rounded-xl bg-gradient-to-r from-orange-50 via-amber-50 to-orange-100 border-2 border-orange-300 p-3.5 sm:p-4 flex flex-col sm:flex-row items-center justify-between shadow-sm gap-3">
     <div class="flex items-center space-x-3">
-      <span class="px-2.5 py-1 rounded-md bg-blue-600 text-white font-extrabold text-xs tracking-wider shadow-sm">
-        NEW
+      <span class="px-2.5 py-1 rounded-md bg-orange-600 text-white font-extrabold text-xs tracking-wider shadow-sm shrink-0">
+        PROPOSED PROJECT
       </span>
-      <span class="text-xs sm:text-sm font-bold text-ir-blue">
-        IRCTC RailAI™ &bull; Next-Gen Autonomous Train Supervision & Collision Prevention System
-      </span>
+      <div class="text-xs sm:text-sm text-slate-800">
+        <strong class="text-slate-900">Star Coders Team Innovation:</strong>
+        Autonomous AI Railway Supervision & Kavach Collision Avoidance &bull; <em>Proposed for Live Deployment into Indian Railways & Amrit Bharat Rapid Corridors by Star Coders Team</em>.
+      </div>
     </div>
 
-    <button onclick="openLoginModal()"
-      class="px-4 py-1.5 rounded-md bg-[#213d77] hover:bg-[#182e5b] text-white text-xs font-bold transition shadow-sm flex items-center space-x-1.5 cursor-pointer shrink-0">
-      <i class="fa-solid fa-user-lock text-xs"></i>
-      <span>Official Staff Login</span>
-    </button>
+    <span class="px-3.5 py-1.5 rounded-md bg-white border border-orange-300 text-orange-700 font-bold text-xs shadow-sm shrink-0 flex items-center space-x-1.5">
+      <i class="fa-solid fa-code text-orange-600"></i>
+      <span>Developed by Star Coders Team</span>
+    </span>
   </div>
 
   <!-- ============================================================== -->
-  <!-- HERO: FULL-WIDTH VANDE BHARAT PHOTO & CLEAN FLOATING CARD      -->
+  <!-- HERO: FULL-WIDTH AMRIT BHARAT PHOTO & THEME TOGGLE             -->
   <!-- ============================================================== -->
   <div class="relative rounded-2xl overflow-hidden shadow-2xl min-h-[500px] lg:min-h-[560px] flex items-center">
     
-    <!-- Full-Width Background Picture: Vande Bharat Express -->
-    <img src="/static/images/vande_bharat.jpg" alt="Vande Bharat Express Background"
-      class="absolute inset-0 w-full h-full object-cover object-right md:object-center">
+    <!-- Background Picture: Amrit Bharat Express (or Hydrogen Train) -->
+    <img id="hero-train-img" src="/static/images/amrit_bharat.jpg" alt="Amrit Bharat Express"
+      class="absolute inset-0 w-full h-full object-cover object-center transition-all duration-700">
     
     <!-- Clean Gradient Overlay for High Readability -->
-    <div class="absolute inset-0 bg-gradient-to-r from-slate-950/75 via-slate-950/35 to-transparent pointer-events-none"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/40 to-transparent pointer-events-none"></div>
 
-    <!-- Top Right Official Tag -->
-    <div class="absolute top-6 right-6 lg:right-10 text-right z-10 hidden sm:block pointer-events-none">
-      <h2 class="text-2xl lg:text-4xl font-extrabold text-white tracking-tight drop-shadow-md font-sans">
-        INDIAN RAILWAYS
-      </h2>
-      <p class="text-xs lg:text-sm text-orange-300 font-semibold tracking-wide drop-shadow mt-0.5">
-        Safety &bull; Security &bull; Punctuality
-      </p>
+    <!-- Top Right: Train Title & Theme Switcher -->
+    <div class="absolute top-6 right-6 lg:right-10 text-right z-10 flex flex-col items-end space-y-2">
+      <div class="hidden sm:block">
+        <h2 id="hero-train-title" class="text-2xl lg:text-4xl font-extrabold text-white tracking-tight drop-shadow-md font-sans">
+          AMRIT BHARAT
+        </h2>
+        <p id="hero-train-subtitle" class="text-xs lg:text-sm text-orange-300 font-bold tracking-wide drop-shadow mt-0.5">
+          Proposed AI Integration &bull; Star Coders Team
+        </p>
+      </div>
+
+      <!-- Theme Switcher: Amrit Bharat / Hydrogen Train -->
+      <div class="flex items-center bg-black/60 backdrop-blur-md p-1 rounded-lg border border-white/20 text-[11px] font-bold">
+        <button type="button" onclick="setTrainTheme('amrit')" id="btn-theme-amrit"
+          class="px-2.5 py-1 rounded bg-orange-600 text-white shadow-sm transition">
+          🚆 Amrit Bharat
+        </button>
+        <button type="button" onclick="setTrainTheme('hydrogen')" id="btn-theme-hydrogen"
+          class="px-2.5 py-1 rounded text-slate-300 hover:text-white transition">
+          🌱 Hydrogen Train
+        </button>
+      </div>
     </div>
 
-    <!-- SINGLE CLEAN FLOATING CARD (LEFT SIDE, EXACTLY LIKE IRCTC) -->
+    <!-- SINGLE CLEAN FLOATING CARD (LEFT SIDE) -->
     <div class="relative z-20 w-full max-w-md p-4 sm:p-6 ml-0 sm:ml-4 lg:ml-8 my-auto">
       <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
         
@@ -67,11 +81,9 @@
         <div class="p-5 sm:p-6 space-y-3.5">
           <div class="text-center pb-2 border-b border-slate-100">
             <h3 class="text-base font-extrabold text-ir-blue tracking-tight">TRAIN LIVE STATUS & RADAR</h3>
-            <p class="text-[11px] text-slate-500">Autonomous GPS Tracking & Platform Locator</p>
+            <p class="text-[11px] text-slate-500">Autonomous GPS Tracking &bull; Proposed by Star Coders Team</p>
           </div>
 
-          <!-- From Station (All 11 Available) -->
-          <div>
           <!-- From Station -->
           <div>
             <label class="block text-[11px] font-bold text-slate-700 mb-1">From Station</label>
@@ -104,10 +116,10 @@
               <label class="block text-[11px] font-bold text-slate-700 mb-1">Select Train</label>
               <select id="home-train-select" onchange="updateSearchDest(this.value)"
                 class="w-full p-2 text-xs font-bold text-slate-800 bg-slate-50 rounded-lg border border-slate-300 cursor-pointer">
-                <option value="22436" selected>22436 - Vande Bharat</option>
+                <option value="15558" selected>15558 - Amrit Bharat</option>
+                <option value="99001">99001 - Hydrogen Green</option>
                 <option value="12002">12002 - Shatabdi</option>
                 <option value="12952">12952 - Rajdhani</option>
-                <option value="12424">12424 - Dibrugarh</option>
               </select>
             </div>
 
@@ -177,11 +189,39 @@
 {% block extra_scripts %}
 <script>
   const TRAIN_DESTS = {
-    '22436': { from: 'NDLS', to: 'BSB' },
+    '15558': { from: 'NDLS', to: 'BSB' },
+    '99001': { from: 'NDLS', to: 'CNB' },
     '12002': { from: 'NDLS', to: 'RKMP' },
-    '12952': { from: 'NDLS', to: 'MMCT' },
-    '12424': { from: 'NDLS', to: 'DBRG' }
+    '12952': { from: 'NDLS', to: 'MMCT' }
   };
+
+  function setTrainTheme(theme) {
+    const img = document.getElementById('hero-train-img');
+    const title = document.getElementById('hero-train-title');
+    const sub = document.getElementById('hero-train-subtitle');
+    const btnAmrit = document.getElementById('btn-theme-amrit');
+    const btnHydro = document.getElementById('btn-theme-hydrogen');
+
+    if (theme === 'hydrogen') {
+      img.src = '/static/images/hydrogen_train.jpg';
+      title.textContent = 'HYDROGEN GREEN';
+      sub.textContent = 'Zero Emission AI Pilot • Star Coders Team';
+      btnHydro.className = 'px-2.5 py-1 rounded bg-emerald-600 text-white shadow-sm transition';
+      btnAmrit.className = 'px-2.5 py-1 rounded text-slate-300 hover:text-white transition';
+      const sel = document.getElementById('home-train-select');
+      if (sel) sel.value = '99001';
+      showToast('Theme switched to India Hydrogen Eco-Rail (Star Coders Team)', 'success');
+    } else {
+      img.src = '/static/images/amrit_bharat.jpg';
+      title.textContent = 'AMRIT BHARAT';
+      sub.textContent = 'Proposed AI Integration • Star Coders Team';
+      btnAmrit.className = 'px-2.5 py-1 rounded bg-orange-600 text-white shadow-sm transition';
+      btnHydro.className = 'px-2.5 py-1 rounded text-slate-300 hover:text-white transition';
+      const sel = document.getElementById('home-train-select');
+      if (sel) sel.value = '15558';
+      showToast('Theme switched to Amrit Bharat Express (Star Coders Team)', 'info');
+    }
+  }
 
   function updateSearchDest(trainId) {
     const route = TRAIN_DESTS[trainId];
