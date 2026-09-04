@@ -6,9 +6,9 @@
 <div class="w-full space-y-3 sm:space-y-3.5 -mt-1 sm:-mt-2">
 
   <!-- ============================================================== -->
-  <!-- EXPLICIT PROPOSAL BANNER: COMPACT & CLEAN                      -->
+  <!-- EXPLICIT PROPOSAL BANNER: LIGHT THEME & CLEAN                  -->
   <!-- ============================================================== -->
-  <div class="w-full rounded-xl bg-gradient-to-r from-orange-50 via-amber-50 to-orange-100 border border-orange-300 px-3.5 sm:px-4 py-2 flex flex-wrap items-center justify-between shadow-xs gap-2 text-xs">
+  <div class="w-full rounded-xl bg-white/90 backdrop-blur-sm border border-slate-200 px-3.5 sm:px-4 py-2 flex flex-wrap items-center justify-between shadow-xs gap-2 text-xs">
     <div class="flex items-center space-x-2">
       <span class="px-2 py-0.5 rounded bg-orange-600 text-white font-extrabold text-[10px] tracking-wider shrink-0 shadow-xs">
         PROPOSED PROJECT
@@ -18,43 +18,43 @@
       </span>
     </div>
 
-    <span class="px-2.5 py-0.5 rounded bg-white/90 border border-orange-200 text-orange-700 font-bold text-[10px] shadow-xs flex items-center space-x-1 shrink-0">
+    <span class="px-2.5 py-0.5 rounded bg-orange-50 border border-orange-200 text-orange-700 font-bold text-[10px] shadow-xs flex items-center space-x-1 shrink-0">
       <i class="fa-solid fa-code text-orange-600"></i>
       <span>Developed by Star Coders Team</span>
     </span>
   </div>
 
   <!-- ============================================================== -->
-  <!-- HERO: FULL-WIDTH EYE-LEVEL NORMAL VISION & MANUAL TOGGLE       -->
+  <!-- HERO: FULL-WIDTH EYE-LEVEL NORMAL VISION & LIGHT THEME OVERLAY -->
   <!-- ============================================================== -->
-  <div class="w-full relative rounded-2xl overflow-hidden shadow-2xl min-h-[480px] lg:min-h-[520px] flex items-center">
+  <div class="w-full relative rounded-2xl overflow-hidden shadow-md border border-slate-200/80 min-h-[480px] lg:min-h-[520px] flex items-center">
     
     <!-- Background Picture: Amrit Bharat Express (or Hydrogen Train) -->
     <img id="hero-train-img" src="/static/images/amrit_bharat.jpg" alt="Amrit Bharat Express"
       class="absolute inset-0 w-full h-full object-cover object-center transition-all duration-500">
     
-    <!-- Clean Gradient Overlay for High Readability -->
-    <div class="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/40 to-transparent pointer-events-none"></div>
+    <!-- Clean Light Theme Gradient Overlay for High Readability -->
+    <div class="absolute inset-0 bg-gradient-to-r from-white/80 via-white/20 to-transparent pointer-events-none z-10"></div>
 
-    <!-- Top Right: Train Title & Manual Theme Switcher -->
-    <div class="absolute top-5 right-5 lg:right-8 text-right z-10 flex flex-col items-end space-y-1.5">
-      <div class="hidden sm:block">
-        <h2 id="hero-train-title" class="text-2xl lg:text-3xl font-extrabold text-white tracking-tight drop-shadow-md font-sans">
+    <!-- Top Right: Train Title & Light Theme Switcher -->
+    <div class="absolute top-4 right-4 sm:top-5 sm:right-6 lg:right-8 text-right z-20 flex flex-col items-end space-y-1.5">
+      <div class="hidden sm:block bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-slate-200/80 shadow-xs text-right">
+        <h2 id="hero-train-title" class="text-base lg:text-lg font-black text-ir-blue tracking-tight font-sans">
           AMRIT BHARAT
         </h2>
-        <p id="hero-train-subtitle" class="text-xs text-orange-300 font-bold tracking-wide drop-shadow mt-0.5">
+        <p id="hero-train-subtitle" class="text-[10px] text-orange-600 font-bold tracking-wide">
           Proposed AI Integration &bull; Star Coders Team
         </p>
       </div>
 
-      <!-- Manual Theme Switcher: Amrit Bharat / Hydrogen Train -->
-      <div class="flex items-center bg-black/60 backdrop-blur-md p-1 rounded-lg border border-white/20 text-[11px] font-bold">
+      <!-- Manual Theme Switcher: Amrit Bharat / Hydrogen Train (Light Theme) -->
+      <div class="flex items-center bg-white/90 backdrop-blur-md p-1 rounded-lg border border-slate-200 text-[11px] font-bold shadow-xs">
         <button type="button" onclick="setTrainTheme('amrit')" id="btn-theme-amrit"
-          class="px-2.5 py-1 rounded bg-orange-600 text-white shadow-sm transition cursor-pointer">
+          class="px-2.5 py-1 rounded bg-orange-600 text-white shadow-xs transition cursor-pointer">
           🚆 Amrit Bharat
         </button>
         <button type="button" onclick="setTrainTheme('hydrogen')" id="btn-theme-hydrogen"
-          class="px-2.5 py-1 rounded text-slate-300 hover:text-white transition cursor-pointer">
+          class="px-2.5 py-1 rounded text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition cursor-pointer">
           🌱 Hydrogen Train
         </button>
       </div>
@@ -205,8 +205,8 @@
       img.src = '/static/images/hydrogen_train.jpg';
       title.textContent = 'HYDROGEN GREEN';
       sub.textContent = 'Zero Emission AI Pilot • Star Coders Team';
-      btnHydro.className = 'px-2.5 py-1 rounded bg-emerald-600 text-white shadow-sm transition cursor-pointer';
-      btnAmrit.className = 'px-2.5 py-1 rounded text-slate-300 hover:text-white transition cursor-pointer';
+      btnHydro.className = 'px-2.5 py-1 rounded bg-emerald-600 text-white shadow-xs transition cursor-pointer';
+      btnAmrit.className = 'px-2.5 py-1 rounded text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition cursor-pointer';
       const sel = document.getElementById('home-train-select');
       if (sel) sel.value = '99001';
       showToast('Switched to Zero-Emission Hydrogen Rail', 'success');
@@ -214,8 +214,8 @@
       img.src = '/static/images/amrit_bharat.jpg';
       title.textContent = 'AMRIT BHARAT';
       sub.textContent = 'Proposed AI Integration • Star Coders Team';
-      btnAmrit.className = 'px-2.5 py-1 rounded bg-orange-600 text-white shadow-sm transition cursor-pointer';
-      btnHydro.className = 'px-2.5 py-1 rounded text-slate-300 hover:text-white transition cursor-pointer';
+      btnAmrit.className = 'px-2.5 py-1 rounded bg-orange-600 text-white shadow-xs transition cursor-pointer';
+      btnHydro.className = 'px-2.5 py-1 rounded text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition cursor-pointer';
       const sel = document.getElementById('home-train-select');
       if (sel) sel.value = '15558';
       showToast('Switched to Amrit Bharat Express', 'info');
