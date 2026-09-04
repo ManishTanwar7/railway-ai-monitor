@@ -361,8 +361,6 @@ async def download_architecture_report():
     """Download the comprehensive Star Coders Railway AI Architecture Report (.docx)."""
     report_file = BASE_DIR / "Star_Coders_Railway_AI_Architecture_Report.docx"
     if not report_file.exists():
-        report_file = BASE_DIR / "Railway_AI_Monitoring_System_Report.docx"
-    if not report_file.exists():
         raise HTTPException(status_code=404, detail="Architecture report .docx file not found.")
     return FileResponse(
         path=str(report_file),

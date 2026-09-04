@@ -16,3 +16,4 @@ ENV/
 Thumbs.db
 *.swp
 *.bak
+~$*
