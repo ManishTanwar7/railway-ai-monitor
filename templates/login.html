@@ -25,28 +25,31 @@
   </div>
 
   <!-- ============================================================== -->
-  <!-- HERO BANNER: FULL EYE-LEVEL TRAIN VIEW (UNOBSTRUCTED)          -->
+  <!-- HERO BANNER: FULL PIC COVERAGE & FLOATING LIVE RADAR CARD       -->
   <!-- ============================================================== -->
-  <div class="w-full relative rounded-2xl overflow-hidden shadow-md border border-slate-200 h-[260px] sm:h-[320px] md:h-[380px] lg:h-[420px] flex items-end">
+  <div class="w-full relative rounded-2xl overflow-hidden shadow-lg border border-slate-200 min-h-[580px] lg:min-h-[640px] flex items-center">
     
     <!-- Background Picture: Amrit Bharat Express (or Hydrogen Train) -->
+    <!-- Object position adjusted so train locomotive on the right is fully visible without empty spaces -->
     <img id="hero-train-img" src="/static/images/amrit_bharat.jpg" alt="Amrit Bharat Express"
-      class="absolute inset-0 w-full h-full object-cover object-center transition-all duration-500">
+      class="absolute inset-0 w-full h-full object-cover object-[75%_center] transition-all duration-500">
     
-    <!-- Clean Gradient Overlays for High Legibility -->
-    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/85 via-slate-900/20 to-slate-900/30 pointer-events-none z-10"></div>
+    <!-- Clean Gradient Overlays for High Legibility on Left Side -->
+    <div class="absolute inset-0 bg-gradient-to-r from-white/95 via-white/40 to-transparent sm:from-white/90 sm:via-white/20 sm:to-transparent pointer-events-none z-10"></div>
 
-    <!-- Top Left: Portal Badge -->
-    <div class="absolute top-3 left-3 sm:top-4 sm:left-5 z-20">
-      <div class="bg-white/95 backdrop-blur-md px-3 py-1 rounded-lg border border-slate-200/80 shadow-sm flex items-center space-x-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-        <span class="text-[11px] font-black text-ir-blue tracking-tight">IRCTC RailAI™ &bull; 100Hz Telemetry</span>
+    <!-- Top Right: Train Title & Light Theme Switcher -->
+    <div class="absolute top-4 right-4 sm:top-5 sm:right-6 lg:right-8 text-right z-20 flex flex-col items-end space-y-2">
+      <div class="hidden sm:block bg-white/95 backdrop-blur-md px-4 py-2 rounded-xl border border-slate-200/90 shadow-sm text-right">
+        <h2 id="hero-train-title" class="text-base lg:text-lg font-black text-ir-blue tracking-tight font-sans">
+          AMRIT BHARAT
+        </h2>
+        <p id="hero-train-subtitle" class="text-[10px] text-orange-600 font-bold tracking-wide">
+          Proposed AI Integration &bull; Star Coders Team
+        </p>
       </div>
-    </div>
 
-    <!-- Top Right: Train Theme Switcher (Amrit Bharat / Hydrogen) -->
-    <div class="absolute top-3 right-3 sm:top-4 sm:right-5 z-20 flex items-center space-x-1.5">
-      <div class="flex items-center bg-white/95 backdrop-blur-md p-1 rounded-xl border border-slate-200 text-[11px] font-bold shadow-md">
+      <!-- Manual Theme Switcher: Amrit Bharat / Hydrogen Train (Light Theme) -->
+      <div class="flex items-center bg-white/95 backdrop-blur-md p-1 rounded-xl border border-slate-200 text-[11px] font-bold shadow-sm">
         <button type="button" onclick="setTrainTheme('amrit')" id="btn-theme-amrit"
           class="px-2.5 py-1 rounded-lg bg-orange-600 text-white shadow-xs transition cursor-pointer">
           🚆 Amrit Bharat
@@ -56,159 +59,116 @@
           🌱 Hydrogen Train
         </button>
       </div>
-    </div>
 
-    <!-- Bottom Train Details Overlay -->
-    <div class="relative z-20 p-4 sm:p-6 text-white w-full flex flex-col sm:flex-row sm:items-end justify-between gap-2">
-      <div>
-        <span class="px-2.5 py-0.5 rounded bg-orange-500 text-white font-black text-[10px] tracking-wider uppercase">
-          Autonomous Corridor
-        </span>
-        <h2 id="hero-train-title" class="text-xl sm:text-2xl md:text-3xl font-black tracking-tight mt-1 text-white drop-shadow-sm">
-          AMRIT BHARAT EXPRESS
-        </h2>
-        <p id="hero-train-subtitle" class="text-xs sm:text-sm text-slate-200 font-medium">
-          New Delhi (NDLS) &harr; Varanasi Jn (BSB) &bull; Speed 158 km/h &bull; Kavach 4.0 Active
-        </p>
-      </div>
-
-      <div class="hidden md:flex items-center space-x-2 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/20 text-xs font-semibold">
-        <i class="fa-solid fa-shield-halved text-emerald-400"></i>
-        <span>1,200m Kavach Safety Bubble Active</span>
+      <!-- Live Speed Pill -->
+      <div class="hidden md:flex items-center space-x-1.5 bg-black/40 backdrop-blur-md px-3 py-1 rounded-lg border border-white/20 text-white text-[11px] font-semibold">
+        <i class="fa-solid fa-gauge-high text-orange-400"></i>
+        <span>Speed 158 km/h &bull; Kavach 4.0 Active</span>
       </div>
     </div>
 
-  </div>
-
-  <!-- ============================================================== -->
-  <!-- HORIZONTAL SEARCH & RADAR CONSOLE (NO CLIPPING, NO CRAMPING)   -->
-  <!-- ============================================================== -->
-  <div class="w-full bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
-    
-    <!-- Top Action Tabs -->
-    <div class="flex items-center justify-between border-b border-slate-200 px-4 sm:px-6 py-2.5 bg-slate-50 text-xs font-bold">
-      <div class="flex items-center space-x-2 sm:space-x-4">
-        <button class="text-orange-600 flex items-center space-x-1.5 pb-1 border-b-2 border-orange-600 cursor-pointer">
-          <i class="fa-solid fa-train text-orange-600"></i>
-          <span>TRACK TRAIN RADAR</span>
-        </button>
-        <a href="/dashboard/passenger" class="text-slate-600 hover:text-ir-blue flex items-center space-x-1.5 pb-1 transition">
-          <i class="fa-solid fa-map-location-dot"></i>
-          <span>8-PLATFORM BAY RADAR</span>
-        </a>
-      </div>
-
-      <button type="button" onclick="openLoginModal()" class="text-ir-blue hover:text-orange-600 flex items-center space-x-1 cursor-pointer transition">
-        <i class="fa-solid fa-user-lock"></i>
-        <span>Staff Portal Sign In</span>
-      </button>
-    </div>
-
-    <!-- Search Controls Form -->
-    <div class="p-4 sm:p-6">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 items-end">
+    <!-- FLOATING LIVE RADAR CARD (EXACTLY AS IN USER REFERENCE PICTURE) -->
+    <div class="relative z-20 w-full max-w-sm sm:max-w-md p-4 sm:p-5 ml-0 sm:ml-6 lg:ml-10 my-4 sm:my-auto">
+      <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
         
-        <!-- From Station -->
-        <div>
-          <label class="block text-[11px] font-bold text-slate-700 mb-1 flex items-center space-x-1">
-            <i class="fa-solid fa-location-dot text-orange-600"></i>
-            <span>From Station</span>
-          </label>
-          <select id="search-from-station"
-            class="w-full p-2.5 text-xs font-bold text-slate-800 bg-slate-50 rounded-xl border border-slate-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-ir-blue">
-            {% for stn in stations %}
-            <option value="{{ stn.station_code }}" {% if stn.station_code == 'NDLS' %}selected{% endif %}>
-              {{ stn.station_name }} ({{ stn.station_code }})
-            </option>
-            {% endfor %}
-          </select>
-        </div>
-
-        <!-- To Station -->
-        <div>
-          <label class="block text-[11px] font-bold text-slate-700 mb-1 flex items-center space-x-1">
-            <i class="fa-solid fa-flag-checkered text-emerald-600"></i>
-            <span>To Station</span>
-          </label>
-          <select id="search-to-station"
-            class="w-full p-2.5 text-xs font-bold text-slate-800 bg-slate-50 rounded-xl border border-slate-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-ir-blue">
-            {% for stn in stations %}
-            <option value="{{ stn.station_code }}" {% if stn.station_code == 'BSB' %}selected{% endif %}>
-              {{ stn.station_name }} ({{ stn.station_code }})
-            </option>
-            {% endfor %}
-          </select>
-        </div>
-
-        <!-- Train Select -->
-        <div>
-          <label class="block text-[11px] font-bold text-slate-700 mb-1 flex items-center space-x-1">
-            <i class="fa-solid fa-train text-ir-blue"></i>
-            <span>Select Train</span>
-          </label>
-          <select id="home-train-select" onchange="updateSearchDest(this.value)"
-            class="w-full p-2.5 text-xs font-bold text-slate-800 bg-slate-50 rounded-xl border border-slate-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-ir-blue">
-            <option value="15558" selected>15558 - Amrit Bharat</option>
-            <option value="99001">99001 - Hydrogen Green</option>
-            <option value="12002">12002 - Shatabdi</option>
-            <option value="12952">12952 - Rajdhani</option>
-          </select>
-        </div>
-
-        <!-- Journey Date -->
-        <div>
-          <label class="block text-[11px] font-bold text-slate-700 mb-1 flex items-center space-x-1">
-            <i class="fa-solid fa-calendar-day text-slate-500"></i>
-            <span>Journey Date</span>
-          </label>
-          <input type="text" value="04/09/2026 (Today)" readonly
-            class="w-full p-2.5 text-xs font-bold text-slate-700 bg-slate-100 rounded-xl border border-slate-300">
-        </div>
-
-        <!-- Submit Button -->
-        <div>
-          <button type="button" onclick="goToLiveRadar()"
-            class="w-full h-[42px] py-2.5 px-4 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-extrabold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center space-x-2 cursor-pointer">
-            <i class="fa-solid fa-magnifying-glass text-xs"></i>
-            <span>TRACK TRAIN RADAR</span>
+        <!-- Top Blue Tabs -->
+        <div class="grid grid-cols-2 bg-[#213d77] text-white text-xs font-bold text-center">
+          <button class="py-2.5 px-2 border-b-2 border-orange-500 bg-[#162a53] flex items-center justify-center space-x-1.5 cursor-pointer">
+            <i class="fa-solid fa-train text-orange-400"></i>
+            <span>LIVE RADAR</span>
+          </button>
+          <button type="button" onclick="openLoginModal()" class="py-2.5 px-2 hover:bg-[#162a53] transition flex items-center justify-center space-x-1.5 text-slate-200 cursor-pointer">
+            <i class="fa-solid fa-user-lock"></i>
+            <span>STAFF LOGIN</span>
           </button>
         </div>
 
-      </div>
+        <!-- Form Card Body -->
+        <div class="p-5 space-y-3">
+          <div class="text-center pb-2 border-b border-slate-100">
+            <h3 class="text-base font-extrabold text-ir-blue tracking-tight">TRAIN LIVE STATUS &amp; RADAR</h3>
+            <p class="text-[11px] text-slate-500">Autonomous GPS Tracking &bull; Proposed by Star Coders Team</p>
+          </div>
 
-      <!-- Feature Badges line -->
-      <div class="mt-3 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between text-[11px] text-slate-500 gap-2">
-        <div class="flex items-center space-x-3">
-          <span class="flex items-center space-x-1 text-emerald-700 font-bold">
-            <i class="fa-solid fa-circle-check"></i>
-            <span>100Hz CRIS Live Stream</span>
-          </span>
-          <span>&bull;</span>
-          <span class="flex items-center space-x-1 text-ir-blue font-bold">
-            <i class="fa-solid fa-bolt"></i>
-            <span>Physics ETA Engine</span>
-          </span>
-          <span>&bull;</span>
-          <span class="flex items-center space-x-1 text-orange-600 font-bold">
-            <i class="fa-solid fa-unlock"></i>
-            <span>Password-Free Public Access</span>
-          </span>
+          <!-- From Station -->
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">From Station</label>
+            <select id="search-from-station"
+              class="w-full p-2 text-xs font-bold text-slate-800 bg-slate-50 rounded-lg border border-slate-300 cursor-pointer focus:outline-none focus:border-ir-blue">
+              {% for stn in stations %}
+              <option value="{{ stn.station_code }}" {% if stn.station_code == 'NDLS' %}selected{% endif %}>
+                {{ stn.station_name }} ({{ stn.station_code }})
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- To Station -->
+          <div>
+            <label class="block text-[11px] font-bold text-slate-700 mb-1">To Station</label>
+            <select id="search-to-station"
+              class="w-full p-2 text-xs font-bold text-slate-800 bg-slate-50 rounded-lg border border-slate-300 cursor-pointer focus:outline-none focus:border-ir-blue">
+              {% for stn in stations %}
+              <option value="{{ stn.station_code }}" {% if stn.station_code == 'BSB' %}selected{% endif %}>
+                {{ stn.station_name }} ({{ stn.station_code }})
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- Train Select & Date -->
+          <div class="grid grid-cols-2 gap-2.5">
+            <div>
+              <label class="block text-[11px] font-bold text-slate-700 mb-1">Select Train</label>
+              <select id="home-train-select" onchange="updateSearchDest(this.value)"
+                class="w-full p-2 text-xs font-bold text-slate-800 bg-slate-50 rounded-lg border border-slate-300 cursor-pointer">
+                <option value="15558" selected>15558 - Amrit Bharat</option>
+                <option value="99001">99001 - Hydrogen Green</option>
+                <option value="12002">12002 - Shatabdi</option>
+                <option value="12952">12952 - Rajdhani</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-bold text-slate-700 mb-1">Journey Date</label>
+              <input type="text" value="04/09/2026 (Today)" readonly
+                class="w-full p-2 text-xs font-bold text-slate-800 bg-slate-50 rounded-lg border border-slate-300">
+            </div>
+          </div>
+
+          <!-- Big Orange Action Button -->
+          <div class="pt-1.5">
+            <button type="button" onclick="goToLiveRadar()"
+              class="w-full py-3 px-4 rounded-lg bg-orange-600 hover:bg-orange-500 text-white font-extrabold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center space-x-2 cursor-pointer">
+              <i class="fa-solid fa-magnifying-glass text-xs"></i>
+              <span>TRACK TRAIN &bull; LIVE RADAR</span>
+            </button>
+          </div>
+
+          <!-- Staff Portal Trigger -->
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+            <span class="text-slate-500 font-medium">Railway Operator?</span>
+            <button type="button" onclick="openLoginModal()" class="font-bold text-ir-blue hover:text-orange-600 flex items-center space-x-1 cursor-pointer">
+              <span>Open Staff Sign In</span>
+              <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </button>
+          </div>
+
         </div>
 
-        <span class="text-slate-400">Proposed by Star Coders Team</span>
       </div>
     </div>
 
   </div>
 
   <!-- ============================================================== -->
-  <!-- QUICK SERVICES ROW (MATCHING USER REFERENCE IMAGE)             -->
+  <!-- QUICK SERVICES ROW: EACH BUTTON OPENS ITS DEDICATED WEBPAGE   -->
   <!-- ============================================================== -->
   <div class="w-full">
     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4">
       
-      <!-- Card 1: Time Table -->
-      <a href="/dashboard/passenger"
+      <!-- Card 1: Time Table -> /timetable -->
+      <a href="/timetable"
         class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs hover:shadow-md hover:-translate-y-1 transition duration-200 flex flex-col items-center text-center cursor-pointer group">
         <div class="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center text-orange-600 text-xl shadow-xs group-hover:scale-110 transition">
           <i class="fa-solid fa-calendar-days"></i>
@@ -216,10 +176,11 @@
         <span class="text-xs font-bold text-slate-800 mt-2.5 group-hover:text-orange-600 transition">
           Time Table
         </span>
+        <span class="text-[10px] text-slate-400 mt-0.5">Schedule Chart</span>
       </a>
 
-      <!-- Card 2: Train Between Stations -->
-      <a href="/dashboard/passenger"
+      <!-- Card 2: Train Between Stations -> /trains-between-stations -->
+      <a href="/trains-between-stations"
         class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs hover:shadow-md hover:-translate-y-1 transition duration-200 flex flex-col items-center text-center cursor-pointer group">
         <div class="w-12 h-12 rounded-2xl bg-red-50 border border-red-100 flex items-center justify-center text-red-600 text-xl shadow-xs group-hover:scale-110 transition">
           <i class="fa-solid fa-route"></i>
@@ -227,21 +188,23 @@
         <span class="text-xs font-bold text-slate-800 mt-2.5 group-hover:text-red-600 transition leading-tight">
           Train Between<br>Stations
         </span>
+        <span class="text-[10px] text-slate-400 mt-0.5">Animated Corridor</span>
       </a>
 
-      <!-- Card 3: Platform & Seat Availability -->
-      <a href="/dashboard/passenger"
+      <!-- Card 3: Seat Availability -> /seat-availability -->
+      <a href="/seat-availability"
         class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs hover:shadow-md hover:-translate-y-1 transition duration-200 flex flex-col items-center text-center cursor-pointer group">
         <div class="w-12 h-12 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center text-sky-600 text-xl shadow-xs group-hover:scale-110 transition">
           <i class="fa-solid fa-chair"></i>
         </div>
         <span class="text-xs font-bold text-slate-800 mt-2.5 group-hover:text-sky-600 transition leading-tight">
-          Seat &amp; Platform<br>Availability
+          Seat &amp; Berth<br>Availability
         </span>
+        <span class="text-[10px] text-slate-400 mt-0.5">Coach Visualizer</span>
       </a>
 
-      <!-- Card 4: Kavach 4.0 Active -->
-      <a href="/dashboard/passenger"
+      <!-- Card 4: Kavach 4.0 Active -> /kavach -->
+      <a href="/kavach"
         class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs hover:shadow-md hover:-translate-y-1 transition duration-200 flex flex-col items-center text-center cursor-pointer group">
         <div class="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 text-xl shadow-xs group-hover:scale-110 transition">
           <i class="fa-solid fa-shield-halved"></i>
@@ -249,10 +212,11 @@
         <span class="text-xs font-bold text-slate-800 mt-2.5 group-hover:text-emerald-600 transition leading-tight">
           Kavach 4.0<br>Safety Shield
         </span>
+        <span class="text-[10px] text-slate-400 mt-0.5">1,200m Bubble</span>
       </a>
 
-      <!-- Card 5: Speed & Telemetry Radar -->
-      <a href="/dashboard/passenger"
+      <!-- Card 5: Speed & Telemetry Radar -> /dashboard/passenger -->
+      <a href="/dashboard/passenger?train=15558"
         class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs hover:shadow-md hover:-translate-y-1 transition duration-200 flex flex-col items-center text-center cursor-pointer group col-span-2 sm:col-span-1">
         <div class="w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 text-xl shadow-xs group-hover:scale-110 transition">
           <i class="fa-solid fa-gauge-high"></i>
@@ -260,6 +224,7 @@
         <span class="text-xs font-bold text-slate-800 mt-2.5 group-hover:text-indigo-600 transition leading-tight">
           158 km/h Speed<br>&amp; Radar
         </span>
+        <span class="text-[10px] text-slate-400 mt-0.5">Live Physics ETA</span>
       </a>
 
     </div>
@@ -387,8 +352,8 @@
 
     if (theme === 'hydrogen') {
       img.src = '/static/images/hydrogen_train.jpg';
-      title.textContent = 'HYDROGEN GREEN EXPRESS';
-      sub.textContent = 'Zero Emission AI Pilot • Speed 140 km/h • Star Coders Team';
+      title.textContent = 'HYDROGEN GREEN';
+      sub.textContent = 'Zero Emission AI Pilot • Star Coders Team';
       btnHydro.className = 'px-2.5 py-1 rounded-lg bg-emerald-600 text-white shadow-xs transition cursor-pointer';
       btnAmrit.className = 'px-2.5 py-1 rounded-lg text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition cursor-pointer';
       const sel = document.getElementById('home-train-select');
@@ -396,8 +361,8 @@
       showToast('Switched to Zero-Emission Hydrogen Rail', 'success');
     } else {
       img.src = '/static/images/amrit_bharat.jpg';
-      title.textContent = 'AMRIT BHARAT EXPRESS';
-      sub.textContent = 'New Delhi (NDLS) ↔ Varanasi Jn (BSB) • Speed 158 km/h • Kavach 4.0 Active';
+      title.textContent = 'AMRIT BHARAT';
+      sub.textContent = 'Proposed AI Integration • Star Coders Team';
       btnAmrit.className = 'px-2.5 py-1 rounded-lg bg-orange-600 text-white shadow-xs transition cursor-pointer';
       btnHydro.className = 'px-2.5 py-1 rounded-lg text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition cursor-pointer';
       const sel = document.getElementById('home-train-select');

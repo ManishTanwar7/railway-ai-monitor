@@ -126,6 +126,54 @@ async def handle_contact_form(
     )
 
 
+@app.get("/timetable", response_class=HTMLResponse)
+async def timetable_page(request: Request):
+    """Renders official Train Schedule & Time Table chart."""
+    user = get_current_user_from_request(request)
+    from db import get_all_stations
+    stations = get_all_stations()
+    return templates.TemplateResponse(
+        request=request,
+        name="timetable.html",
+        context={"user": user, "stations": stations}
+    )
+
+
+@app.get("/trains-between-stations", response_class=HTMLResponse)
+async def trains_between_stations_page(request: Request):
+    """Renders Trains Between Stations & Animated Corridor Route."""
+    user = get_current_user_from_request(request)
+    from db import get_all_stations
+    stations = get_all_stations()
+    return templates.TemplateResponse(
+        request=request,
+        name="trains_between_stations.html",
+        context={"user": user, "stations": stations}
+    )
+
+
+@app.get("/seat-availability", response_class=HTMLResponse)
+async def seat_availability_page(request: Request):
+    """Renders Live Seat & Berth Availability Matrix."""
+    user = get_current_user_from_request(request)
+    return templates.TemplateResponse(
+        request=request,
+        name="seat_availability.html",
+        context={"user": user}
+    )
+
+
+@app.get("/kavach", response_class=HTMLResponse)
+async def kavach_page(request: Request):
+    """Renders Kavach 4.0 Collision Avoidance Safety Bubble."""
+    user = get_current_user_from_request(request)
+    return templates.TemplateResponse(
+        request=request,
+        name="kavach.html",
+        context={"user": user}
+    )
+
+
 @app.get("/login/{role}")
 async def quick_role_login(role: str):
     """Direct 1-click access: Logs in immediately without password requirement."""

@@ -1,0 +1,345 @@
+{% extends "base.html" %}
+
+{% block title %}Train Time Table & Schedule Chart &bull; IRCTC RailAI™{% endblock %}
+
+{% block content %}
+<div class="w-full space-y-5">
+
+  <!-- Header & Breadcrumb -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+    <div>
+      <div class="flex items-center space-x-2 text-xs text-slate-500 mb-1">
+        <a href="/" class="hover:text-ir-blue"><i class="fa-solid fa-house"></i> Home</a>
+        <span>/</span>
+        <span class="text-orange-600 font-bold">Train Schedule &amp; Time Table</span>
+      </div>
+      <h1 class="text-xl sm:text-2xl font-black text-ir-blue tracking-tight flex items-center gap-2">
+        <i class="fa-solid fa-calendar-days text-orange-600"></i>
+        <span>Official Train Time Table &amp; Station Halt Chart</span>
+      </h1>
+      <p class="text-xs text-slate-500 mt-0.5">
+        Real-time dynamic station arrival, departure, and platform allocation telemetry.
+      </p>
+    </div>
+
+    <!-- Live Status Pill -->
+    <div class="flex items-center space-x-2">
+      <span class="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 font-bold text-xs border border-emerald-200 flex items-center space-x-1.5 shadow-xs">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span>NTES Live Schedule Synced</span>
+      </span>
+      <a href="/dashboard/passenger" class="px-3.5 py-1.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-bold text-xs transition flex items-center space-x-1.5 shadow-sm">
+        <i class="fa-solid fa-satellite-dish"></i>
+        <span>Track Live On Radar</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Train Selection Ribbon -->
+  <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+    <div class="text-xs font-extrabold text-slate-500 uppercase tracking-wider mb-2">Select Train Schedule:</div>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+      
+      <button type="button" onclick="selectTrainSchedule('15558')" id="tt-btn-15558"
+        class="p-3 rounded-xl border-2 border-orange-500 bg-orange-50/50 text-left transition cursor-pointer shadow-xs">
+        <div class="font-extrabold text-xs text-ir-blue">15558 - Amrit Bharat</div>
+        <div class="text-[11px] text-slate-500">NDLS &harr; Varanasi (BSB)</div>
+        <span class="mt-1 inline-block px-1.5 py-0.5 rounded bg-orange-600 text-white text-[9px] font-extrabold">158 km/h Superfast</span>
+      </button>
+
+      <button type="button" onclick="selectTrainSchedule('99001')" id="tt-btn-99001"
+        class="p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-left transition cursor-pointer">
+        <div class="font-extrabold text-xs text-ir-blue">99001 - Hydrogen Green</div>
+        <div class="text-[11px] text-slate-500">NDLS &harr; Kanpur (CNB)</div>
+        <span class="mt-1 inline-block px-1.5 py-0.5 rounded bg-emerald-600 text-white text-[9px] font-extrabold">Zero Emission</span>
+      </button>
+
+      <button type="button" onclick="selectTrainSchedule('12002')" id="tt-btn-12002"
+        class="p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-left transition cursor-pointer">
+        <div class="font-extrabold text-xs text-ir-blue">12002 - Bhopal Shatabdi</div>
+        <div class="text-[11px] text-slate-500">NDLS &harr; Rani Kamlapati</div>
+        <span class="mt-1 inline-block px-1.5 py-0.5 rounded bg-blue-600 text-white text-[9px] font-extrabold">Premier Express</span>
+      </button>
+
+      <button type="button" onclick="selectTrainSchedule('12952')" id="tt-btn-12952"
+        class="p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-left transition cursor-pointer">
+        <div class="font-extrabold text-xs text-ir-blue">12952 - Mumbai Rajdhani</div>
+        <div class="text-[11px] text-slate-500">NDLS &harr; Mumbai Central</div>
+        <span class="mt-1 inline-block px-1.5 py-0.5 rounded bg-rose-600 text-white text-[9px] font-extrabold">Corridor Flagship</span>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- Train Summary Card -->
+  <div class="bg-gradient-to-r from-ir-blue to-[#1c4b8b] text-white p-5 rounded-2xl shadow-md">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <div class="flex items-center space-x-2">
+          <span class="px-2 py-0.5 rounded bg-orange-500 text-white text-[10px] font-black uppercase">Official Schedule</span>
+          <span class="text-xs text-slate-200 font-semibold">Running: Mon, Tue, Wed, Thu, Fri, Sat, Sun</span>
+        </div>
+        <h2 id="sched-train-name" class="text-xl sm:text-2xl font-black tracking-tight mt-1">
+          15558 &bull; Amrit Bharat Push-Pull Superfast Express
+        </h2>
+        <p id="sched-train-route" class="text-xs text-slate-300 mt-0.5">
+          New Delhi (NDLS) &rarr; Kanpur (CNB) &rarr; Prayagraj (PRYJ) &rarr; Varanasi Junction (BSB)
+        </p>
+      </div>
+
+      <div class="grid grid-cols-3 gap-3 bg-white/10 backdrop-blur-md p-3 rounded-xl border border-white/20 text-center">
+        <div>
+          <div class="text-[10px] uppercase text-slate-300 font-bold">Total Distance</div>
+          <div id="sched-dist" class="text-sm font-black text-orange-400">805 km</div>
+        </div>
+        <div>
+          <div class="text-[10px] uppercase text-slate-300 font-bold">Total Duration</div>
+          <div id="sched-duration" class="text-sm font-black text-white">9h 45m</div>
+        </div>
+        <div>
+          <div class="text-[10px] uppercase text-slate-300 font-bold">Max Speed</div>
+          <div id="sched-speed" class="text-sm font-black text-emerald-400">158 km/h</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- View Mode Switcher & Search Filter -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs">
+    <div class="flex items-center space-x-2">
+      <button type="button" onclick="setViewMode('table')" id="btn-view-table"
+        class="px-3 py-1.5 rounded-xl bg-ir-blue text-white text-xs font-bold transition shadow-xs flex items-center space-x-1.5 cursor-pointer">
+        <i class="fa-solid fa-table-list"></i>
+        <span>Table View</span>
+      </button>
+      <button type="button" onclick="setViewMode('chart')" id="btn-view-chart"
+        class="px-3 py-1.5 rounded-xl text-slate-700 hover:bg-slate-100 text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer">
+        <i class="fa-solid fa-chart-line"></i>
+        <span>Interactive Timeline Chart</span>
+      </button>
+    </div>
+
+    <div class="flex items-center space-x-2">
+      <div class="relative">
+        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-slate-400"></i>
+        <input type="text" id="station-filter" oninput="filterTable(this.value)" placeholder="Filter station name or code..."
+          class="pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-ir-blue w-60">
+      </div>
+      <button onclick="window.print()" class="px-3 py-1.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 text-xs font-bold transition flex items-center space-x-1 cursor-pointer" title="Print Timetable">
+        <i class="fa-solid fa-print"></i>
+        <span>Print</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 1. TABLE VIEW -->
+  <div id="view-table-container" class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs border-collapse">
+        <thead class="bg-slate-50 border-b border-slate-200 text-slate-600 font-extrabold uppercase text-[11px] tracking-wider">
+          <tr>
+            <th class="py-3 px-4">#</th>
+            <th class="py-3 px-4">Station Code</th>
+            <th class="py-3 px-4">Station Name</th>
+            <th class="py-3 px-4">Arrival</th>
+            <th class="py-3 px-4">Departure</th>
+            <th class="py-3 px-4">Halt</th>
+            <th class="py-3 px-4">Distance</th>
+            <th class="py-3 px-4">Day</th>
+            <th class="py-3 px-4">Platform</th>
+            <th class="py-3 px-4 text-center">Kavach 4.0</th>
+          </tr>
+        </thead>
+        <tbody id="timetable-tbody" class="divide-y divide-slate-100 font-medium text-slate-700">
+          <!-- Dynamically Populated by JavaScript -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 2. INTERACTIVE TIMELINE CHART VIEW -->
+  <div id="view-chart-container" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hidden">
+    <h3 class="text-sm font-bold text-ir-blue mb-4 flex items-center space-x-2">
+      <i class="fa-solid fa-route text-orange-600"></i>
+      <span>Corridor Elevation &amp; Station Timeline Visualizer</span>
+    </h3>
+    <div id="timeline-chart-nodes" class="relative pl-6 space-y-6 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-1 before:bg-gradient-to-b before:from-orange-500 before:via-blue-500 before:to-emerald-500">
+      <!-- Dynamically Populated by JavaScript -->
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+const SCHEDULES = {
+  '15558': {
+    name: '15558 • Amrit Bharat Push-Pull Superfast Express',
+    route: 'New Delhi (NDLS) → Kanpur (CNB) → Prayagraj (PRYJ) → Varanasi Junction (BSB)',
+    distance: '805 km',
+    duration: '9h 45m',
+    max_speed: '158 km/h',
+    stops: [
+      { no: 1, code: 'NDLS', name: 'New Delhi', arr: '--:--', dep: '06:00', halt: 'Source', dist: '0 km', day: 1, pf: 'PF 16', kavach: true },
+      { no: 2, code: 'GZB', name: 'Ghaziabad Junction', arr: '06:40', dep: '06:42', halt: '2m', dist: '26 km', day: 1, pf: 'PF 2', kavach: true },
+      { no: 3, code: 'ALJN', name: 'Aligarh Junction', arr: '07:45', dep: '07:47', halt: '2m', dist: '131 km', day: 1, pf: 'PF 3', kavach: true },
+      { no: 4, code: 'TDL', name: 'Tundla Junction', arr: '08:40', dep: '08:42', halt: '2m', dist: '209 km', day: 1, pf: 'PF 4', kavach: true },
+      { no: 5, code: 'ETW', name: 'Etawah Junction', arr: '09:35', dep: '09:37', halt: '2m', dist: '301 km', day: 1, pf: 'PF 2', kavach: true },
+      { no: 6, code: 'CNB', name: 'Kanpur Central', arr: '11:15', dep: '11:20', halt: '5m', dist: '440 km', day: 1, pf: 'PF 1', kavach: true },
+      { no: 7, code: 'FTP', name: 'Fatehpur', arr: '12:10', dep: '12:12', halt: '2m', dist: '518 km', day: 1, pf: 'PF 3', kavach: true },
+      { no: 8, code: 'PRYJ', name: 'Prayagraj Junction', arr: '13:20', dep: '13:25', halt: '5m', dist: '634 km', day: 1, pf: 'PF 6', kavach: true },
+      { no: 9, code: 'MZP', name: 'Mirzapur', arr: '14:15', dep: '14:17', halt: '2m', dist: '723 km', day: 1, pf: 'PF 2', kavach: true },
+      { no: 10, code: 'DDU', name: 'Pt. Deen Dayal Upadhyaya', arr: '15:00', dep: '15:10', halt: '10m', dist: '787 km', day: 1, pf: 'PF 5', kavach: true },
+      { no: 11, code: 'BSB', name: 'Varanasi Junction', arr: '15:45', dep: '--:--', halt: 'Destination', dist: '805 km', day: 1, pf: 'PF 8', kavach: true }
+    ]
+  },
+  '99001': {
+    name: '99001 • Hydrogen Green Superfast Express',
+    route: 'New Delhi (NDLS) → Ghaziabad (GZB) → Aligarh (ALJN) → Kanpur Central (CNB)',
+    distance: '440 km',
+    duration: '4h 50m',
+    max_speed: '140 km/h',
+    stops: [
+      { no: 1, code: 'NDLS', name: 'New Delhi', arr: '--:--', dep: '07:15', halt: 'Source', dist: '0 km', day: 1, pf: 'PF 12', kavach: true },
+      { no: 2, code: 'GZB', name: 'Ghaziabad Junction', arr: '07:50', dep: '07:52', halt: '2m', dist: '26 km', day: 1, pf: 'PF 1', kavach: true },
+      { no: 3, code: 'ALJN', name: 'Aligarh Junction', arr: '08:50', dep: '08:52', halt: '2m', dist: '131 km', day: 1, pf: 'PF 4', kavach: true },
+      { no: 4, code: 'CNB', name: 'Kanpur Central', arr: '12:05', dep: '--:--', halt: 'Destination', dist: '440 km', day: 1, pf: 'PF 3', kavach: true }
+    ]
+  },
+  '12002': {
+    name: '12002 • New Delhi - Bhopal Shatabdi Express',
+    route: 'New Delhi (NDLS) → Mathura (MTJ) → Agra Cantt (AGC) → Gwalior (GWL) → RKMP',
+    distance: '708 km',
+    duration: '8h 25m',
+    max_speed: '150 km/h',
+    stops: [
+      { no: 1, code: 'NDLS', name: 'New Delhi', arr: '--:--', dep: '06:00', halt: 'Source', dist: '0 km', day: 1, pf: 'PF 1', kavach: true },
+      { no: 2, code: 'MTJ', name: 'Mathura Junction', arr: '07:19', dep: '07:20', halt: '1m', dist: '141 km', day: 1, pf: 'PF 1', kavach: true },
+      { no: 3, code: 'AGC', name: 'Agra Cantt', arr: '07:50', dep: '07:55', halt: '5m', dist: '195 km', day: 1, pf: 'PF 1', kavach: true },
+      { no: 4, code: 'GWL', name: 'Gwalior Junction', arr: '09:23', dep: '09:28', halt: '5m', dist: '313 km', day: 1, pf: 'PF 1', kavach: true },
+      { no: 5, code: 'RKMP', name: 'Rani Kamlapati', arr: '14:25', dep: '--:--', halt: 'Destination', dist: '708 km', day: 1, pf: 'PF 2', kavach: true }
+    ]
+  },
+  '12952': {
+    name: '12952 • New Delhi - Mumbai Central Tejas Rajdhani',
+    route: 'New Delhi (NDLS) → Kota (KOTA) → Vadodara (BRC) → Surat (ST) → Mumbai Central',
+    distance: '1386 km',
+    duration: '15h 32m',
+    max_speed: '130 km/h',
+    stops: [
+      { no: 1, code: 'NDLS', name: 'New Delhi', arr: '--:--', dep: '16:55', halt: 'Source', dist: '0 km', day: 1, pf: 'PF 3', kavach: true },
+      { no: 2, code: 'KOTA', name: 'Kota Junction', arr: '21:30', dep: '21:40', halt: '10m', dist: '466 km', day: 1, pf: 'PF 1', kavach: true },
+      { no: 3, code: 'BRC', name: 'Vadodara Junction', arr: '03:40', dep: '03:50', halt: '10m', dist: '993 km', day: 2, pf: 'PF 2', kavach: true },
+      { no: 4, code: 'ST', name: 'Surat', arr: '05:13', dep: '05:18', halt: '5m', dist: '1123 km', day: 2, pf: 'PF 1', kavach: true },
+      { no: 5, code: 'MMCT', name: 'Mumbai Central', arr: '08:35', dep: '--:--', halt: 'Destination', dist: '1386 km', day: 2, pf: 'PF 1', kavach: true }
+    ]
+  }
+};
+
+let currentTrain = '15558';
+
+function renderTimetable() {
+  const sched = SCHEDULES[currentTrain];
+  if (!sched) return;
+
+  document.getElementById('sched-train-name').textContent = sched.name;
+  document.getElementById('sched-train-route').textContent = sched.route;
+  document.getElementById('sched-dist').textContent = sched.distance;
+  document.getElementById('sched-duration').textContent = sched.duration;
+  document.getElementById('sched-speed').textContent = sched.max_speed;
+
+  // Render Table Rows
+  const tbody = document.getElementById('timetable-tbody');
+  tbody.innerHTML = '';
+  sched.stops.forEach((stop) => {
+    const tr = document.createElement('tr');
+    tr.className = 'hover:bg-slate-50 transition';
+    tr.innerHTML = `
+      <td class="py-3 px-4 text-slate-400 font-bold">${stop.no}</td>
+      <td class="py-3 px-4">
+        <span class="px-2 py-0.5 rounded bg-ir-blue/10 text-ir-blue font-extrabold text-[11px]">${stop.code}</span>
+      </td>
+      <td class="py-3 px-4 font-bold text-slate-900">${stop.name}</td>
+      <td class="py-3 px-4 font-mono font-bold ${stop.arr === '--:--' ? 'text-slate-400' : 'text-slate-800'}">${stop.arr}</td>
+      <td class="py-3 px-4 font-mono font-bold ${stop.dep === '--:--' ? 'text-slate-400' : 'text-orange-600'}">${stop.dep}</td>
+      <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 text-[10px] font-bold">${stop.halt}</span></td>
+      <td class="py-3 px-4 text-slate-600">${stop.dist}</td>
+      <td class="py-3 px-4 text-slate-600">Day ${stop.day}</td>
+      <td class="py-3 px-4"><span class="px-2 py-0.5 rounded bg-blue-50 border border-blue-200 text-blue-700 font-bold text-[10px]">${stop.pf}</span></td>
+      <td class="py-3 px-4 text-center"><span class="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 font-bold text-[10px] border border-emerald-200"><i class="fa-solid fa-shield-halved text-[9px] mr-1"></i>Active</span></td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  // Render Chart Nodes
+  const chart = document.getElementById('timeline-chart-nodes');
+  chart.innerHTML = '';
+  sched.stops.forEach((stop, idx) => {
+    const node = document.createElement('div');
+    node.className = 'relative flex items-start space-x-3';
+    node.innerHTML = `
+      <div class="w-6 h-6 rounded-full ${idx === 0 ? 'bg-orange-500' : idx === sched.stops.length - 1 ? 'bg-emerald-600' : 'bg-ir-blue'} text-white flex items-center justify-center text-[10px] font-bold shadow-sm shrink-0 -ml-7 z-10">
+        ${stop.no}
+      </div>
+      <div class="bg-slate-50 border border-slate-200 rounded-xl p-3 flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+          <div class="font-extrabold text-sm text-slate-900">${stop.name} <span class="text-orange-600">(${stop.code})</span></div>
+          <div class="text-xs text-slate-500">Distance: ${stop.dist} &bull; Platform: <strong class="text-slate-800">${stop.pf}</strong></div>
+        </div>
+        <div class="flex items-center space-x-3 font-mono text-xs font-bold">
+          <div><span class="text-slate-400">ARR:</span> <span class="text-slate-700">${stop.arr}</span></div>
+          <div><span class="text-slate-400">DEP:</span> <span class="text-orange-600">${stop.dep}</span></div>
+          <span class="px-2 py-0.5 rounded bg-white border border-slate-200 text-slate-600 text-[10px] font-bold font-sans">${stop.halt}</span>
+        </div>
+      </div>
+    `;
+    chart.appendChild(node);
+  });
+}
+
+function selectTrainSchedule(trainId) {
+  currentTrain = trainId;
+  ['15558', '99001', '12002', '12952'].forEach(id => {
+    const btn = document.getElementById(`tt-btn-${id}`);
+    if (id === trainId) {
+      btn.className = 'p-3 rounded-xl border-2 border-orange-500 bg-orange-50/50 text-left transition cursor-pointer shadow-xs';
+    } else {
+      btn.className = 'p-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-left transition cursor-pointer';
+    }
+  });
+  renderTimetable();
+}
+
+function setViewMode(mode) {
+  const table = document.getElementById('view-table-container');
+  const chart = document.getElementById('view-chart-container');
+  const btnTable = document.getElementById('btn-view-table');
+  const btnChart = document.getElementById('btn-view-chart');
+
+  if (mode === 'chart') {
+    table.classList.add('hidden');
+    chart.classList.remove('hidden');
+    btnChart.className = 'px-3 py-1.5 rounded-xl bg-ir-blue text-white text-xs font-bold transition shadow-xs flex items-center space-x-1.5 cursor-pointer';
+    btnTable.className = 'px-3 py-1.5 rounded-xl text-slate-700 hover:bg-slate-100 text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer';
+  } else {
+    chart.classList.add('hidden');
+    table.classList.remove('hidden');
+    btnTable.className = 'px-3 py-1.5 rounded-xl bg-ir-blue text-white text-xs font-bold transition shadow-xs flex items-center space-x-1.5 cursor-pointer';
+    btnChart.className = 'px-3 py-1.5 rounded-xl text-slate-700 hover:bg-slate-100 text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer';
+  }
+}
+
+function filterTable(val) {
+  const term = val.toLowerCase();
+  const rows = document.querySelectorAll('#timetable-tbody tr');
+  rows.forEach(r => {
+    const text = r.textContent.toLowerCase();
+    r.style.display = text.includes(term) ? '' : 'none';
+  });
+}
+
+// Initial render
+renderTimetable();
+</script>
+{% endblock %}

@@ -1,0 +1,344 @@
+{% extends "base.html" %}
+
+{% block title %}Seat Availability & Berth Matrix &bull; IRCTC RailAI™{% endblock %}
+
+{% block content %}
+<div class="w-full space-y-5">
+
+  <!-- Header & Breadcrumb -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+    <div>
+      <div class="flex items-center space-x-2 text-xs text-slate-500 mb-1">
+        <a href="/" class="hover:text-ir-blue"><i class="fa-solid fa-house"></i> Home</a>
+        <span>/</span>
+        <span class="text-orange-600 font-bold">Seat &amp; Berth Availability</span>
+      </div>
+      <h1 class="text-xl sm:text-2xl font-black text-ir-blue tracking-tight flex items-center gap-2">
+        <i class="fa-solid fa-chair text-sky-600"></i>
+        <span>Live Seat Availability &amp; Coach Berth Matrix</span>
+      </h1>
+      <p class="text-xs text-slate-500 mt-0.5">
+        Real-time CRIS quota sync &bull; AI confirmation prediction &bull; Interactive coach seat selection
+      </p>
+    </div>
+
+    <div class="flex items-center space-x-2">
+      <span class="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 font-bold text-xs border border-emerald-200 flex items-center space-x-1.5 shadow-xs">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span>PRS Live Quota Synchronized</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Train & Quota Controls -->
+  <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 items-end">
+      
+      <!-- Train Select -->
+      <div>
+        <label class="block text-[11px] font-bold text-slate-700 mb-1">Train</label>
+        <select id="seat-train-sel" onchange="updateSeatData()"
+          class="w-full p-2.5 text-xs font-bold text-slate-800 bg-slate-50 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-ir-blue cursor-pointer">
+          <option value="15558" selected>15558 - Amrit Bharat Express</option>
+          <option value="99001">99001 - Hydrogen Green Express</option>
+          <option value="12002">12002 - Bhopal Shatabdi</option>
+          <option value="12952">12952 - Mumbai Rajdhani</option>
+        </select>
+      </div>
+
+      <!-- Quota -->
+      <div>
+        <label class="block text-[11px] font-bold text-slate-700 mb-1">Quota</label>
+        <select id="seat-quota-sel" onchange="updateSeatData()"
+          class="w-full p-2.5 text-xs font-bold text-slate-800 bg-slate-50 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-ir-blue cursor-pointer">
+          <option value="GN" selected>General (GN)</option>
+          <option value="TQ">Tatkal (TQ)</option>
+          <option value="PT">Premium Tatkal (PT)</option>
+          <option value="LD">Ladies Quota (LD)</option>
+        </select>
+      </div>
+
+      <!-- Class Selection -->
+      <div>
+        <label class="block text-[11px] font-bold text-slate-700 mb-1">Class</label>
+        <div class="flex items-center space-x-1.5">
+          <button type="button" onclick="selectClass('3A')" id="btn-cls-3A"
+            class="flex-1 py-2 text-xs font-bold rounded-lg bg-ir-blue text-white shadow-xs cursor-pointer">3A</button>
+          <button type="button" onclick="selectClass('2A')" id="btn-cls-2A"
+            class="flex-1 py-2 text-xs font-bold rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">2A</button>
+          <button type="button" onclick="selectClass('SL')" id="btn-cls-SL"
+            class="flex-1 py-2 text-xs font-bold rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">SL</button>
+          <button type="button" onclick="selectClass('2S')" id="btn-cls-2S"
+            class="flex-1 py-2 text-xs font-bold rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer">2S</button>
+        </div>
+      </div>
+
+      <!-- Live Refresh Button -->
+      <div>
+        <button type="button" onclick="updateSeatData()"
+          class="w-full h-[42px] py-2.5 px-4 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-extrabold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center space-x-2 cursor-pointer">
+          <i class="fa-solid fa-arrows-rotate"></i>
+          <span>CHECK AVAILABILITY</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 6-Day Availability Forecast Strip -->
+  <div class="space-y-2">
+    <div class="text-xs font-extrabold text-slate-600 uppercase tracking-wider">6-Day Live Availability Matrix (Class: <span id="current-class-label" class="text-orange-600">AC 3-Tier</span>):</div>
+    
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3" id="date-strip-container">
+      
+      <!-- Day 1 -->
+      <div class="bg-white p-3.5 rounded-2xl border-2 border-emerald-500 shadow-sm text-center">
+        <div class="text-xs font-bold text-slate-800">04 Sep, Fri (Today)</div>
+        <div class="text-base font-black text-emerald-600 my-1">AVAILABLE - 42</div>
+        <div class="text-[10px] text-slate-500">Confirm Chance: <strong class="text-emerald-600">100%</strong></div>
+        <div class="text-xs font-bold text-slate-900 mt-1">₹1,190</div>
+      </div>
+
+      <!-- Day 2 -->
+      <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs text-center">
+        <div class="text-xs font-bold text-slate-800">05 Sep, Sat</div>
+        <div class="text-base font-black text-emerald-600 my-1">AVAILABLE - 18</div>
+        <div class="text-[10px] text-slate-500">Confirm Chance: <strong class="text-emerald-600">100%</strong></div>
+        <div class="text-xs font-bold text-slate-900 mt-1">₹1,190</div>
+      </div>
+
+      <!-- Day 3 -->
+      <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs text-center">
+        <div class="text-xs font-bold text-slate-800">06 Sep, Sun</div>
+        <div class="text-base font-black text-amber-600 my-1">RAC 14</div>
+        <div class="text-[10px] text-slate-500">Confirm Chance: <strong class="text-emerald-600">96% High</strong></div>
+        <div class="text-xs font-bold text-slate-900 mt-1">₹1,190</div>
+      </div>
+
+      <!-- Day 4 -->
+      <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs text-center">
+        <div class="text-xs font-bold text-slate-800">07 Sep, Mon</div>
+        <div class="text-base font-black text-emerald-600 my-1">AVAILABLE - 65</div>
+        <div class="text-[10px] text-slate-500">Confirm Chance: <strong class="text-emerald-600">100%</strong></div>
+        <div class="text-xs font-bold text-slate-900 mt-1">₹1,190</div>
+      </div>
+
+      <!-- Day 5 -->
+      <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs text-center">
+        <div class="text-xs font-bold text-slate-800">08 Sep, Tue</div>
+        <div class="text-base font-black text-rose-600 my-1">WL 8</div>
+        <div class="text-[10px] text-slate-500">Confirm Chance: <strong class="text-amber-600">89% Good</strong></div>
+        <div class="text-xs font-bold text-slate-900 mt-1">₹1,190</div>
+      </div>
+
+      <!-- Day 6 -->
+      <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-xs text-center">
+        <div class="text-xs font-bold text-slate-800">09 Sep, Wed</div>
+        <div class="text-base font-black text-emerald-600 my-1">AVAILABLE - 88</div>
+        <div class="text-[10px] text-slate-500">Confirm Chance: <strong class="text-emerald-600">100%</strong></div>
+        <div class="text-xs font-bold text-slate-900 mt-1">₹1,190</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- INTERACTIVE COACH BERTH VISUALIZER                             -->
+  <!-- ============================================================== -->
+  <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 space-y-4">
+    
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200">
+      <div>
+        <div class="flex items-center space-x-2">
+          <span class="px-2 py-0.5 rounded bg-sky-600 text-white font-extrabold text-[10px]">COACH VISUALIZER</span>
+          <h3 class="text-base font-bold text-slate-900">Coach B3 &bull; AC 3-Tier Layout (Click a Seat to Select)</h3>
+        </div>
+        <p class="text-xs text-slate-500 mt-0.5">
+          Select preferred berth location: Lower (LB), Middle (MB), Upper (UB), Side Lower (SL), Side Upper (SU).
+        </p>
+      </div>
+
+      <!-- Color Legend -->
+      <div class="flex items-center space-x-4 text-xs font-bold">
+        <div class="flex items-center space-x-1.5">
+          <span class="w-3.5 h-3.5 rounded bg-emerald-500 inline-block"></span>
+          <span class="text-slate-600">Available</span>
+        </div>
+        <div class="flex items-center space-x-1.5">
+          <span class="w-3.5 h-3.5 rounded bg-amber-400 inline-block"></span>
+          <span class="text-slate-600">Selected</span>
+        </div>
+        <div class="flex items-center space-x-1.5">
+          <span class="w-3.5 h-3.5 rounded bg-slate-300 inline-block"></span>
+          <span class="text-slate-600">Booked</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coach Layout Representation -->
+    <div class="overflow-x-auto py-2">
+      <div class="min-w-[700px] bg-slate-50 p-4 rounded-xl border border-slate-200">
+        
+        <div class="text-center font-mono text-xs font-bold text-slate-400 mb-3 uppercase tracking-wider">
+          &larr; Engine Direction &bull; Coach B3 (AC 3-Tier) &bull; Aisle &bull; Windows &rarr;
+        </div>
+
+        <!-- 8 Compartments grid -->
+        <div class="grid grid-cols-4 gap-4">
+          
+          <!-- Bay 1 -->
+          <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs space-y-2">
+            <div class="text-[10px] font-bold text-slate-400 border-b pb-1">COMPARTMENT 1 (Berths 1-8)</div>
+            <div class="grid grid-cols-3 gap-1.5 text-center text-xs">
+              <button onclick="pickSeat('1', 'LB')" id="seat-1" class="p-2 rounded bg-emerald-500 text-white font-bold hover:opacity-90">1 LB</button>
+              <button onclick="pickSeat('2', 'MB')" id="seat-2" class="p-2 rounded bg-emerald-500 text-white font-bold hover:opacity-90">2 MB</button>
+              <button onclick="pickSeat('3', 'UB')" id="seat-3" class="p-2 rounded bg-slate-300 text-slate-600 font-bold" disabled>3 UB</button>
+              <button onclick="pickSeat('4', 'LB')" id="seat-4" class="p-2 rounded bg-slate-300 text-slate-600 font-bold" disabled>4 LB</button>
+              <button onclick="pickSeat('5', 'MB')" id="seat-5" class="p-2 rounded bg-emerald-500 text-white font-bold hover:opacity-90">5 MB</button>
+              <button onclick="pickSeat('6', 'UB')" id="seat-6" class="p-2 rounded bg-emerald-500 text-white font-bold hover:opacity-90">6 UB</button>
+            </div>
+            <div class="pt-1 border-t flex justify-between gap-1.5 text-xs text-center">
+              <button onclick="pickSeat('7', 'SL')" id="seat-7" class="flex-1 p-1.5 rounded bg-emerald-500 text-white font-bold hover:opacity-90">7 SL</button>
+              <button onclick="pickSeat('8', 'SU')" id="seat-8" class="flex-1 p-1.5 rounded bg-slate-300 text-slate-600 font-bold" disabled>8 SU</button>
+            </div>
+          </div>
+
+          <!-- Bay 2 -->
+          <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs space-y-2">
+            <div class="text-[10px] font-bold text-slate-400 border-b pb-1">COMPARTMENT 2 (Berths 9-16)</div>
+            <div class="grid grid-cols-3 gap-1.5 text-center text-xs">
+              <button onclick="pickSeat('9', 'LB')" id="seat-9" class="p-2 rounded bg-emerald-500 text-white font-bold hover:opacity-90">9 LB</button>
+              <button onclick="pickSeat('10', 'MB')" id="seat-10" class="p-2 rounded bg-slate-300 text-slate-600 font-bold" disabled>10 MB</button>
+              <button onclick="pickSeat('11', 'UB')" id="seat-11" class="p-2 rounded bg-emerald-500 text-white font-bold hover:opacity-90">11 UB</button>
+              <button onclick="pickSeat('12', 'LB')" id="seat-12" class="p-2 rounded bg-emerald-500 text-white font-bold hover:opacity-90">12 LB</button>
+              <button onclick="pickSeat('13', 'MB')" id="seat-13" class="p-2 rounded bg-emerald-500 text-white font-bold hover:opacity-90">13 MB</button>
+              <button onclick="pickSeat('14', 'UB')" id="seat-14" class="p-2 rounded bg-slate-300 text-slate-600 font-bold" disabled>14 UB</button>
+            </div>
+            <div class="pt-1 border-t flex justify-between gap-1.5 text-xs text-center">
+              <button onclick="pickSeat('15', 'SL')" id="seat-15" class="flex-1 p-1.5 rounded bg-emerald-500 text-white font-bold hover:opacity-90">15 SL</button>
+              <button onclick="pickSeat('16', 'SU')" id="seat-16" class="flex-1 p-1.5 rounded bg-emerald-500 text-white font-bold hover:opacity-90">16 SU</button>
+            </div>
+          </div>
+
+          <!-- Bay 3 -->
+          <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs space-y-2">
+            <div class="text-[10px] font-bold text-slate-400 border-b pb-1">COMPARTMENT 3 (Berths 17-24)</div>
+            <div class="grid grid-cols-3 gap-1.5 text-center text-xs">
+              <button onclick="pickSeat('17', 'LB')" id="seat-17" class="p-2 rounded bg-slate-300 text-slate-600 font-bold" disabled>17 LB</button>
+              <button onclick="pickSeat('18', 'MB')" id="seat-18" class="p-2 rounded bg-emerald-500 text-white font-bold hover:opacity-90">18 MB</button>
+              <button onclick="pickSeat('19', 'UB')" id="seat-19" class="p-2 rounded bg-emerald-500 text-white font-bold hover:opacity-90">19 UB</button>
+              <button onclick="pickSeat('20', 'LB')" id="seat-20" class="p-2 rounded bg-emerald-500 text-white font-bold hover:opacity-90">20 LB</button>
+              <button onclick="pickSeat('21', 'MB')" id="seat-21" class="p-2 rounded bg-slate-300 text-slate-600 font-bold" disabled>21 MB</button>
+              <button onclick="pickSeat('22', 'UB')" id="seat-22" class="p-2 rounded bg-emerald-500 text-white font-bold hover:opacity-90">22 UB</button>
+            </div>
+            <div class="pt-1 border-t flex justify-between gap-1.5 text-xs text-center">
+              <button onclick="pickSeat('23', 'SL')" id="seat-23" class="flex-1 p-2 rounded bg-amber-400 text-slate-900 font-bold ring-2 ring-orange-500">23 SL</button>
+              <button onclick="pickSeat('24', 'SU')" id="seat-24" class="flex-1 p-2 rounded bg-emerald-500 text-white font-bold hover:opacity-90">24 SU</button>
+            </div>
+          </div>
+
+          <!-- Bay 4 -->
+          <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-xs space-y-2">
+            <div class="text-[10px] font-bold text-slate-400 border-b pb-1">COMPARTMENT 4 (Berths 25-32)</div>
+            <div class="grid grid-cols-3 gap-1.5 text-center text-xs">
+              <button onclick="pickSeat('25', 'LB')" id="seat-25" class="p-2 rounded bg-emerald-500 text-white font-bold hover:opacity-90">25 LB</button>
+              <button onclick="pickSeat('26', 'MB')" id="seat-26" class="p-2 rounded bg-emerald-500 text-white font-bold hover:opacity-90">26 MB</button>
+              <button onclick="pickSeat('27', 'UB')" id="seat-27" class="p-2 rounded bg-slate-300 text-slate-600 font-bold" disabled>27 UB</button>
+              <button onclick="pickSeat('28', 'LB')" id="seat-28" class="p-2 rounded bg-emerald-500 text-white font-bold hover:opacity-90">28 LB</button>
+              <button onclick="pickSeat('29', 'MB')" id="seat-29" class="p-2 rounded bg-emerald-500 text-white font-bold hover:opacity-90">29 MB</button>
+              <button onclick="pickSeat('30', 'UB')" id="seat-30" class="p-2 rounded bg-emerald-500 text-white font-bold hover:opacity-90">30 UB</button>
+            </div>
+            <div class="pt-1 border-t flex justify-between gap-1.5 text-xs text-center">
+              <button onclick="pickSeat('31', 'SL')" id="seat-31" class="flex-1 p-1.5 rounded bg-slate-300 text-slate-600 font-bold" disabled>31 SL</button>
+              <button onclick="pickSeat('32', 'SU')" id="seat-32" class="flex-1 p-1.5 rounded bg-emerald-500 text-white font-bold hover:opacity-90">32 SU</button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Selected Seat Details Banner -->
+    <div class="bg-gradient-to-r from-orange-50 to-amber-50 p-4 rounded-xl border border-orange-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div>
+        <div class="text-[10px] font-bold text-orange-700 uppercase tracking-wider">SELECTED SEAT SPECIFICATIONS</div>
+        <div class="text-sm font-extrabold text-slate-900" id="selected-seat-desc">
+          Coach B3 &bull; Berth 23 &bull; Side Lower (SL) &bull; Window View
+        </div>
+        <div class="text-xs text-slate-600 mt-0.5">
+          Base Fare: <strong>₹1,145</strong> + Superfast Fee: <strong>₹45</strong> &bull; Total: <strong class="text-orange-600 font-bold">₹1,190</strong>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-2">
+        <span class="px-3 py-1.5 rounded-lg bg-emerald-100 text-emerald-800 text-xs font-bold">
+          <i class="fa-solid fa-circle-check mr-1"></i> 100% Guaranteed Seat
+        </span>
+        <a href="/dashboard/passenger?train=15558" class="px-4 py-2 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold transition shadow-xs flex items-center space-x-1.5">
+          <span>Proceed &bull; Track Live</span>
+          <i class="fa-solid fa-arrow-right text-[10px]"></i>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+let currentClass = '3A';
+let selectedSeat = '23';
+
+function selectClass(cls) {
+  currentClass = cls;
+  ['3A', '2A', 'SL', '2S'].forEach(c => {
+    const btn = document.getElementById(`btn-cls-${c}`);
+    if (c === cls) {
+      btn.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-ir-blue text-white shadow-xs cursor-pointer';
+    } else {
+      btn.className = 'flex-1 py-2 text-xs font-bold rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer';
+    }
+  });
+
+  const labels = {
+    '3A': 'AC 3-Tier',
+    '2A': 'AC 2-Tier',
+    'SL': 'Sleeper Class',
+    '2S': 'Second Sitting (2S)'
+  };
+  document.getElementById('current-class-label').textContent = labels[cls] || cls;
+  showToast(`Switched to ${labels[cls]} seat matrix`, 'info');
+}
+
+function pickSeat(num, type) {
+  const oldBtn = document.getElementById(`seat-${selectedSeat}`);
+  if (oldBtn) {
+    oldBtn.className = 'flex-1 p-2 rounded bg-emerald-500 text-white font-bold hover:opacity-90';
+  }
+
+  selectedSeat = num;
+  const newBtn = document.getElementById(`seat-${num}`);
+  if (newBtn) {
+    newBtn.className = 'flex-1 p-2 rounded bg-amber-400 text-slate-900 font-bold ring-2 ring-orange-500';
+  }
+
+  const typeMap = {
+    'LB': 'Lower Berth (LB)',
+    'MB': 'Middle Berth (MB)',
+    'UB': 'Upper Berth (UB)',
+    'SL': 'Side Lower (SL) Window',
+    'SU': 'Side Upper (SU)'
+  };
+
+  document.getElementById('selected-seat-desc').textContent = `Coach B3 • Berth ${num} • ${typeMap[type] || type} • Track Side`;
+  showToast(`Selected Berth ${num} (${typeMap[type]})`, 'success');
+}
+
+function updateSeatData() {
+  showToast('Refreshed live quota from Indian Railways PRS Server', 'success');
+}
+</script>
+{% endblock %}

@@ -1,0 +1,451 @@
+{% extends "base.html" %}
+
+{% block title %}Trains Between Stations & Animated Corridor &bull; IRCTC RailAI™{% endblock %}
+
+{% block content %}
+<div class="w-full space-y-5">
+
+  <!-- Header & Breadcrumb -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+    <div>
+      <div class="flex items-center space-x-2 text-xs text-slate-500 mb-1">
+        <a href="/" class="hover:text-ir-blue"><i class="fa-solid fa-house"></i> Home</a>
+        <span>/</span>
+        <span class="text-orange-600 font-bold">Corridor Search</span>
+      </div>
+      <h1 class="text-xl sm:text-2xl font-black text-ir-blue tracking-tight flex items-center gap-2">
+        <i class="fa-solid fa-route text-orange-600"></i>
+        <span>Trains Between Stations &amp; Live Animated Corridor</span>
+      </h1>
+      <p class="text-xs text-slate-500 mt-0.5">
+        Search trains between key Indian Railways stations with real-time animated train trajectory.
+      </p>
+    </div>
+
+    <div class="flex items-center space-x-2">
+      <span class="px-3 py-1.5 rounded-xl bg-orange-50 text-orange-700 font-bold text-xs border border-orange-200 flex items-center space-x-1.5 shadow-xs">
+        <i class="fa-solid fa-satellite-dish text-orange-600"></i>
+        <span>Live 100Hz Corridor Physics</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Route Search Bar with Swap Button -->
+  <div class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 items-end">
+      
+      <!-- From Station -->
+      <div class="relative">
+        <label class="block text-[11px] font-bold text-slate-700 mb-1 flex items-center space-x-1">
+          <i class="fa-solid fa-location-dot text-orange-600"></i>
+          <span>From Station</span>
+        </label>
+        <select id="from-station-sel"
+          class="w-full p-2.5 text-xs font-bold text-slate-800 bg-slate-50 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-ir-blue">
+          <option value="NDLS" selected>New Delhi (NDLS)</option>
+          <option value="GZB">Ghaziabad (GZB)</option>
+          <option value="CNB">Kanpur Central (CNB)</option>
+          <option value="PRYJ">Prayagraj Junction (PRYJ)</option>
+          <option value="BSB">Varanasi Junction (BSB)</option>
+        </select>
+      </div>
+
+      <!-- Swap Icon (Desktop Center) -->
+      <div class="hidden md:flex justify-center pb-2">
+        <button type="button" onclick="swapStations()" title="Swap Stations"
+          class="w-9 h-9 rounded-full bg-slate-100 hover:bg-orange-100 text-slate-600 hover:text-orange-600 border border-slate-300 transition flex items-center justify-center cursor-pointer shadow-xs">
+          <i class="fa-solid fa-arrow-right-arrow-left"></i>
+        </button>
+      </div>
+
+      <!-- To Station -->
+      <div>
+        <label class="block text-[11px] font-bold text-slate-700 mb-1 flex items-center space-x-1">
+          <i class="fa-solid fa-flag-checkered text-emerald-600"></i>
+          <span>To Station</span>
+        </label>
+        <select id="to-station-sel"
+          class="w-full p-2.5 text-xs font-bold text-slate-800 bg-slate-50 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-ir-blue">
+          <option value="BSB" selected>Varanasi Junction (BSB)</option>
+          <option value="CNB">Kanpur Central (CNB)</option>
+          <option value="PRYJ">Prayagraj Junction (PRYJ)</option>
+          <option value="NDLS">New Delhi (NDLS)</option>
+        </select>
+      </div>
+
+      <!-- Journey Date -->
+      <div>
+        <label class="block text-[11px] font-bold text-slate-700 mb-1 flex items-center space-x-1">
+          <i class="fa-solid fa-calendar-day text-slate-500"></i>
+          <span>Journey Date</span>
+        </label>
+        <input type="text" value="04/09/2026 (Today)" readonly
+          class="w-full p-2.5 text-xs font-bold text-slate-700 bg-slate-100 rounded-xl border border-slate-300">
+      </div>
+
+      <!-- Search Trigger -->
+      <div>
+        <button type="button" onclick="filterCorridorTrains()"
+          class="w-full h-[42px] py-2.5 px-4 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-extrabold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center space-x-2 cursor-pointer">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span>FIND TRAINS</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- ANIMATED RAILWAY CORRIDOR OPTION (REAL-TIME TRACK SIMULATION)   -->
+  <!-- ============================================================== -->
+  <div class="bg-slate-900 rounded-2xl border border-slate-800 shadow-xl overflow-hidden p-5 text-white">
+    
+    <!-- Top Bar with Simulation Controls -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800">
+      <div>
+        <div class="flex items-center space-x-2">
+          <span class="px-2 py-0.5 rounded bg-orange-500 text-white font-black text-[10px] tracking-wider uppercase">
+            ANIMATED LIVE CORRIDOR
+          </span>
+          <span class="text-xs text-slate-300 font-semibold">Dual-Track High-Speed Mainline (100Hz Telemetry)</span>
+        </div>
+        <h3 class="text-base font-bold text-white mt-1">
+          Real-Time Animated Train Movement &bull; NDLS &harr; BSB Main Line
+        </h3>
+      </div>
+
+      <!-- Animation Controls -->
+      <div class="flex items-center space-x-2">
+        <button type="button" onclick="toggleSimPlay()" id="btn-sim-play"
+          class="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer shadow-xs">
+          <i class="fa-solid fa-pause text-[10px]" id="sim-play-icon"></i>
+          <span id="sim-play-text">Pause Animation</span>
+        </button>
+        <div class="bg-slate-800 p-1 rounded-lg border border-slate-700 flex items-center text-xs font-bold">
+          <button onclick="setSimSpeed(1)" class="px-2 py-0.5 rounded text-orange-400 bg-slate-700 font-bold" id="speed-1x">1x</button>
+          <button onclick="setSimSpeed(2)" class="px-2 py-0.5 rounded text-slate-400 hover:text-white" id="speed-2x">2x</button>
+          <button onclick="setSimSpeed(5)" class="px-2 py-0.5 rounded text-slate-400 hover:text-white" id="speed-5x">5x</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Animated Canvas Area -->
+    <div class="relative w-full h-[220px] bg-[#0a111e] rounded-xl my-4 overflow-hidden border border-slate-800 flex items-center">
+      
+      <!-- Track 1: UP Line (New Delhi -> Varanasi) -->
+      <div class="absolute left-6 right-6 top-[75px] h-3 bg-slate-700/80 rounded flex items-center shadow-inner">
+        <div class="w-full h-0.5 bg-yellow-500/70"></div>
+      </div>
+      
+      <!-- Track 2: DOWN Line (Varanasi -> New Delhi) -->
+      <div class="absolute left-6 right-6 top-[135px] h-3 bg-slate-700/80 rounded flex items-center shadow-inner">
+        <div class="w-full h-0.5 bg-yellow-500/70"></div>
+      </div>
+
+      <!-- Station Markers along the line -->
+      <div class="absolute left-6 right-6 top-[60px] bottom-[40px] flex justify-between items-center pointer-events-none z-10 text-[10px] font-mono">
+        <div class="text-center"><span class="w-3 h-3 rounded-full bg-orange-500 inline-block border-2 border-white shadow-xs"></span><br><strong class="text-orange-400 font-sans">NDLS</strong></div>
+        <div class="text-center"><span class="w-2.5 h-2.5 rounded-full bg-slate-400 inline-block"></span><br><span class="text-slate-400 font-sans">GZB</span></div>
+        <div class="text-center"><span class="w-2.5 h-2.5 rounded-full bg-slate-400 inline-block"></span><br><span class="text-slate-400 font-sans">ALJN</span></div>
+        <div class="text-center"><span class="w-2.5 h-2.5 rounded-full bg-slate-400 inline-block"></span><br><span class="text-slate-400 font-sans">TDL</span></div>
+        <div class="text-center"><span class="w-3 h-3 rounded-full bg-blue-500 inline-block border-2 border-white shadow-xs"></span><br><strong class="text-blue-400 font-sans">CNB</strong></div>
+        <div class="text-center"><span class="w-2.5 h-2.5 rounded-full bg-slate-400 inline-block"></span><br><span class="text-slate-400 font-sans">FTP</span></div>
+        <div class="text-center"><span class="w-3 h-3 rounded-full bg-purple-500 inline-block border-2 border-white shadow-xs"></span><br><strong class="text-purple-400 font-sans">PRYJ</strong></div>
+        <div class="text-center"><span class="w-2.5 h-2.5 rounded-full bg-slate-400 inline-block"></span><br><span class="text-slate-400 font-sans">MZP</span></div>
+        <div class="text-center"><span class="w-2.5 h-2.5 rounded-full bg-slate-400 inline-block"></span><br><span class="text-slate-400 font-sans">DDU</span></div>
+        <div class="text-center"><span class="w-3 h-3 rounded-full bg-emerald-500 inline-block border-2 border-white shadow-xs"></span><br><strong class="text-emerald-400 font-sans">BSB</strong></div>
+      </div>
+
+      <!-- Animated Train 1: Amrit Bharat (Moving UP Track) -->
+      <div id="anim-train-amrit" class="absolute top-[52px] z-20 transition-transform duration-75 flex items-center cursor-pointer"
+        style="left: 10%;">
+        <div class="bg-orange-600 text-white px-2 py-1 rounded-lg text-[10px] font-black shadow-lg border border-orange-400 flex items-center space-x-1 animate-pulse">
+          <i class="fa-solid fa-train"></i>
+          <span>15558 (158 km/h)</span>
+        </div>
+        <div class="w-3 h-3 bg-yellow-300 rounded-full blur-[2px] -ml-1"></div>
+      </div>
+
+      <!-- Animated Train 2: Hydrogen Green (Moving UP Track) -->
+      <div id="anim-train-hydro" class="absolute top-[52px] z-20 transition-transform duration-75 flex items-center cursor-pointer"
+        style="left: 45%;">
+        <div class="bg-emerald-600 text-white px-2 py-1 rounded-lg text-[10px] font-black shadow-lg border border-emerald-400 flex items-center space-x-1">
+          <i class="fa-solid fa-leaf"></i>
+          <span>99001 (140 km/h)</span>
+        </div>
+      </div>
+
+      <!-- Animated Train 3: Shatabdi (Moving DOWN Track) -->
+      <div id="anim-train-shatabdi" class="absolute top-[112px] z-20 transition-transform duration-75 flex items-center cursor-pointer"
+        style="left: 70%;">
+        <div class="bg-blue-600 text-white px-2 py-1 rounded-lg text-[10px] font-black shadow-lg border border-blue-400 flex items-center space-x-1">
+          <i class="fa-solid fa-train-subway"></i>
+          <span>12002 (130 km/h)</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Live Corridor Status Indicators -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs pt-2">
+      <div class="bg-slate-800/80 p-2.5 rounded-xl border border-slate-700/80 flex items-center space-x-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+        <div>
+          <div class="text-[10px] text-slate-400 font-bold uppercase">Mainline Signal</div>
+          <div class="font-bold text-white">ALL GREEN &bull; 160 km/h Cap</div>
+        </div>
+      </div>
+      <div class="bg-slate-800/80 p-2.5 rounded-xl border border-slate-700/80 flex items-center space-x-2">
+        <i class="fa-solid fa-shield-halved text-emerald-400 text-base"></i>
+        <div>
+          <div class="text-[10px] text-slate-400 font-bold uppercase">Kavach 4.0 Status</div>
+          <div class="font-bold text-white">1,200m Bubble Synchronized</div>
+        </div>
+      </div>
+      <div class="bg-slate-800/80 p-2.5 rounded-xl border border-slate-700/80 flex items-center space-x-2">
+        <i class="fa-solid fa-microchip text-sky-400 text-base"></i>
+        <div>
+          <div class="text-[10px] text-slate-400 font-bold uppercase">Autonomous Loop Routing</div>
+          <div class="font-bold text-white">Active (0 Bypass Holds)</div>
+        </div>
+      </div>
+      <div class="bg-slate-800/80 p-2.5 rounded-xl border border-slate-700/80 flex items-center space-x-2">
+        <i class="fa-solid fa-bolt text-amber-400 text-base"></i>
+        <div>
+          <div class="text-[10px] text-slate-400 font-bold uppercase">Telemetry Stream</div>
+          <div class="font-bold text-white">100 Hz Continuous</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- TRAINS BETWEEN STATIONS LIST                                   -->
+  <!-- ============================================================== -->
+  <div class="space-y-3.5">
+    <div class="flex items-center justify-between">
+      <h3 class="text-base font-extrabold text-slate-800 flex items-center space-x-2">
+        <i class="fa-solid fa-train text-orange-600"></i>
+        <span>Available Trains: New Delhi (NDLS) &rarr; Varanasi Junction (BSB)</span>
+      </h3>
+      <span class="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-xs font-bold">4 Trains Found</span>
+    </div>
+
+    <!-- Train Card 1: Amrit Bharat -->
+    <div class="bg-white rounded-2xl border-2 border-orange-500 shadow-sm p-5 hover:shadow-md transition">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center space-x-2 mb-1">
+            <span class="px-2 py-0.5 rounded bg-orange-600 text-white font-extrabold text-[10px]">15558</span>
+            <h4 class="text-base font-extrabold text-ir-blue">Amrit Bharat Push-Pull Superfast Express</h4>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">ON TIME</span>
+          </div>
+          <p class="text-xs text-slate-500">
+            Runs: <strong class="text-slate-700">M, T, W, T, F, S, S</strong> &bull; Class: <strong class="text-slate-700">2S, SL, 3A, 2A</strong>
+          </p>
+        </div>
+
+        <div class="flex items-center space-x-6 text-center">
+          <div>
+            <div class="font-mono text-base font-black text-slate-900">06:00</div>
+            <div class="text-[11px] font-bold text-slate-500">NDLS (PF 16)</div>
+          </div>
+          <div class="text-center">
+            <div class="text-[10px] font-extrabold text-orange-600">9h 45m</div>
+            <div class="w-20 h-0.5 bg-orange-400 my-1 relative">
+              <span class="w-1.5 h-1.5 rounded-full bg-orange-600 absolute -top-0.5 right-0"></span>
+            </div>
+            <div class="text-[10px] text-slate-400">805 km</div>
+          </div>
+          <div>
+            <div class="font-mono text-base font-black text-slate-900">15:45</div>
+            <div class="text-[11px] font-bold text-slate-500">BSB (PF 8)</div>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-2">
+          <a href="/timetable" class="px-3 py-2 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-50 text-xs font-bold transition">
+            Time Table
+          </a>
+          <a href="/seat-availability" class="px-3 py-2 rounded-xl border border-ir-blue text-ir-blue hover:bg-blue-50 text-xs font-bold transition">
+            Seat Matrix
+          </a>
+          <a href="/dashboard/passenger?train=15558" class="px-4 py-2 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold transition shadow-xs flex items-center space-x-1.5">
+            <i class="fa-solid fa-satellite-dish"></i>
+            <span>Track Radar</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Train Card 2: Hydrogen Green -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-xs p-5 hover:shadow-md transition">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center space-x-2 mb-1">
+            <span class="px-2 py-0.5 rounded bg-emerald-600 text-white font-extrabold text-[10px]">99001</span>
+            <h4 class="text-base font-extrabold text-ir-blue">Hydrogen Green Zero-Emission Express</h4>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">ON TIME</span>
+          </div>
+          <p class="text-xs text-slate-500">
+            Runs: <strong class="text-slate-700">M, W, F</strong> &bull; Class: <strong class="text-slate-700">CC, EC, EV</strong>
+          </p>
+        </div>
+
+        <div class="flex items-center space-x-6 text-center">
+          <div>
+            <div class="font-mono text-base font-black text-slate-900">07:15</div>
+            <div class="text-[11px] font-bold text-slate-500">NDLS (PF 12)</div>
+          </div>
+          <div class="text-center">
+            <div class="text-[10px] font-extrabold text-emerald-600">4h 50m</div>
+            <div class="w-20 h-0.5 bg-emerald-400 my-1 relative">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-600 absolute -top-0.5 right-0"></span>
+            </div>
+            <div class="text-[10px] text-slate-400">440 km (CNB)</div>
+          </div>
+          <div>
+            <div class="font-mono text-base font-black text-slate-900">12:05</div>
+            <div class="text-[11px] font-bold text-slate-500">CNB (PF 3)</div>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-2">
+          <a href="/timetable" class="px-3 py-2 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-50 text-xs font-bold transition">
+            Time Table
+          </a>
+          <a href="/seat-availability" class="px-3 py-2 rounded-xl border border-ir-blue text-ir-blue hover:bg-blue-50 text-xs font-bold transition">
+            Seat Matrix
+          </a>
+          <a href="/dashboard/passenger?train=99001" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-xs flex items-center space-x-1.5">
+            <i class="fa-solid fa-satellite-dish"></i>
+            <span>Track Radar</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Train Card 3: Shatabdi -->
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-xs p-5 hover:shadow-md transition">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center space-x-2 mb-1">
+            <span class="px-2 py-0.5 rounded bg-blue-600 text-white font-extrabold text-[10px]">12002</span>
+            <h4 class="text-base font-extrabold text-ir-blue">New Delhi - Bhopal Shatabdi Express</h4>
+            <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">ON TIME</span>
+          </div>
+          <p class="text-xs text-slate-500">
+            Runs: <strong class="text-slate-700">Except Sun</strong> &bull; Class: <strong class="text-slate-700">CC, EC</strong>
+          </p>
+        </div>
+
+        <div class="flex items-center space-x-6 text-center">
+          <div>
+            <div class="font-mono text-base font-black text-slate-900">06:00</div>
+            <div class="text-[11px] font-bold text-slate-500">NDLS (PF 1)</div>
+          </div>
+          <div class="text-center">
+            <div class="text-[10px] font-extrabold text-blue-600">8h 25m</div>
+            <div class="w-20 h-0.5 bg-blue-400 my-1 relative">
+              <span class="w-1.5 h-1.5 rounded-full bg-blue-600 absolute -top-0.5 right-0"></span>
+            </div>
+            <div class="text-[10px] text-slate-400">708 km (RKMP)</div>
+          </div>
+          <div>
+            <div class="font-mono text-base font-black text-slate-900">14:25</div>
+            <div class="text-[11px] font-bold text-slate-500">RKMP (PF 2)</div>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-2">
+          <a href="/timetable" class="px-3 py-2 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-50 text-xs font-bold transition">
+            Time Table
+          </a>
+          <a href="/dashboard/passenger?train=12002" class="px-4 py-2 rounded-xl bg-ir-blue hover:bg-ir-blue-light text-white text-xs font-bold transition shadow-xs flex items-center space-x-1.5">
+            <i class="fa-solid fa-satellite-dish"></i>
+            <span>Track Radar</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+let simPlaying = true;
+let simSpeed = 1;
+let trainPos1 = 10;
+let trainPos2 = 45;
+let trainPos3 = 70;
+
+function animLoop() {
+  if (simPlaying) {
+    trainPos1 = (trainPos1 + 0.15 * simSpeed);
+    if (trainPos1 > 88) trainPos1 = 5;
+
+    trainPos2 = (trainPos2 + 0.12 * simSpeed);
+    if (trainPos2 > 88) trainPos2 = 5;
+
+    trainPos3 = (trainPos3 - 0.14 * simSpeed);
+    if (trainPos3 < 8) trainPos3 = 85;
+
+    const el1 = document.getElementById('anim-train-amrit');
+    const el2 = document.getElementById('anim-train-hydro');
+    const el3 = document.getElementById('anim-train-shatabdi');
+
+    if (el1) el1.style.left = trainPos1 + '%';
+    if (el2) el2.style.left = trainPos2 + '%';
+    if (el3) el3.style.left = trainPos3 + '%';
+  }
+  requestAnimationFrame(animLoop);
+}
+requestAnimationFrame(animLoop);
+
+function toggleSimPlay() {
+  simPlaying = !simPlaying;
+  const icon = document.getElementById('sim-play-icon');
+  const text = document.getElementById('sim-play-text');
+  const btn = document.getElementById('btn-sim-play');
+
+  if (simPlaying) {
+    icon.className = 'fa-solid fa-pause text-[10px]';
+    text.textContent = 'Pause Animation';
+    btn.className = 'px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer shadow-xs';
+  } else {
+    icon.className = 'fa-solid fa-play text-[10px]';
+    text.textContent = 'Resume Animation';
+    btn.className = 'px-3 py-1.5 rounded-lg bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer shadow-xs';
+  }
+}
+
+function setSimSpeed(speed) {
+  simSpeed = speed;
+  [1, 2, 5].forEach(s => {
+    const b = document.getElementById(`speed-${s}x`);
+    if (s === speed) {
+      b.className = 'px-2 py-0.5 rounded text-orange-400 bg-slate-700 font-bold';
+    } else {
+      b.className = 'px-2 py-0.5 rounded text-slate-400 hover:text-white';
+    }
+  });
+}
+
+function swapStations() {
+  const fromSel = document.getElementById('from-station-sel');
+  const toSel = document.getElementById('to-station-sel');
+  const temp = fromSel.value;
+  fromSel.value = toSel.value;
+  toSel.value = temp;
+  showToast('Swapped departure and destination stations', 'info');
+}
+
+function filterCorridorTrains() {
+  showToast('Corridor refreshed with 100Hz live satellite telemetry', 'success');
+}
+</script>
+{% endblock %}
