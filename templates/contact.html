@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block title %}IRCTC RailAI™ &bull; Contact Us &amp; 24x7 Rail Support{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+  <!-- Breadcrumb & Header Banner -->
+  <div class="rounded-2xl bg-gradient-to-r from-[#182e5b] via-[#213d77] to-indigo-900 text-white p-6 sm:p-8 shadow-xl relative overflow-hidden">
+    <div class="relative z-10 max-w-3xl">
+      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-orange-500/20 border border-orange-400/30 text-orange-300 text-xs font-bold mb-3">
+        <i class="fa-solid fa-headset"></i>
+        <span>OFFICIAL INDIAN RAILWAYS HELPLINE &bull; STAR CODERS TEAM</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight">
+        Contact &amp; 24x7 Rail Support Desk
+      </h1>
+      <p class="text-sm sm:text-base text-slate-200 mt-2 leading-relaxed">
+        Connect directly with CRIS NTES Technical Control, Passenger Telemetry Support, or the Star Coders Autonomous Railway AI Development Division.
+      </p>
+    </div>
+  </div>
+
+  {% if success %}
+  <!-- Success Alert Notification -->
+  <div class="rounded-xl bg-emerald-50 border-2 border-emerald-400 p-4 sm:p-5 flex items-start space-x-3.5 shadow-sm">
+    <div class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-base shrink-0 shadow-sm">
+      <i class="fa-solid fa-check"></i>
+    </div>
+    <div>
+      <h3 class="text-sm font-extrabold text-emerald-950">Inquiry Dispatched Successfully!</h3>
+      <p class="text-xs text-emerald-800 mt-1">
+        Thank you, <strong>{{ sender_name }}</strong>. Your support ticket <span class="font-mono font-bold bg-emerald-100 px-1.5 py-0.5 rounded text-emerald-900">{{ ticket_id }}</span> has been registered into the CRIS Central Support Queue. A technical representative will review your telemetry inquiry shortly.
+      </p>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- Main 2-Column Contact Section -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+    <!-- Column 1: Helpline Numbers & Official Address -->
+    <div class="space-y-4">
+      
+      <!-- RailMadad 139 Card -->
+      <div class="ir-card p-5 bg-white shadow-sm border-t-2 border-t-orange-500">
+        <div class="flex items-center space-x-3 mb-3 pb-2 border-b border-slate-100">
+          <div class="w-9 h-9 rounded-xl bg-orange-100 text-orange-600 flex items-center justify-center text-base font-bold">
+            <i class="fa-solid fa-phone-volume animate-bounce"></i>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-slate-500 uppercase">National Railway Helpline</div>
+            <div class="text-base font-extrabold text-slate-900">RailMadad 139</div>
+          </div>
+        </div>
+        <p class="text-xs text-slate-600 leading-relaxed">
+          Toll-free 24x7 single-window assistance for train status, security, medical emergencies, and PNR inquiries.
+        </p>
+        <div class="mt-3 pt-2 border-t border-slate-100 text-xs font-mono font-bold text-orange-700">
+          Dial: <span class="text-slate-900 text-sm">139</span> (All Indian Networks)
+        </div>
+      </div>
+
+      <!-- CRIS Telemetry Operations Center -->
+      <div class="ir-card p-5 bg-white shadow-sm border-t-2 border-t-ir-blue">
+        <div class="flex items-center space-x-3 mb-3 pb-2 border-b border-slate-100">
+          <div class="w-9 h-9 rounded-xl bg-blue-100 text-ir-blue flex items-center justify-center text-base font-bold">
+            <i class="fa-solid fa-building"></i>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-slate-500 uppercase">CRIS Headquarters</div>
+            <div class="text-xs sm:text-sm font-extrabold text-slate-900">Centre for Railway Information Systems</div>
+          </div>
+        </div>
+        <div class="space-y-2 text-xs text-slate-600">
+          <div class="flex items-start space-x-2">
+            <i class="fa-solid fa-location-dot text-ir-blue mt-0.5 shrink-0"></i>
+            <span>Chanakyapuri, New Delhi - 110021, India</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <i class="fa-solid fa-envelope text-ir-blue shrink-0"></i>
+            <span>cris.support@gov.in</span>
+          </div>
+          <div class="flex items-center space-x-2">
+            <i class="fa-solid fa-globe text-ir-blue shrink-0"></i>
+            <span>ntes.indianrail.gov.in</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Star Coders Team Card -->
+      <div class="ir-card p-5 bg-gradient-to-br from-orange-50/70 via-amber-50/50 to-white shadow-sm border border-orange-200">
+        <div class="flex items-center space-x-2.5 mb-2">
+          <div class="w-8 h-8 rounded-lg bg-orange-600 text-white flex items-center justify-center text-sm shadow-xs">
+            <i class="fa-solid fa-code"></i>
+          </div>
+          <div>
+            <h4 class="text-xs font-extrabold text-slate-900">Star Coders Team</h4>
+            <div class="text-[10px] text-orange-700 font-bold">Autonomous AI Architecture Division</div>
+          </div>
+        </div>
+        <p class="text-[11px] text-slate-600 leading-relaxed">
+          Lead architects of the multi-agent AI hierarchy, physics dynamic ETA engine, and 8-platform bay radar proposed for Indian Railways.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Column 2 & 3: Interactive Support / Feedback Form -->
+    <div class="lg:col-span-2">
+      <div class="ir-card p-6 sm:p-7 bg-white shadow-sm border-t-2 border-t-[#213d77]">
+        <div class="mb-5 pb-3 border-b border-slate-100">
+          <h2 class="text-base sm:text-lg font-extrabold text-slate-900 flex items-center space-x-2">
+            <i class="fa-solid fa-envelope-open-text text-orange-600"></i>
+            <span>Submit a Support Inquiry or System Feedback</span>
+          </h2>
+          <p class="text-xs text-slate-500 mt-0.5">
+            Fill out the form below. Inquiries are monitored continuously by our operations team.
+          </p>
+        </div>
+
+        <form action="/contact" method="POST" class="space-y-4">
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Your Full Name *</label>
+              <input type="text" name="name" required placeholder="e.g. Rajesh Kumar"
+                class="w-full px-3.5 py-2 rounded-lg border border-slate-300 text-xs font-medium text-slate-800 focus:outline-none focus:border-ir-blue">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Email Address *</label>
+              <input type="email" name="email" required placeholder="e.g. rajesh.kumar@example.com"
+                class="w-full px-3.5 py-2 rounded-lg border border-slate-300 text-xs font-medium text-slate-800 focus:outline-none focus:border-ir-blue">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Inquiry Category *</label>
+              <select name="category" class="w-full px-3.5 py-2 rounded-lg border border-slate-300 text-xs font-bold text-slate-800 bg-slate-50 focus:outline-none focus:border-ir-blue cursor-pointer">
+                <option value="radar_eta">Train Live Radar &amp; Dynamic ETA</option>
+                <option value="kavach">Kavach 4.0 Collision Avoidance</option>
+                <option value="platform">Platform Allocation &amp; Bay Management</option>
+                <option value="operator_portal">Official Operator Login / Credentials</option>
+                <option value="general">General Suggestion / Feedback</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Train Number / Station (Optional)</label>
+              <input type="text" name="train_ref" placeholder="e.g. 15558 Amrit Bharat / NDLS"
+                class="w-full px-3.5 py-2 rounded-lg border border-slate-300 text-xs font-medium text-slate-800 focus:outline-none focus:border-ir-blue">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Message / Telemetry Query *</label>
+            <textarea name="message" rows="5" required placeholder="Describe your question, observation, or telemetry request in detail..."
+              class="w-full p-3.5 rounded-lg border border-slate-300 text-xs font-medium text-slate-800 focus:outline-none focus:border-ir-blue"></textarea>
+          </div>
+
+          <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <span class="text-[11px] text-slate-500">
+              <i class="fa-solid fa-lock text-emerald-600 mr-1"></i> Responses typically dispatched within 1 hour.
+            </span>
+            <button type="submit"
+              class="w-full sm:w-auto px-6 py-2.5 rounded-lg bg-orange-600 hover:bg-orange-500 text-white font-extrabold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center space-x-2 cursor-pointer">
+              <i class="fa-solid fa-paper-plane text-xs"></i>
+              <span>Send Inquiry to CRIS Support</span>
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

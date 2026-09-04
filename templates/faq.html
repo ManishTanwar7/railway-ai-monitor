@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+
+{% block title %}IRCTC RailAI™ &bull; Frequently Asked Questions (FAQ){% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+  <!-- Breadcrumb & Header Banner -->
+  <div class="rounded-2xl bg-gradient-to-r from-[#182e5b] via-[#213d77] to-indigo-900 text-white p-6 sm:p-8 shadow-xl relative overflow-hidden">
+    <div class="relative z-10 max-w-3xl">
+      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-orange-500/20 border border-orange-400/30 text-orange-300 text-xs font-bold mb-3">
+        <i class="fa-solid fa-circle-question"></i>
+        <span>HELP &amp; INFORMATION CENTER</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight">
+        Frequently Asked Questions (FAQ)
+      </h1>
+      <p class="text-sm sm:text-base text-slate-200 mt-2 leading-relaxed">
+        Everything you need to know about IRCTC RailAI™, real-time train radar, dynamic physics ETAs, Kavach 4.0 collision prevention, and platform allocations.
+      </p>
+    </div>
+  </div>
+
+  <!-- Search Filter Bar -->
+  <div class="ir-card p-4 bg-white shadow-sm border-t-2 border-t-orange-500">
+    <div class="relative max-w-xl mx-auto">
+      <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+      <input type="text" id="faq-search" onkeyup="filterFaq()" placeholder="Search questions by keyword (e.g. ETA, Kavach, Platform, Radar, Login)..."
+        class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 text-xs sm:text-sm font-medium text-slate-800 focus:outline-none focus:border-ir-blue shadow-xs">
+    </div>
+  </div>
+
+  <!-- FAQ Accordion Sections -->
+  <div class="space-y-4" id="faq-list">
+
+    <!-- Category 1: Live Radar & ETA -->
+    <div class="ir-card p-5 bg-white shadow-sm border-l-4 border-l-blue-600 faq-group">
+      <div class="flex items-center space-x-2.5 mb-3 pb-2 border-b border-slate-100">
+        <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center text-sm font-bold">
+          <i class="fa-solid fa-satellite-dish"></i>
+        </div>
+        <h2 class="text-sm sm:text-base font-extrabold text-slate-900">Real-Time Tracking &amp; Dynamic ETA</h2>
+      </div>
+
+      <div class="space-y-3">
+        <details class="faq-item group rounded-xl border border-slate-200 overflow-hidden bg-slate-50/50 open:bg-white open:shadow-xs transition" open>
+          <summary class="p-3.5 text-xs sm:text-sm font-bold text-slate-800 cursor-pointer flex items-center justify-between hover:text-ir-blue select-none">
+            <span class="flex items-center space-x-2">
+              <i class="fa-solid fa-chevron-right text-[10px] text-orange-600 transition-transform group-open:rotate-90"></i>
+              <span>How does RailAI dynamic ETA differ from standard NTES schedule timetables?</span>
+            </span>
+            <span class="text-[10px] text-slate-400 font-mono ml-2 shrink-0">ETA ENGINE</span>
+          </summary>
+          <div class="px-4 pb-4 pt-1 text-xs text-slate-600 leading-relaxed border-t border-slate-100 space-y-2">
+            <p>
+              Traditional systems rely heavily on static timetables and fixed station-to-station estimates. When rain, track maintenance, or red signals occur, static arrival times can be inaccurate by hours.
+            </p>
+            <p>
+              <strong>RailAI</strong> continuously streams real-time GPS telemetry, live train velocity (up to 158.5 km/h), ahead signal aspects, and weather telemetry to recalculate a physics-driven ETA updated every second.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item group rounded-xl border border-slate-200 overflow-hidden bg-slate-50/50 open:bg-white open:shadow-xs transition">
+          <summary class="p-3.5 text-xs sm:text-sm font-bold text-slate-800 cursor-pointer flex items-center justify-between hover:text-ir-blue select-none">
+            <span class="flex items-center space-x-2">
+              <i class="fa-solid fa-chevron-right text-[10px] text-orange-600 transition-transform group-open:rotate-90"></i>
+              <span>Do passengers need to register or enter a password to use Live Radar?</span>
+            </span>
+            <span class="text-[10px] text-emerald-600 font-mono font-bold ml-2 shrink-0">100% FREE</span>
+          </summary>
+          <div class="px-4 pb-4 pt-1 text-xs text-slate-600 leading-relaxed border-t border-slate-100">
+            <p>
+              <strong>No login or password is required for passengers.</strong> The Passenger Live Radar is completely free and publicly accessible. Simply select your train (e.g. 15558 Amrit Bharat or 99001 Hydrogen Express) and station to see live speed, dynamic ETA, and assigned platform immediately.
+            </p>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- Category 2: Platform Allocation -->
+    <div class="ir-card p-5 bg-white shadow-sm border-l-4 border-l-emerald-600 faq-group">
+      <div class="flex items-center space-x-2.5 mb-3 pb-2 border-b border-slate-100">
+        <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center text-sm font-bold">
+          <i class="fa-solid fa-train-subway"></i>
+        </div>
+        <h2 class="text-sm sm:text-base font-extrabold text-slate-900">Smart Platform Allocation &amp; Bay Management</h2>
+      </div>
+
+      <div class="space-y-3">
+        <details class="faq-item group rounded-xl border border-slate-200 overflow-hidden bg-slate-50/50 open:bg-white open:shadow-xs transition">
+          <summary class="p-3.5 text-xs sm:text-sm font-bold text-slate-800 cursor-pointer flex items-center justify-between hover:text-ir-blue select-none">
+            <span class="flex items-center space-x-2">
+              <i class="fa-solid fa-chevron-right text-[10px] text-orange-600 transition-transform group-open:rotate-90"></i>
+              <span>How does the system prevent station platform stampedes?</span>
+            </span>
+            <span class="text-[10px] text-slate-400 font-mono ml-2 shrink-0">20-MIN ADVANCE</span>
+          </summary>
+          <div class="px-4 pb-4 pt-1 text-xs text-slate-600 leading-relaxed border-t border-slate-100">
+            <p>
+              In conventional operations, platforms are often assigned only 2 to 5 minutes before docking, leading to intense passenger rushes and bottleneck stampedes on foot overbridges.
+            </p>
+            <p class="mt-1.5">
+              The <strong>Smart Platform Allocator</strong> analyzes 8-platform bay readiness, turnaround countdowns, and track interlocking in advance, allocating and locking in the exact platform <strong>20 minutes prior to arrival</strong>.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item group rounded-xl border border-slate-200 overflow-hidden bg-slate-50/50 open:bg-white open:shadow-xs transition">
+          <summary class="p-3.5 text-xs sm:text-sm font-bold text-slate-800 cursor-pointer flex items-center justify-between hover:text-ir-blue select-none">
+            <span class="flex items-center space-x-2">
+              <i class="fa-solid fa-chevron-right text-[10px] text-orange-600 transition-transform group-open:rotate-90"></i>
+              <span>Can Station Masters manually override platform or signal assignments?</span>
+            </span>
+            <span class="text-[10px] text-slate-400 font-mono ml-2 shrink-0">INTERLOCKING</span>
+          </summary>
+          <div class="px-4 pb-4 pt-1 text-xs text-slate-600 leading-relaxed border-t border-slate-100">
+            <p>
+              Yes. Through the <strong>Station Master Control Room</strong>, station masters can view real-time platform occupancy and turn-around countdowns, and execute 1-click signal overrides connected directly to the interlocking database with automatic safety fail-safes.
+            </p>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- Category 3: Safety & Kavach 4.0 -->
+    <div class="ir-card p-5 bg-white shadow-sm border-l-4 border-l-orange-500 faq-group">
+      <div class="flex items-center space-x-2.5 mb-3 pb-2 border-b border-slate-100">
+        <div class="w-8 h-8 rounded-lg bg-orange-100 text-orange-700 flex items-center justify-center text-sm font-bold">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h2 class="text-sm sm:text-base font-extrabold text-slate-900">Kavach 4.0 Collision Prevention &amp; Weather Safety</h2>
+      </div>
+
+      <div class="space-y-3">
+        <details class="faq-item group rounded-xl border border-slate-200 overflow-hidden bg-slate-50/50 open:bg-white open:shadow-xs transition">
+          <summary class="p-3.5 text-xs sm:text-sm font-bold text-slate-800 cursor-pointer flex items-center justify-between hover:text-ir-blue select-none">
+            <span class="flex items-center space-x-2">
+              <i class="fa-solid fa-chevron-right text-[10px] text-orange-600 transition-transform group-open:rotate-90"></i>
+              <span>What is the Kavach 4.0 electronic safety bubble?</span>
+            </span>
+            <span class="text-[10px] text-orange-700 font-mono font-bold ml-2 shrink-0">1,200m BUBBLE</span>
+          </summary>
+          <div class="px-4 pb-4 pt-1 text-xs text-slate-600 leading-relaxed border-t border-slate-100">
+            <p>
+              Kavach 4.0 is an indigenously developed Automatic Train Protection (ATP) system. RailAI integrates continuous trackside RFID tags, wayside radio transponders, and onboard computers to maintain a dynamic <strong>1,200-meter electronic safety bubble</strong> around the locomotive. If an obstruction or headway violation occurs, the system initiates autonomous emergency braking in under 15 milliseconds.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq-item group rounded-xl border border-slate-200 overflow-hidden bg-slate-50/50 open:bg-white open:shadow-xs transition">
+          <summary class="p-3.5 text-xs sm:text-sm font-bold text-slate-800 cursor-pointer flex items-center justify-between hover:text-ir-blue select-none">
+            <span class="flex items-center space-x-2">
+              <i class="fa-solid fa-chevron-right text-[10px] text-orange-600 transition-transform group-open:rotate-90"></i>
+              <span>How does RailAI respond to heavy rainfall, fog, or slippery tracks?</span>
+            </span>
+            <span class="text-[10px] text-slate-400 font-mono ml-2 shrink-0">WEATHER AI</span>
+          </summary>
+          <div class="px-4 pb-4 pt-1 text-xs text-slate-600 leading-relaxed border-t border-slate-100">
+            <p>
+              The Weather &amp; Track Telemetry agent monitors ambient precipitation and wheel-rail adhesion. When wet or degraded adhesion is detected, the AI automatically caps maximum operating velocity from 158 km/h down to a safe 110 km/h and extends braking distance profiles to prevent wheel slip.
+            </p>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- Category 4: Roles & Sign In -->
+    <div class="ir-card p-5 bg-white shadow-sm border-l-4 border-l-purple-600 faq-group">
+      <div class="flex items-center space-x-2.5 mb-3 pb-2 border-b border-slate-100">
+        <div class="w-8 h-8 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center text-sm font-bold">
+          <i class="fa-solid fa-users-gear"></i>
+        </div>
+        <h2 class="text-sm sm:text-base font-extrabold text-slate-900">Official Staff Portals &amp; Role Access</h2>
+      </div>
+
+      <div class="space-y-3">
+        <details class="faq-item group rounded-xl border border-slate-200 overflow-hidden bg-slate-50/50 open:bg-white open:shadow-xs transition">
+          <summary class="p-3.5 text-xs sm:text-sm font-bold text-slate-800 cursor-pointer flex items-center justify-between hover:text-ir-blue select-none">
+            <span class="flex items-center space-x-2">
+              <i class="fa-solid fa-chevron-right text-[10px] text-orange-600 transition-transform group-open:rotate-90"></i>
+              <span>What credentials are used to access the staff dashboards?</span>
+            </span>
+            <span class="text-[10px] text-slate-400 font-mono ml-2 shrink-0">CREDENTIALS</span>
+          </summary>
+          <div class="px-4 pb-4 pt-1 text-xs text-slate-600 leading-relaxed border-t border-slate-100">
+            <p>
+              Railway personnel can sign in via the <strong>Official Sign In</strong> modal using their designated credentials or the 1-click preset buttons:
+            </p>
+            <ul class="list-disc pl-5 mt-2 space-y-1 font-mono text-[11px]">
+              <li><strong>Chief Controller:</strong> username <code>admin</code> / password <code>admin123</code></li>
+              <li><strong>Station Master:</strong> username <code>stationmaster</code> / password <code>station123</code></li>
+              <li><strong>Field Engineer:</strong> username <code>employee</code> / password <code>emp123</code></li>
+            </ul>
+          </div>
+        </details>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Still Have Questions Banner -->
+  <div class="rounded-xl bg-orange-50 border border-orange-200 p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <div class="flex items-center space-x-3 text-left">
+      <div class="w-10 h-10 rounded-xl bg-orange-600 text-white flex items-center justify-center text-lg shadow-sm shrink-0">
+        <i class="fa-solid fa-headset"></i>
+      </div>
+      <div>
+        <h3 class="text-sm font-extrabold text-slate-900">Have questions that aren't answered here?</h3>
+        <p class="text-xs text-slate-600 mt-0.5">Reach out to our official Indian Railways support desk or the Star Coders project engineering team.</p>
+      </div>
+    </div>
+    <a href="/contact"
+       class="px-4 py-2 rounded-lg bg-orange-600 hover:bg-orange-500 text-white font-bold text-xs transition shadow-sm flex items-center space-x-1.5 shrink-0">
+      <i class="fa-solid fa-paper-plane text-xs"></i>
+      <span>Contact Support Desk</span>
+    </a>
+  </div>
+
+</div>
+
+<script>
+  function filterFaq() {
+    const q = document.getElementById('faq-search').value.toLowerCase().trim();
+    const items = document.querySelectorAll('.faq-item');
+    items.forEach(item => {
+      const text = item.textContent.toLowerCase();
+      if (!q || text.includes(q)) {
+        item.style.display = 'block';
+        if (q) item.open = true;
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  }
+</script>
+{% endblock %}

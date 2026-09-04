@@ -82,15 +82,47 @@ async def login_page(request: Request, error: Optional[str] = None):
     )
 
 
-@app.get("/prototype-guide", response_class=HTMLResponse)
-@app.get("/presentation", response_class=HTMLResponse)
-async def prototype_guide_page(request: Request):
-    """Renders the Prototype Video Guide, Flowcharts & 10-Second Picture Comparisons."""
+@app.get("/faq", response_class=HTMLResponse)
+async def faq_page(request: Request):
+    """Renders the Frequently Asked Questions (FAQ) portal."""
     user = get_current_user_from_request(request)
     return templates.TemplateResponse(
         request=request,
-        name="prototype_guide.html",
+        name="faq.html",
         context={"user": user}
+    )
+
+
+@app.get("/contact", response_class=HTMLResponse)
+async def contact_page(request: Request, success: Optional[bool] = False):
+    """Renders the Official Support & Contact Us portal."""
+    user = get_current_user_from_request(request)
+    return templates.TemplateResponse(
+        request=request,
+        name="contact.html",
+        context={"user": user, "success": success}
+    )
+
+
+@app.post("/contact", response_class=HTMLResponse)
+async def handle_contact_form(
+    request: Request,
+    name: str = Form(...),
+    email: str = Form(...),
+    category: str = Form("general"),
+    message: str = Form(...)
+):
+    """Processes customer inquiries and support tickets."""
+    user = get_current_user_from_request(request)
+    return templates.TemplateResponse(
+        request=request,
+        name="contact.html",
+        context={
+            "user": user,
+            "success": True,
+            "sender_name": name,
+            "ticket_id": f"CRIS-TKT-{random.randint(10000, 99999)}"
+        }
     )
 
 
