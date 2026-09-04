@@ -3,18 +3,18 @@
 {% block title %}IRCTC RailAI™ &bull; Indian Railways Train Search & Autonomous Radar{% endblock %}
 
 {% block content %}
-<div class="w-full space-y-3 sm:space-y-3.5 -mt-1 sm:-mt-2">
+<div class="w-full space-y-4 sm:space-y-6">
 
   <!-- ============================================================== -->
   <!-- EXPLICIT PROPOSAL BANNER: LIGHT THEME & CLEAN                  -->
   <!-- ============================================================== -->
-  <div class="w-full rounded-xl bg-white/90 backdrop-blur-sm border border-slate-200 px-3.5 sm:px-4 py-2 flex flex-wrap items-center justify-between shadow-xs gap-2 text-xs">
+  <div class="w-full rounded-xl bg-white border border-slate-200 px-3.5 sm:px-4 py-2 flex flex-wrap items-center justify-between shadow-xs gap-2 text-xs">
     <div class="flex items-center space-x-2">
       <span class="px-2 py-0.5 rounded bg-orange-600 text-white font-extrabold text-[10px] tracking-wider shrink-0 shadow-xs">
         PROPOSED PROJECT
       </span>
       <span class="text-slate-800 text-[11px] sm:text-xs">
-        <strong class="text-slate-900">Star Coders Team Innovation:</strong> Autonomous AI Railway Supervision &amp; Kavach Collision Avoidance &bull; <em>Proposed for Indian Railways Live Deployment</em>
+        <strong class="text-slate-900">Star Coders Team Innovation:</strong> Autonomous AI Railway Supervision &amp; Kavach 4.0 Collision Avoidance &bull; <em>Proposed for Indian Railways Deployment</em>
       </span>
     </div>
 
@@ -25,139 +25,323 @@
   </div>
 
   <!-- ============================================================== -->
-  <!-- HERO: FULL-WIDTH EYE-LEVEL NORMAL VISION & LIGHT THEME OVERLAY -->
+  <!-- HERO BANNER: FULL EYE-LEVEL TRAIN VIEW (UNOBSTRUCTED)          -->
   <!-- ============================================================== -->
-  <div class="w-full relative rounded-2xl overflow-hidden shadow-md border border-slate-200/80 min-h-[480px] lg:min-h-[520px] flex items-center">
+  <div class="w-full relative rounded-2xl overflow-hidden shadow-md border border-slate-200 h-[260px] sm:h-[320px] md:h-[380px] lg:h-[420px] flex items-end">
     
     <!-- Background Picture: Amrit Bharat Express (or Hydrogen Train) -->
     <img id="hero-train-img" src="/static/images/amrit_bharat.jpg" alt="Amrit Bharat Express"
       class="absolute inset-0 w-full h-full object-cover object-center transition-all duration-500">
     
-    <!-- Clean Light Theme Gradient Overlay for High Readability -->
-    <div class="absolute inset-0 bg-gradient-to-r from-white/80 via-white/20 to-transparent pointer-events-none z-10"></div>
+    <!-- Clean Gradient Overlays for High Legibility -->
+    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/85 via-slate-900/20 to-slate-900/30 pointer-events-none z-10"></div>
 
-    <!-- Top Right: Train Title & Light Theme Switcher -->
-    <div class="absolute top-4 right-4 sm:top-5 sm:right-6 lg:right-8 text-right z-20 flex flex-col items-end space-y-1.5">
-      <div class="hidden sm:block bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-slate-200/80 shadow-xs text-right">
-        <h2 id="hero-train-title" class="text-base lg:text-lg font-black text-ir-blue tracking-tight font-sans">
-          AMRIT BHARAT
-        </h2>
-        <p id="hero-train-subtitle" class="text-[10px] text-orange-600 font-bold tracking-wide">
-          Proposed AI Integration &bull; Star Coders Team
-        </p>
+    <!-- Top Left: Portal Badge -->
+    <div class="absolute top-3 left-3 sm:top-4 sm:left-5 z-20">
+      <div class="bg-white/95 backdrop-blur-md px-3 py-1 rounded-lg border border-slate-200/80 shadow-sm flex items-center space-x-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="text-[11px] font-black text-ir-blue tracking-tight">IRCTC RailAI™ &bull; 100Hz Telemetry</span>
       </div>
+    </div>
 
-      <!-- Manual Theme Switcher: Amrit Bharat / Hydrogen Train (Light Theme) -->
-      <div class="flex items-center bg-white/90 backdrop-blur-md p-1 rounded-lg border border-slate-200 text-[11px] font-bold shadow-xs">
+    <!-- Top Right: Train Theme Switcher (Amrit Bharat / Hydrogen) -->
+    <div class="absolute top-3 right-3 sm:top-4 sm:right-5 z-20 flex items-center space-x-1.5">
+      <div class="flex items-center bg-white/95 backdrop-blur-md p-1 rounded-xl border border-slate-200 text-[11px] font-bold shadow-md">
         <button type="button" onclick="setTrainTheme('amrit')" id="btn-theme-amrit"
-          class="px-2.5 py-1 rounded bg-orange-600 text-white shadow-xs transition cursor-pointer">
+          class="px-2.5 py-1 rounded-lg bg-orange-600 text-white shadow-xs transition cursor-pointer">
           🚆 Amrit Bharat
         </button>
         <button type="button" onclick="setTrainTheme('hydrogen')" id="btn-theme-hydrogen"
-          class="px-2.5 py-1 rounded text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition cursor-pointer">
+          class="px-2.5 py-1 rounded-lg text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition cursor-pointer">
           🌱 Hydrogen Train
         </button>
       </div>
     </div>
 
-    <!-- SINGLE CLEAN FLOATING CARD (LEFT SIDE - BEST VERSION) -->
-    <div class="relative z-20 w-full max-w-md p-4 sm:p-5 ml-0 sm:ml-4 lg:ml-8 my-auto">
-      <div class="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
-        
-        <!-- Top Blue Tabs -->
-        <div class="grid grid-cols-2 bg-[#213d77] text-white text-xs font-bold text-center">
-          <button class="py-2.5 px-2 border-b-2 border-orange-500 bg-[#162a53] flex items-center justify-center space-x-1.5 cursor-pointer">
-            <i class="fa-solid fa-train text-orange-400"></i>
-            <span>LIVE RADAR</span>
-          </button>
-          <button type="button" onclick="openLoginModal()" class="py-2.5 px-2 hover:bg-[#162a53] transition flex items-center justify-center space-x-1.5 text-slate-200 cursor-pointer">
-            <i class="fa-solid fa-user-lock"></i>
-            <span>STAFF LOGIN</span>
-          </button>
-        </div>
+    <!-- Bottom Train Details Overlay -->
+    <div class="relative z-20 p-4 sm:p-6 text-white w-full flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+      <div>
+        <span class="px-2.5 py-0.5 rounded bg-orange-500 text-white font-black text-[10px] tracking-wider uppercase">
+          Autonomous Corridor
+        </span>
+        <h2 id="hero-train-title" class="text-xl sm:text-2xl md:text-3xl font-black tracking-tight mt-1 text-white drop-shadow-sm">
+          AMRIT BHARAT EXPRESS
+        </h2>
+        <p id="hero-train-subtitle" class="text-xs sm:text-sm text-slate-200 font-medium">
+          New Delhi (NDLS) &harr; Varanasi Jn (BSB) &bull; Speed 158 km/h &bull; Kavach 4.0 Active
+        </p>
+      </div>
 
-        <!-- Form Card Body -->
-        <div class="p-5 space-y-3">
-          <div class="text-center pb-2 border-b border-slate-100">
-            <h3 class="text-base font-extrabold text-ir-blue tracking-tight">TRAIN LIVE STATUS &amp; RADAR</h3>
-            <p class="text-[11px] text-slate-500">Autonomous GPS Tracking &bull; Proposed by Star Coders Team</p>
-          </div>
-
-          <!-- From Station -->
-          <div>
-            <label class="block text-[11px] font-bold text-slate-700 mb-1">From Station</label>
-            <select id="search-from-station"
-              class="w-full p-2 text-xs font-bold text-slate-800 bg-slate-50 rounded-lg border border-slate-300 cursor-pointer focus:outline-none focus:border-ir-blue">
-              {% for stn in stations %}
-              <option value="{{ stn.station_code }}" {% if stn.station_code == 'NDLS' %}selected{% endif %}>
-                {{ stn.station_name }} ({{ stn.station_code }})
-              </option>
-              {% endfor %}
-            </select>
-          </div>
-
-          <!-- To Station -->
-          <div>
-            <label class="block text-[11px] font-bold text-slate-700 mb-1">To Station</label>
-            <select id="search-to-station"
-              class="w-full p-2 text-xs font-bold text-slate-800 bg-slate-50 rounded-lg border border-slate-300 cursor-pointer focus:outline-none focus:border-ir-blue">
-              {% for stn in stations %}
-              <option value="{{ stn.station_code }}" {% if stn.station_code == 'BSB' %}selected{% endif %}>
-                {{ stn.station_name }} ({{ stn.station_code }})
-              </option>
-              {% endfor %}
-            </select>
-          </div>
-
-          <!-- Train Select & Date -->
-          <div class="grid grid-cols-2 gap-2.5">
-            <div>
-              <label class="block text-[11px] font-bold text-slate-700 mb-1">Select Train</label>
-              <select id="home-train-select" onchange="updateSearchDest(this.value)"
-                class="w-full p-2 text-xs font-bold text-slate-800 bg-slate-50 rounded-lg border border-slate-300 cursor-pointer">
-                <option value="15558" selected>15558 - Amrit Bharat</option>
-                <option value="99001">99001 - Hydrogen Green</option>
-                <option value="12002">12002 - Shatabdi</option>
-                <option value="12952">12952 - Rajdhani</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block text-[11px] font-bold text-slate-700 mb-1">Journey Date</label>
-              <input type="text" value="04/09/2026 (Today)" readonly
-                class="w-full p-2 text-xs font-bold text-slate-800 bg-slate-50 rounded-lg border border-slate-300">
-            </div>
-          </div>
-
-          <!-- Big Orange Action Button -->
-          <div class="pt-1.5">
-            <button type="button" onclick="goToLiveRadar()"
-              class="w-full py-3 px-4 rounded-lg bg-orange-600 hover:bg-orange-500 text-white font-extrabold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center space-x-2 cursor-pointer">
-              <i class="fa-solid fa-magnifying-glass text-xs"></i>
-              <span>TRACK TRAIN &bull; LIVE RADAR</span>
-            </button>
-          </div>
-
-          <!-- Staff Portal Trigger -->
-          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
-            <span class="text-slate-500 font-medium">Railway Operator?</span>
-            <button type="button" onclick="openLoginModal()" class="font-bold text-ir-blue hover:text-orange-600 flex items-center space-x-1 cursor-pointer">
-              <span>Open Staff Sign In</span>
-              <i class="fa-solid fa-arrow-right text-[10px]"></i>
-            </button>
-          </div>
-
-        </div>
-
+      <div class="hidden md:flex items-center space-x-2 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white/20 text-xs font-semibold">
+        <i class="fa-solid fa-shield-halved text-emerald-400"></i>
+        <span>1,200m Kavach Safety Bubble Active</span>
       </div>
     </div>
 
   </div>
 
   <!-- ============================================================== -->
+  <!-- HORIZONTAL SEARCH & RADAR CONSOLE (NO CLIPPING, NO CRAMPING)   -->
+  <!-- ============================================================== -->
+  <div class="w-full bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
+    
+    <!-- Top Action Tabs -->
+    <div class="flex items-center justify-between border-b border-slate-200 px-4 sm:px-6 py-2.5 bg-slate-50 text-xs font-bold">
+      <div class="flex items-center space-x-2 sm:space-x-4">
+        <button class="text-orange-600 flex items-center space-x-1.5 pb-1 border-b-2 border-orange-600 cursor-pointer">
+          <i class="fa-solid fa-train text-orange-600"></i>
+          <span>TRACK TRAIN RADAR</span>
+        </button>
+        <a href="/dashboard/passenger" class="text-slate-600 hover:text-ir-blue flex items-center space-x-1.5 pb-1 transition">
+          <i class="fa-solid fa-map-location-dot"></i>
+          <span>8-PLATFORM BAY RADAR</span>
+        </a>
+      </div>
+
+      <button type="button" onclick="openLoginModal()" class="text-ir-blue hover:text-orange-600 flex items-center space-x-1 cursor-pointer transition">
+        <i class="fa-solid fa-user-lock"></i>
+        <span>Staff Portal Sign In</span>
+      </button>
+    </div>
+
+    <!-- Search Controls Form -->
+    <div class="p-4 sm:p-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 items-end">
+        
+        <!-- From Station -->
+        <div>
+          <label class="block text-[11px] font-bold text-slate-700 mb-1 flex items-center space-x-1">
+            <i class="fa-solid fa-location-dot text-orange-600"></i>
+            <span>From Station</span>
+          </label>
+          <select id="search-from-station"
+            class="w-full p-2.5 text-xs font-bold text-slate-800 bg-slate-50 rounded-xl border border-slate-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-ir-blue">
+            {% for stn in stations %}
+            <option value="{{ stn.station_code }}" {% if stn.station_code == 'NDLS' %}selected{% endif %}>
+              {{ stn.station_name }} ({{ stn.station_code }})
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- To Station -->
+        <div>
+          <label class="block text-[11px] font-bold text-slate-700 mb-1 flex items-center space-x-1">
+            <i class="fa-solid fa-flag-checkered text-emerald-600"></i>
+            <span>To Station</span>
+          </label>
+          <select id="search-to-station"
+            class="w-full p-2.5 text-xs font-bold text-slate-800 bg-slate-50 rounded-xl border border-slate-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-ir-blue">
+            {% for stn in stations %}
+            <option value="{{ stn.station_code }}" {% if stn.station_code == 'BSB' %}selected{% endif %}>
+              {{ stn.station_name }} ({{ stn.station_code }})
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Train Select -->
+        <div>
+          <label class="block text-[11px] font-bold text-slate-700 mb-1 flex items-center space-x-1">
+            <i class="fa-solid fa-train text-ir-blue"></i>
+            <span>Select Train</span>
+          </label>
+          <select id="home-train-select" onchange="updateSearchDest(this.value)"
+            class="w-full p-2.5 text-xs font-bold text-slate-800 bg-slate-50 rounded-xl border border-slate-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-ir-blue">
+            <option value="15558" selected>15558 - Amrit Bharat</option>
+            <option value="99001">99001 - Hydrogen Green</option>
+            <option value="12002">12002 - Shatabdi</option>
+            <option value="12952">12952 - Rajdhani</option>
+          </select>
+        </div>
+
+        <!-- Journey Date -->
+        <div>
+          <label class="block text-[11px] font-bold text-slate-700 mb-1 flex items-center space-x-1">
+            <i class="fa-solid fa-calendar-day text-slate-500"></i>
+            <span>Journey Date</span>
+          </label>
+          <input type="text" value="04/09/2026 (Today)" readonly
+            class="w-full p-2.5 text-xs font-bold text-slate-700 bg-slate-100 rounded-xl border border-slate-300">
+        </div>
+
+        <!-- Submit Button -->
+        <div>
+          <button type="button" onclick="goToLiveRadar()"
+            class="w-full h-[42px] py-2.5 px-4 rounded-xl bg-orange-600 hover:bg-orange-500 text-white font-extrabold text-xs uppercase tracking-wider transition shadow-md flex items-center justify-center space-x-2 cursor-pointer">
+            <i class="fa-solid fa-magnifying-glass text-xs"></i>
+            <span>TRACK TRAIN RADAR</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Feature Badges line -->
+      <div class="mt-3 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between text-[11px] text-slate-500 gap-2">
+        <div class="flex items-center space-x-3">
+          <span class="flex items-center space-x-1 text-emerald-700 font-bold">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>100Hz CRIS Live Stream</span>
+          </span>
+          <span>&bull;</span>
+          <span class="flex items-center space-x-1 text-ir-blue font-bold">
+            <i class="fa-solid fa-bolt"></i>
+            <span>Physics ETA Engine</span>
+          </span>
+          <span>&bull;</span>
+          <span class="flex items-center space-x-1 text-orange-600 font-bold">
+            <i class="fa-solid fa-unlock"></i>
+            <span>Password-Free Public Access</span>
+          </span>
+        </div>
+
+        <span class="text-slate-400">Proposed by Star Coders Team</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- QUICK SERVICES ROW (MATCHING USER REFERENCE IMAGE)             -->
+  <!-- ============================================================== -->
+  <div class="w-full">
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4">
+      
+      <!-- Card 1: Time Table -->
+      <a href="/dashboard/passenger"
+        class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs hover:shadow-md hover:-translate-y-1 transition duration-200 flex flex-col items-center text-center cursor-pointer group">
+        <div class="w-12 h-12 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center text-orange-600 text-xl shadow-xs group-hover:scale-110 transition">
+          <i class="fa-solid fa-calendar-days"></i>
+        </div>
+        <span class="text-xs font-bold text-slate-800 mt-2.5 group-hover:text-orange-600 transition">
+          Time Table
+        </span>
+      </a>
+
+      <!-- Card 2: Train Between Stations -->
+      <a href="/dashboard/passenger"
+        class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs hover:shadow-md hover:-translate-y-1 transition duration-200 flex flex-col items-center text-center cursor-pointer group">
+        <div class="w-12 h-12 rounded-2xl bg-red-50 border border-red-100 flex items-center justify-center text-red-600 text-xl shadow-xs group-hover:scale-110 transition">
+          <i class="fa-solid fa-route"></i>
+        </div>
+        <span class="text-xs font-bold text-slate-800 mt-2.5 group-hover:text-red-600 transition leading-tight">
+          Train Between<br>Stations
+        </span>
+      </a>
+
+      <!-- Card 3: Platform & Seat Availability -->
+      <a href="/dashboard/passenger"
+        class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs hover:shadow-md hover:-translate-y-1 transition duration-200 flex flex-col items-center text-center cursor-pointer group">
+        <div class="w-12 h-12 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center text-sky-600 text-xl shadow-xs group-hover:scale-110 transition">
+          <i class="fa-solid fa-chair"></i>
+        </div>
+        <span class="text-xs font-bold text-slate-800 mt-2.5 group-hover:text-sky-600 transition leading-tight">
+          Seat &amp; Platform<br>Availability
+        </span>
+      </a>
+
+      <!-- Card 4: Kavach 4.0 Active -->
+      <a href="/dashboard/passenger"
+        class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs hover:shadow-md hover:-translate-y-1 transition duration-200 flex flex-col items-center text-center cursor-pointer group">
+        <div class="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 text-xl shadow-xs group-hover:scale-110 transition">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <span class="text-xs font-bold text-slate-800 mt-2.5 group-hover:text-emerald-600 transition leading-tight">
+          Kavach 4.0<br>Safety Shield
+        </span>
+      </a>
+
+      <!-- Card 5: Speed & Telemetry Radar -->
+      <a href="/dashboard/passenger"
+        class="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs hover:shadow-md hover:-translate-y-1 transition duration-200 flex flex-col items-center text-center cursor-pointer group col-span-2 sm:col-span-1">
+        <div class="w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 text-xl shadow-xs group-hover:scale-110 transition">
+          <i class="fa-solid fa-gauge-high"></i>
+        </div>
+        <span class="text-xs font-bold text-slate-800 mt-2.5 group-hover:text-indigo-600 transition leading-tight">
+          158 km/h Speed<br>&amp; Radar
+        </span>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- "WHY USE OUR RAILWAY AI?" (MATCHING USER REFERENCE IMAGE)       -->
+  <!-- ============================================================== -->
+  <div class="w-full py-4">
+    
+    <!-- Section Header Matching Reference -->
+    <div class="text-center mb-5">
+      <p class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
+        Proposed Indian Railways Technology
+      </p>
+      <h2 class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight">
+        Why Use Our Railway <span class="text-orange-600">AI Platform?</span>
+      </h2>
+    </div>
+
+    <!-- Stacked Elegant Cards (Matching media_1788515821835.png) -->
+    <div class="max-w-2xl mx-auto space-y-3.5">
+      
+      <!-- Card 1: Zero-Collision Kavach 4.0 -->
+      <div class="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-slate-200/70 shadow-xs hover:shadow-md transition text-center">
+        <div class="w-14 h-14 mx-auto rounded-2xl bg-emerald-50 border border-emerald-100 text-emerald-600 flex items-center justify-center text-2xl shadow-xs">
+          <i class="fa-solid fa-shield-cat"></i>
+        </div>
+        <h3 class="font-extrabold text-slate-900 text-base sm:text-lg mt-3">
+          Zero-Collision Kavach 4.0 Protection
+        </h3>
+        <p class="text-slate-500 text-xs sm:text-sm mt-1 max-w-lg mx-auto leading-relaxed">
+          Designed to provide an automated 1,200m safety bubble with sub-15ms auto-braking override protecting every passenger.
+        </p>
+      </div>
+
+      <!-- Card 2: Autonomous 24/7 AI Train Supervision -->
+      <div class="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-slate-200/70 shadow-xs hover:shadow-md transition text-center">
+        <div class="w-14 h-14 mx-auto rounded-2xl bg-sky-50 border border-sky-100 text-sky-600 flex items-center justify-center text-2xl shadow-xs">
+          <i class="fa-solid fa-headset"></i>
+        </div>
+        <h3 class="font-extrabold text-slate-900 text-base sm:text-lg mt-3">
+          24/7 Multi-Agent AI Supervision
+        </h3>
+        <p class="text-slate-500 text-xs sm:text-sm mt-1 max-w-lg mx-auto leading-relaxed">
+          Autonomous hierarchical AI (Boss AI, Line Leaders, and Station Workers) orchestrates zero-delay dispatch around the clock.
+        </p>
+      </div>
+
+      <!-- Card 3: Physics-Driven Live ETA -->
+      <div class="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-slate-200/70 shadow-xs hover:shadow-md transition text-center">
+        <div class="w-14 h-14 mx-auto rounded-2xl bg-amber-50 border border-amber-100 text-amber-600 flex items-center justify-center text-2xl shadow-xs">
+          <i class="fa-solid fa-bolt-lightning"></i>
+        </div>
+        <h3 class="font-extrabold text-slate-900 text-base sm:text-lg mt-3">
+          Physics-Driven Live ETA (158 km/h)
+        </h3>
+        <p class="text-slate-500 text-xs sm:text-sm mt-1 max-w-lg mx-auto leading-relaxed">
+          Dynamic calculations factoring in locomotive horsepower, track friction, and gradient replace outdated static timetables.
+        </p>
+      </div>
+
+      <!-- Card 4: Advance 20-Minute Platform Allocation -->
+      <div class="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-slate-200/70 shadow-xs hover:shadow-md transition text-center">
+        <div class="w-14 h-14 mx-auto rounded-2xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center text-2xl shadow-xs">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+        </div>
+        <h3 class="font-extrabold text-slate-900 text-base sm:text-lg mt-3">
+          Advance 20-Minute Platform Allocation
+        </h3>
+        <p class="text-slate-500 text-xs sm:text-sm mt-1 max-w-lg mx-auto leading-relaxed">
+          Dynamic platform bay readiness analysis eliminates last-minute platform reassignments, confusion, and station stampedes.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
   <!-- CRIS NTES TELEMETRY STREAM BAR (CLEAN & ORGANIZED)             -->
   <!-- ============================================================== -->
-  <div class="ir-card p-4 bg-white shadow-sm border-t-2 border-t-ir-blue">
+  <div class="ir-card p-4 bg-white shadow-sm border-t-2 border-t-ir-blue rounded-xl">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
       <div class="flex items-center space-x-3">
         <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center text-sm shrink-0">
@@ -203,19 +387,19 @@
 
     if (theme === 'hydrogen') {
       img.src = '/static/images/hydrogen_train.jpg';
-      title.textContent = 'HYDROGEN GREEN';
-      sub.textContent = 'Zero Emission AI Pilot • Star Coders Team';
-      btnHydro.className = 'px-2.5 py-1 rounded bg-emerald-600 text-white shadow-xs transition cursor-pointer';
-      btnAmrit.className = 'px-2.5 py-1 rounded text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition cursor-pointer';
+      title.textContent = 'HYDROGEN GREEN EXPRESS';
+      sub.textContent = 'Zero Emission AI Pilot • Speed 140 km/h • Star Coders Team';
+      btnHydro.className = 'px-2.5 py-1 rounded-lg bg-emerald-600 text-white shadow-xs transition cursor-pointer';
+      btnAmrit.className = 'px-2.5 py-1 rounded-lg text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition cursor-pointer';
       const sel = document.getElementById('home-train-select');
       if (sel) sel.value = '99001';
       showToast('Switched to Zero-Emission Hydrogen Rail', 'success');
     } else {
       img.src = '/static/images/amrit_bharat.jpg';
-      title.textContent = 'AMRIT BHARAT';
-      sub.textContent = 'Proposed AI Integration • Star Coders Team';
-      btnAmrit.className = 'px-2.5 py-1 rounded bg-orange-600 text-white shadow-xs transition cursor-pointer';
-      btnHydro.className = 'px-2.5 py-1 rounded text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition cursor-pointer';
+      title.textContent = 'AMRIT BHARAT EXPRESS';
+      sub.textContent = 'New Delhi (NDLS) ↔ Varanasi Jn (BSB) • Speed 158 km/h • Kavach 4.0 Active';
+      btnAmrit.className = 'px-2.5 py-1 rounded-lg bg-orange-600 text-white shadow-xs transition cursor-pointer';
+      btnHydro.className = 'px-2.5 py-1 rounded-lg text-slate-700 hover:text-slate-900 hover:bg-slate-100 transition cursor-pointer';
       const sel = document.getElementById('home-train-select');
       if (sel) sel.value = '15558';
       showToast('Switched to Amrit Bharat Express', 'info');
