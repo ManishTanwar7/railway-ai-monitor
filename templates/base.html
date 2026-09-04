@@ -96,6 +96,11 @@
           <span>PASSENGER RADAR (FREE)</span>
         </a>
 
+        <a href="/prototype-guide" class="hover:text-ir-blue flex items-center space-x-1 text-orange-700 font-extrabold">
+          <i class="fa-solid fa-clapperboard text-orange-600"></i>
+          <span>VIDEO GUIDE &bull; FLOWCHART</span>
+        </a>
+
         {% if user and user.role == 'admin' %}
         <a href="/dashboard/admin" class="text-amber-700 hover:text-amber-900 font-bold">CHIEF CONTROLLER</a>
         {% elif user and user.role == 'station_master' %}

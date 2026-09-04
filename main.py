@@ -82,6 +82,18 @@ async def login_page(request: Request, error: Optional[str] = None):
     )
 
 
+@app.get("/prototype-guide", response_class=HTMLResponse)
+@app.get("/presentation", response_class=HTMLResponse)
+async def prototype_guide_page(request: Request):
+    """Renders the Prototype Video Guide, Flowcharts & 10-Second Picture Comparisons."""
+    user = get_current_user_from_request(request)
+    return templates.TemplateResponse(
+        request=request,
+        name="prototype_guide.html",
+        context={"user": user}
+    )
+
+
 @app.get("/login/{role}")
 async def quick_role_login(role: str):
     """Direct 1-click access: Logs in immediately without password requirement."""
