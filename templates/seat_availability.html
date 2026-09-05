@@ -268,35 +268,62 @@ function selectClass(clsId) {
   refreshAvailability();
 }
 
+let selectedDateIndex = 0;
+const DATES_LIST = [
+  { day: '05 Sep, Sat (Today)', status: 'AVAILABLE - 48', color: 'emerald', prob: '100%' },
+  { day: '06 Sep, Sun', status: 'AVAILABLE - 22', color: 'emerald', prob: '100%' },
+  { day: '07 Sep, Mon', status: 'RAC 14', color: 'amber', prob: '96% High' },
+  { day: '08 Sep, Tue', status: 'AVAILABLE - 65', color: 'emerald', prob: '100%' },
+  { day: '09 Sep, Wed', status: 'WL 6', color: 'rose', prob: '91% Good' },
+  { day: '10 Sep, Thu', status: 'AVAILABLE - 82', color: 'emerald', prob: '100%' }
+];
+
+function selectDateCard(index) {
+  selectedDateIndex = index;
+  const d = DATES_LIST[index];
+  const spec = TRAIN_SPECS[currentTrain];
+  const clsObj = spec.classes.find(c => c.id === currentClass) || spec.classes[0];
+
+  renderDateStrip(clsObj);
+  renderCoachLayout(clsObj);
+  updateSeatDetails(selectedSeat, clsObj);
+  showToast(`Selected Journey Date: ${d.day} (${d.status})`, 'success');
+}
+
+function renderDateStrip(clsObj) {
+  const strip = document.getElementById('date-strip-container');
+  strip.innerHTML = '';
+
+  DATES_LIST.forEach((d, i) => {
+    const isSelected = (i === selectedDateIndex);
+    const card = document.createElement('div');
+    card.className = `p-3.5 rounded-2xl text-center cursor-pointer transition duration-150 transform hover:-translate-y-0.5 hover:shadow-md ${
+      isSelected
+        ? 'bg-emerald-50/60 border-2 border-emerald-500 shadow-md ring-2 ring-emerald-200'
+        : 'bg-white hover:bg-slate-50 border border-slate-200 shadow-xs hover:border-slate-400'
+    }`;
+    card.onclick = () => selectDateCard(i);
+
+    card.innerHTML = `
+      <div class="flex items-center justify-center space-x-1">
+        <span class="text-xs font-bold text-slate-800">${d.day}</span>
+        ${isSelected ? '<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>' : ''}
+      </div>
+      <div class="text-base font-black text-${d.color}-600 my-1">${d.status}</div>
+      <div class="text-[10px] text-slate-500">Confirm: <strong class="text-${d.color}-600">${d.prob}</strong></div>
+      <div class="text-xs font-bold text-slate-900 mt-1">₹${clsObj.fare}</div>
+      ${isSelected ? '<div class="inline-block px-2 py-0.5 rounded-full bg-emerald-600 text-white text-[9px] font-extrabold mt-1.5"><i class="fa-solid fa-check mr-1 text-[8px]"></i>SELECTED</div>' : '<div class="text-[9px] text-slate-400 mt-1.5 font-semibold">Click to select</div>'}
+    `;
+    strip.appendChild(card);
+  });
+}
+
 function refreshAvailability() {
   const spec = TRAIN_SPECS[currentTrain];
   const clsObj = spec.classes.find(c => c.id === currentClass) || spec.classes[0];
 
   document.getElementById('current-class-badge').textContent = clsObj.name;
-
-  // Update 6-day strip
-  const dates = [
-    { day: '04 Sep, Fri (Today)', status: 'AVAILABLE - 48', color: 'emerald', prob: '100%' },
-    { day: '05 Sep, Sat', status: 'AVAILABLE - 22', color: 'emerald', prob: '100%' },
-    { day: '06 Sep, Sun', status: 'RAC 14', color: 'amber', prob: '96% High' },
-    { day: '07 Sep, Mon', status: 'AVAILABLE - 65', color: 'emerald', prob: '100%' },
-    { day: '08 Sep, Tue', status: 'WL 6', color: 'rose', prob: '91% Good' },
-    { day: '09 Sep, Wed', status: 'AVAILABLE - 82', color: 'emerald', prob: '100%' }
-  ];
-
-  const strip = document.getElementById('date-strip-container');
-  strip.innerHTML = '';
-  dates.forEach((d, i) => {
-    const card = document.createElement('div');
-    card.className = `bg-white p-3.5 rounded-2xl border ${i === 0 ? 'border-2 border-emerald-500' : 'border-slate-200'} shadow-xs text-center`;
-    card.innerHTML = `
-      <div class="text-xs font-bold text-slate-800">${d.day}</div>
-      <div class="text-base font-black text-${d.color}-600 my-1">${d.status}</div>
-      <div class="text-[10px] text-slate-500">Confirm: <strong class="text-${d.color}-600">${d.prob}</strong></div>
-      <div class="text-xs font-bold text-slate-900 mt-1">₹${clsObj.fare}</div>
-    `;
-    strip.appendChild(card);
-  });
+  renderDateStrip(clsObj);
 
   // Update Coach Heading
   document.getElementById('coach-badge').textContent = `COACH ${clsObj.coach}`;
